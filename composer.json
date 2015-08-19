@@ -26,7 +26,8 @@
 
     "autoload-dev": {
         "psr-4": {
-            "Ents\\Xxxxxx\\Dev\\": "src-dev/"
+            "Ents\\Xxxxxx\\Dev\\":   "src-dev/",
+            "Ents\\Xxxxxx\\Test\\":  "tests/behat/context_files/"
         }
     }
 }

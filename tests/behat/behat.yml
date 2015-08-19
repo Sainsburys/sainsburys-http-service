@@ -8,9 +8,9 @@ default:
         service-level:
             paths:    [ %paths.base%/feature_files/feature-xxxxxx.feature ]
             filters:  { tags: ~wip }
-            contexts: [ \Ents\Collections\Test\ServiceLevel\FeatureXxxxxxContext ]
+            contexts: [ \Ents\Xxxxxx\Test\ServiceLevel\FeatureXxxxxxContext ]
 
         endtoend:
             paths:    [ %paths.base%/feature_files/ ]
             filters:  { tags: ~wip&&@critical }
-            contexts: [ \Ents\Collections\Test\EndToEnd\EndToEndContext ]
+            contexts: [ \Ents\Xxxxxx\Test\EndToEnd\EndToEndContext ]
