@@ -20,13 +20,13 @@
 
     "autoload": {
         "psr-4": {
-            "Ents\\Xxxxxx": "src/"
+            "Ents\\Xxxxxx\\": "src/"
         }
     },
 
     "autoload-dev": {
         "psr-4": {
-            "Ents\\Collections\\Xxxxxx\\": "src-dev/"
+            "Ents\\Xxxxxx\\Dev\\": "src-dev/"
         }
     }
 }
