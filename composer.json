@@ -1,0 +1,32 @@
+{
+    "name": "ents/xxxxxx",
+
+    "version": "0.0.1",
+
+    "license": "proprietary",
+
+    "require": {
+        "pimple/pimple": "~3.0.1"
+    },
+
+    "require-dev": {
+        "phpzone/phpzone":                   "0.2.0-beta",
+        "phpzone/shell":                     "0.2.0-beta",
+        "phpunit/phpunit":                   "~4.7.7",
+        "phpspec/phpspec":                   "~2.2.1",
+        "behat/behat":                       "~3.0.15",
+        "henrikbjorn/phpspec-code-coverage": "^1.0.1"
+    },
+
+    "autoload": {
+        "psr-4": {
+            "Ents\\Xxxxxx": "src/"
+        }
+    },
+
+    "autoload-dev": {
+        "psr-4": {
+            "Ents\\Collections\\Xxxxxx\\": "src-dev/"
+        }
+    }
+}

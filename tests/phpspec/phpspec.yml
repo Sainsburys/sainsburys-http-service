@@ -1,0 +1,27 @@
+suites:
+
+    srcdev:
+        namespace:   Ents\Xxxxxx\Dev
+        spec_prefix: EntsSpec\Xxxxxx\Dev
+        src_path:    src/Xxxxxx/
+        spec_path:   tests/phpspec/
+        psr4_prefix: Ents\Xxxxxx
+
+    src:
+        namespace:   Ents\Xxxxxx
+        spec_prefix: EntsSpec\Xxxxxx
+        src_path:    src/Xxxxxx/
+        spec_path:   tests/phpspec/
+        psr4_prefix: Ents\Xxxxxx
+
+extensions:
+    - PhpSpec\Extension\CodeCoverageExtension
+
+code_coverage:
+    format:
+        - html
+    output:
+        html: tests/coverage/html
+
+bootstrap:
+    tests/phpspec/bootstrap.php

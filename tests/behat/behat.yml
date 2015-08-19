@@ -1,0 +1,16 @@
+default:
+
+    autoload:
+        - %paths.base%/context_files/
+
+    suites:
+
+        service-level:
+            paths:    [ %paths.base%/feature_files/feature-xxxxxx.feature ]
+            filters:  { tags: ~wip }
+            contexts: [ \Ents\Collections\Test\ServiceLevel\FeatureXxxxxxContext ]
+
+        endtoend:
+            paths:    [ %paths.base%/feature_files/ ]
+            filters:  { tags: ~wip&&@critical }
+            contexts: [ \Ents\Collections\Test\EndToEnd\EndToEndContext ]
