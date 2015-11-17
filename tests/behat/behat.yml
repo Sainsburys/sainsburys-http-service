@@ -5,12 +5,12 @@ default:
 
     suites:
 
-        service-level:
-            paths:    [ %paths.base%/feature_files/feature-xxxxxx.feature ]
+        servicelevel:
+            paths:    [ %paths.base%/feature_files/ ]
             filters:  { tags: ~wip }
-            contexts: [ \Ents\HttpMvcService\Test\ServiceLevel\FeatureContext ]
+            contexts: [ \Ents\HttpMvcService\Test\ServiceLevel\BasicHttpRequestContext ]
 
-        endtoend:
+        webserver:
             paths:    [ %paths.base%/feature_files/ ]
             filters:  { tags: ~wip&&@critical }
-            contexts: [ \Ents\HttpMvcService\Test\EndToEnd\EndToEndContext ]
+            contexts: [ \Ents\HttpMvcService\Test\Webserver\WebserverContext ]
