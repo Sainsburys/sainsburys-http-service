@@ -8,7 +8,7 @@ use Ents\HttpMvcService\Di\ServiceProvider;
 use Ents\HttpMvcService\Framework\FrontController;
 use Ents\HttpMvcService\Framework\Router;
 use Ents\HttpMvcService\Dev\SimpleController;
-use Ents\HttpMvcService\Dev\SimpleHttpRequest;
+use GuzzleHttp\Psr7\Request;
 use Psr\Http\Message\ResponseInterface;
 
 class BasicHttpRequestContext implements Context, SnippetAcceptingContext
@@ -29,9 +29,9 @@ class BasicHttpRequestContext implements Context, SnippetAcceptingContext
     {
         $this->container = new Container();
         $serviceProvider = new ServiceProvider();
-        $serviceProvider->configure($this->container);
-        $this->router = $this->container->get('ents.http-mvc-service.router');
-        $this->frontController = $this->container->get('ents.http-mvc-service.front-controller');
+        $serviceProvider->register($this->container);
+        $this->router = $this->container['ents.http-mvc-service.router'];
+        $this->frontController = $this->container['ents.http-mvc-service.front-controller'];
     }
 
     /**
@@ -46,7 +46,7 @@ class BasicHttpRequestContext implements Context, SnippetAcceptingContext
 
         $controller = new SimpleController();
         $controller->setResponse($response);
-        $this->container->set($controllerServiceId ,$controller);
+        $this->container[$controllerServiceId] = $controller;
 
         $this->router->addRouteSpecification($route, $requestVerbs, $controllerServiceId, $actionMethodName);
     }
@@ -56,8 +56,7 @@ class BasicHttpRequestContext implements Context, SnippetAcceptingContext
      */
     public function iSendAGetRequestTo($path)
     {
-        $request = new SimpleHttpRequest();
-        $request->setPath($path);
+        $request = new Request('GET', $path);
         $this->responseReceived = $this->frontController->getResponseForRequest($request);
     }
 
