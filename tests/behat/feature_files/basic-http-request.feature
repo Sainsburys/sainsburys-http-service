@@ -8,9 +8,9 @@ Feature: Setting up routing
         When I send a GET request to '/'
         Then I should get status code '200'
 
-    @wip @critical
+    @critical
     Scenario: Querying a service that is configured in routing
-        Given there is a resource of type 'person' with ID '123' and body '{"name": "Eminem"}'
+        Given my API is coded to return a the response '{"name": "Eminem"}' for route '/person/123'
         When I send a GET request to '/person/123'
         Then I should get status code '200'
         And I should get response body '{"name": "Eminem"}'
