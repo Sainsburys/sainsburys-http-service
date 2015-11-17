@@ -1,18 +1,16 @@
 suites:
 
     src:
-        namespace:   Ents\Xxxxxx
-        spec_prefix: EntsSpec\Xxxxxx
+        namespace:   Ents\HttpMvcService
+        spec_prefix: EntsSpec
         src_path:    src/
         spec_path:   tests/phpspec/
-        psr4_prefix: Ents\Xxxxxx
 
     srcdev:
-        namespace:   Ents\Xxxxxx\Dev
-        spec_prefix: EntsSpec\XxxxxxDev
+        namespace:   Ents\HttpMvcService\Dev
+        spec_prefix: EntsSpec
         src_path:    src-dev/
         spec_path:   tests/phpspec/
-        psr4_prefix: Ents\Xxxxxx\Dev
 
 extensions:
     - PhpSpec\Extension\CodeCoverageExtension

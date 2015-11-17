@@ -1,33 +1,36 @@
 {
-    "name": "ents/xxxxxx",
+    "name": "ents/http-mvc-service",
 
     "version": "0.0.1",
 
     "license": "proprietary",
 
     "require": {
-        "pimple/pimple": "~3.0.1"
+
+        "php": "5.5.*",
+
+        "pimple/pimple":    "~3.0.1",
+        "psr/http-message": "1.0.0",
+        "slim/slim":        "2.6.2"
     },
 
     "require-dev": {
-        "phpzone/phpzone":                   "0.2.0-beta",
-        "phpzone/shell":                     "0.2.0-beta",
-        "phpunit/phpunit":                   "~4.7.7",
-        "phpspec/phpspec":                   "~2.2.1",
-        "behat/behat":                       "~3.0.15",
+        "phpunit/phpunit":                   "~4.8.18",
+        "phpspec/phpspec":                   "2.3.0",
+        "behat/behat":                       "dev-master#2059cbe4bb8055c8555fa3365c6ea3b4b30288f5",
         "henrikbjorn/phpspec-code-coverage": "^1.0.1"
     },
 
     "autoload": {
-        "psr-4": {
-            "Ents\\Xxxxxx\\": "src/"
+        "psr-0": {
+            "Ents\\HttpMvcService\\": "src/"
         }
     },
 
     "autoload-dev": {
-        "psr-4": {
-            "Ents\\Xxxxxx\\Dev\\":   "src-dev/",
-            "Ents\\Xxxxxx\\Test\\":  "tests/behat/context_files/"
+        "psr-0": {
+            "Ents\\HttpMvcService\\Dev\\":   "src-dev/",
+            "Ents\\HttpMvcService\\Test\\":  "tests/behat/context_files/"
         }
     }
 }

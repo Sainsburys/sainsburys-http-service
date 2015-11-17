@@ -1,5 +1,5 @@
 <?php
-namespace Ents\Xxxxxx\Test\EndToEnd;
+namespace Ents\HttpMvcService\Test\EndToEnd;
 
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
