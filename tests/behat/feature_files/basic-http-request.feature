@@ -8,7 +8,7 @@ Feature: Setting up routing
         When I send a GET request to '/'
         Then I should get status code '200'
 
-    @critical
+    @wip @critical
     Scenario: Querying a service that is configured in routing
         Given my API is coded to return a the response '{"name": "Eminem"}' for route '/person/123'
         When I send a GET request to '/person/123'

@@ -1,5 +1,4 @@
 <?php
-
 namespace EntsSpec\Ents\HttpMvcService\Framework;
 
 use PhpSpec\ObjectBehavior;
