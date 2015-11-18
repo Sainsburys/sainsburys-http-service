@@ -1,11 +1,10 @@
 <?php
 namespace Ents\HttpMvcService\Framework;
 
+use Ents\HttpMvcService\Framework\Routing\RoutingConfigApplier;
 use Pimple\Container;
-use Psr\Http\Message\RequestInterface;
 use Slim\Slim as SlimApplication;
 use Ents\HttpMvcService\Framework\Routing\RoutingConfigReader;
-use Ents\HttpMvcService\Framework\Routing\Route;
 
 class Application
 {
@@ -15,6 +14,9 @@ class Application
     /** @var RoutingConfigReader */
     private $routingConfigReader;
 
+    /** @var RoutingConfigApplier */
+    private $routingConfigApplier;
+
     /** @var Container */
     private $container;
 
@@ -22,13 +24,18 @@ class Application
     private $haveSomeRoutesConfigured = false;
 
     /**
-     * @param SlimApplication     $slimApplication
-     * @param RoutingConfigReader $routingConfigReader
+     * @param SlimApplication      $slimApplication
+     * @param RoutingConfigReader  $routingConfigReader
+     * @param RoutingConfigApplier $routingConfigApplier
      */
-    public function __construct(SlimApplication $slimApplication, RoutingConfigReader $routingConfigReader)
-    {
-        $this->slimApplication = $slimApplication;
-        $this->routingConfigReader = $routingConfigReader;
+    public function __construct(
+        SlimApplication      $slimApplication,
+        RoutingConfigReader  $routingConfigReader,
+        RoutingConfigApplier $routingConfigApplier
+    ) {
+        $this->slimApplication       = $slimApplication;
+        $this->routingConfigReader   = $routingConfigReader;
+        $this->$routingConfigApplier = $routingConfigApplier;
     }
 
     /**
@@ -44,27 +51,18 @@ class Application
      */
     public function takeRoutingConfig($path)
     {
+        if (!$this->container) {
+            throw new \RuntimeException('Must call takeContainerWithControllersConfigured() before takeRoutingConfig()');
+        }
+
         $routes = $this->routingConfigReader->getRoutesFromFile($path);
 
         foreach ($routes as $route) {
-
-            $controllerCallback = $this->getControllerCallbackForRoute($route);
-
-            switch ($route->httpVerb()) {
-                case 'GET' :
-                    $this->slimApplication->get($route->pathExpression(), $controllerCallback);
-                    break;
-                case 'DELETE' :
-                    $this->slimApplication->delete($route->pathExpression(), $controllerCallback);
-                    break;
-                case 'PUT' :
-                    $this->slimApplication->put($route->pathExpression(), $controllerCallback);
-                    break;
-                case 'POST' :
-                    $this->slimApplication->post($route->pathExpression(), $controllerCallback);
-                    break;
-            }
-
+            $this->routingConfigApplier->configureApplicationWithRoute(
+                $this->slimApplication,
+                $route,
+                $this->container
+            );
         }
 
         $this->haveSomeRoutesConfigured = true;
@@ -75,33 +73,10 @@ class Application
      */
     public function run()
     {
-        if (!$this->container) {
-            throw new \RuntimeException('Must call takeContainerWithControllersConfigured() before run()');
-        }
-
         if (!$this->haveSomeRoutesConfigured) {
             throw new \RuntimeException('Must call takeRoutingConfig() before run()');
         }
 
         $this->slimApplication->run();
-    }
-
-    /**
-     * @param Route $route
-     * @return callable
-     */
-    private function getControllerCallbackForRoute(Route $route)
-    {
-        $container = $this->container;
-
-        return function (RequestInterface $request) use ($route, $container) {
-
-            $controllerServiceId = $route->controllerServiceId();
-            $actionMethodName = $route->actionMethodName();
-            $controllerObject = $container[$controllerServiceId];
-
-            $httpResponse = $controllerObject->$actionMethodName($request);
-            return $httpResponse;
-        };
     }
 }
