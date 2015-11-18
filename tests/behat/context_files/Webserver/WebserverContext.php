@@ -4,15 +4,28 @@ namespace Ents\HttpMvcService\Test\Webserver;
 use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
+use GuzzleHttp\Client as GuzzleClient;
+use Psr\Http\Message\ResponseInterface;
 
 class WebserverContext implements Context, SnippetAcceptingContext
 {
+    /** @var GuzzleClient */
+    private $guzzleClient;
+
+    /** @var ResponseInterface */
+    private $responseReceived;
+
+    public function __construct()
+    {
+        $this->guzzleClient = new GuzzleClient();
+    }
+
     /**
      * @When I send a GET request to :path
      */
     public function iSendAGetRequestTo($path)
     {
-        throw new PendingException();
+        $this->responseReceived = $this->guzzleClient->get('localhost:8081' . $path);
     }
 
     /**
@@ -20,7 +33,10 @@ class WebserverContext implements Context, SnippetAcceptingContext
      */
     public function iShouldGetStatusCode($expectedStatusCode)
     {
-        throw new PendingException();
+        \PHPUnit_Framework_Assert::assertEquals(
+            $expectedStatusCode,
+            $this->responseReceived->getStatusCode()
+        );
     }
 
     /**
@@ -28,7 +44,10 @@ class WebserverContext implements Context, SnippetAcceptingContext
      */
     public function iShouldGetResponseBody($expectedResponseBody)
     {
-        throw new PendingException();
+        \PHPUnit_Framework_Assert::assertEquals(
+            $expectedResponseBody,
+            $this->responseReceived->getBody()->getContents()
+        );
     }
 
     /**

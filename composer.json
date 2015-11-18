@@ -31,7 +31,7 @@
 
     "autoload-dev": {
         "psr-0": {
-            "Ents\\HttpMvcService\\Dev\\":   "src-dev/"
+            "Ents\\HttpMvcService\\Dev\\":   "src-dev/sample-application/src/"
         },
         "psr-4": {
             "Ents\\HttpMvcService\\Test\\":  "tests/behat/context_files/"

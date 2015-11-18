@@ -1,7 +1,10 @@
 <?php
 namespace Ents\HttpMvcService\Framework\Routing;
 
+use Ents\HttpMvcService\Framework\Exception\InvalidControllerException;
 use Pimple\Container;
+use Psr\Http\Message\ResponseInterface;
+use Slim\Http\Response;
 use Slim\Slim as SlimApplication;
 use Psr\Http\Message\RequestInterface;
 
@@ -45,8 +48,15 @@ class RoutingConfigApplier
             $actionMethodName    = $route->actionMethodName();
             $controllerObject    = $container[$controllerServiceId];
 
-            $httpResponse = $controllerObject->$actionMethodName($request);
-            return $httpResponse;
+            $response = $controllerObject->$actionMethodName($request);
+
+            if (is_array($response)) {
+                return new Response(json_encode($response));
+            } elseif ($response instanceof ResponseInterface) {
+                return $response;
+            }
+
+            throw new InvalidControllerException();
         };
     }
 }

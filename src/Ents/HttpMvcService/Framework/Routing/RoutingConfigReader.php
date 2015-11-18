@@ -9,6 +9,14 @@ class RoutingConfigReader
      */
     public function getRoutesFromFile($path)
     {
+        $fileContentsAsArray = require_once $path;
 
+        $routes = [];
+
+        foreach ($fileContentsAsArray['routes'] as $routeArray) {
+            $routes[] = new Route($routeArray);
+        }
+
+        return $routes;
     }
 }

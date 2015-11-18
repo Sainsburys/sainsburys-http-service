@@ -3,6 +3,8 @@ namespace Ents\HttpMvcService\Framework;
 
 use Ents\HttpMvcService\Framework\Routing\RoutingConfigApplier;
 use Pimple\Container;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 use Slim\Slim as SlimApplication;
 use Ents\HttpMvcService\Framework\Routing\RoutingConfigReader;
 
@@ -33,9 +35,9 @@ class Application
         RoutingConfigReader  $routingConfigReader,
         RoutingConfigApplier $routingConfigApplier
     ) {
-        $this->slimApplication       = $slimApplication;
-        $this->routingConfigReader   = $routingConfigReader;
-        $this->$routingConfigApplier = $routingConfigApplier;
+        $this->slimApplication      = $slimApplication;
+        $this->routingConfigReader  = $routingConfigReader;
+        $this->routingConfigApplier = $routingConfigApplier;
     }
 
     /**
@@ -78,5 +80,22 @@ class Application
         }
 
         $this->slimApplication->run();
+    }
+
+    /**
+     * @param RequestInterface $request
+     */
+    public function setRequest(RequestInterface $request)
+    {
+        $this->slimApplication->container['request'] = $request;
+    }
+
+    /**
+     * @return ResponseInterface
+     */
+    public function getResponse()
+    {
+        $this->slimApplication->call();
+        return $this->slimApplication->container['response'];
     }
 }
