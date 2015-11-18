@@ -4,6 +4,8 @@ namespace Ents\HttpMvcService\Framework;
 use Pimple\Container;
 use Psr\Http\Message\RequestInterface;
 use Slim\Slim as SlimApplication;
+use Ents\HttpMvcService\Framework\Routing\RoutingConfigReader;
+use Ents\HttpMvcService\Framework\Routing\Route;
 
 class Application
 {

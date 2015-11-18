@@ -1,5 +1,5 @@
 <?php
-namespace EntsSpec\Ents\HttpMvcService\Framework;
+namespace EntsSpec\Ents\HttpMvcService\Framework\Routing;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
@@ -19,7 +19,7 @@ class RouteSpec extends ObjectBehavior
 
     function it_is_initializable()
     {
-        $this->shouldHaveType('Ents\HttpMvcService\Framework\Route');
+        $this->shouldHaveType('\Ents\HttpMvcService\Framework\Routing\Route');
     }
 
     function it_can_return_the_http_verb()

@@ -1,5 +1,5 @@
 <?php
-namespace Ents\HttpMvcService\Framework;
+namespace Ents\HttpMvcService\Framework\Routing;
 
 class RoutingConfigReader
 {
