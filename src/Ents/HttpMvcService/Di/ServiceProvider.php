@@ -1,23 +1,24 @@
 <?php
 namespace Ents\HttpMvcService\Di;
 
-use Ents\HttpMvcService\Framework\FrontController;
-use Ents\HttpMvcService\Framework\Router;
+use Ents\HttpMvcService\Framework\Application;
+use Ents\HttpMvcService\Framework\Routing\RoutingConfigReader;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
+use Slim\Slim as SlimApplication;
 
 class ServiceProvider implements ServiceProviderInterface
 {
+    /**
+     * @param Container $pimple
+     */
     public function register(Container $pimple)
     {
-        $pimple['ents.http-mvc-service.front-controller'] =
+        $pimple['ents.http-mvc-service.application'] =
             function (Container $container) {
-                return new FrontController();
-            };
-
-        $pimple['ents.http-mvc-service.router'] =
-            function (Container $container) {
-                return new Router();
+                $slimApplication     = new SlimApplication();
+                $routingConfigReader = new RoutingConfigReader();
+                return new Application($slimApplication, $routingConfigReader);
             };
     }
 }

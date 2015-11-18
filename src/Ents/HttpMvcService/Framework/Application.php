@@ -70,6 +70,9 @@ class Application
         $this->haveSomeRoutesConfigured = true;
     }
 
+    /**
+     * @throws \RuntimeException
+     */
     public function run()
     {
         if (!$this->container) {
