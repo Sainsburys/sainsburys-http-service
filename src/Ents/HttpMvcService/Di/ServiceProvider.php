@@ -17,18 +17,10 @@ class ServiceProvider implements ServiceProviderInterface
     {
         $pimple['ents.http-mvc-service.application'] =
             function (Container $container) {
-                $slimApplication      = $container['ents.http-mvc-service.slim-application'];
+                $slimApplication      = new SlimApplication();
                 $routingConfigReader  = new RoutingConfigReader();
                 $routingConfigApplier = new RoutingConfigApplier();
                 return new Application($slimApplication, $routingConfigReader, $routingConfigApplier);
-            };
-
-        $pimple['ents.http-mvc-service.slim-application'] =
-            function (Container $container) {
-                $slimApplication = new SlimApplication();
-                // @todo Disgusting hack for compatibility with PHP webserver - remove
-//                $slimApplication->getContainer()->get('environment')->offsetSet('PATH_INFO', $_SERVER['SCRIPT_NAME']);
-                return $slimApplication;
             };
     }
 }

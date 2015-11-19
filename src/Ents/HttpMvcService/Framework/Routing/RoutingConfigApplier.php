@@ -52,9 +52,7 @@ class RoutingConfigApplier
             }
 
             if (!$controllerResponse instanceof ResponseInterface) {
-                throw new InvalidControllerException(
-                    "Didn't get a valid HTTP Response object, and couldn't generate one from controller output"
-                );
+                throw new InvalidControllerException();
             }
             return $controllerResponse;
         };
