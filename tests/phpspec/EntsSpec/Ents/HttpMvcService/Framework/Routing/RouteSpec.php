@@ -14,7 +14,7 @@ class RouteSpec extends ObjectBehavior
             'controller-service-id' => 'example-controller-service-id',
             'action-method-name'    => 'exampleAction'
         ];
-        $this->beConstructedWith($exampleRouteConfig);
+        $this->beConstructedWith('route-name', $exampleRouteConfig);
     }
 
     function it_is_initializable()
@@ -40,5 +40,10 @@ class RouteSpec extends ObjectBehavior
     function it_can_return_the_action_method_name()
     {
         $this->actionMethodName()->shouldBe('exampleAction');
+    }
+
+    function it_can_return_the_route_name()
+    {
+        $this->name()->shouldBe('route-name');
     }
 }

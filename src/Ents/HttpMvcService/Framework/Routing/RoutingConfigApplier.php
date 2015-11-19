@@ -19,11 +19,14 @@ class RoutingConfigApplier
     {
         $controllerCallback = $this->getControllerCallbackForRoute($route, $container, $slimApplication);
 
-        $slimApplication->map(
-            [$route->httpVerb()],
-            $route->pathExpression(),
-            $controllerCallback
-        )->setName($route->name());
+        $slimApplication
+            ->map(
+                [$route->httpVerb()],
+                $route->pathExpression(),
+                $controllerCallback
+            )
+            ->setName($route->name())
+        ;
     }
 
     /**
