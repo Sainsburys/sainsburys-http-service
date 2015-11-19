@@ -13,8 +13,8 @@ class RoutingConfigReader
 
         $routes = [];
 
-        foreach ($fileContentsAsArray['routes'] as $routeArray) {
-            $routes[] = new Route($routeArray);
+        foreach ($fileContentsAsArray['routes'] as $name => $routeArray) {
+            $routes[] = new Route($name, $routeArray);
         }
 
         return $routes;

@@ -6,7 +6,7 @@ use Ents\HttpMvcService\Framework\Routing\RoutingConfigApplier;
 use Ents\HttpMvcService\Framework\Routing\RoutingConfigReader;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
-use Slim\Slim as SlimApplication;
+use Slim\App as SlimApplication;
 
 class ServiceProvider implements ServiceProviderInterface
 {
@@ -27,7 +27,7 @@ class ServiceProvider implements ServiceProviderInterface
             function (Container $container) {
                 $slimApplication = new SlimApplication();
                 // @todo Disgusting hack for compatibility with PHP webserver - remove
-                $slimApplication->environment()->offsetSet('PATH_INFO', $_SERVER['SCRIPT_NAME']);
+//                $slimApplication->getContainer()->get('environment')->offsetSet('PATH_INFO', $_SERVER['SCRIPT_NAME']);
                 return $slimApplication;
             };
     }

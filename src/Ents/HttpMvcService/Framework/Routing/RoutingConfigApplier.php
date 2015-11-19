@@ -5,8 +5,8 @@ use Ents\HttpMvcService\Framework\Exception\InvalidControllerException;
 use Pimple\Container;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
-use Slim\Slim as SlimApplication;
-use Psr\Http\Message\RequestInterface;
+use Slim\App as SlimApplication;
+use Slim\Interfaces\RouterInterface;
 
 class RoutingConfigApplier
 {
@@ -17,22 +17,28 @@ class RoutingConfigApplier
      */
     public function configureApplicationWithRoute(SlimApplication $slimApplication, Route $route, Container $container)
     {
-        $controllerCallback = $this->getControllerCallbackForRoute($route, $container);
+        $controllerCallback = $this->getControllerCallbackForRoute($route, $container, $slimApplication);
 
-        switch ($route->httpVerb()) {
-            case 'GET' :
-                $slimApplication->get($route->pathExpression(), $controllerCallback);
-                break;
-            case 'DELETE' :
-                $slimApplication->delete($route->pathExpression(), $controllerCallback);
-                break;
-            case 'PUT' :
-                $slimApplication->put($route->pathExpression(), $controllerCallback);
-                break;
-            case 'POST' :
-                $slimApplication->post($route->pathExpression(), $controllerCallback);
-                break;
-        }
+        $slimApplication->map(
+            [$route->httpVerb()],
+            $route->pathExpression(),
+            $controllerCallback
+        )->setName($route->name());
+
+//        switch ($route->httpVerb()) {
+//            case 'GET' :
+//                $slimApplication->get($route->pathExpression(), $controllerCallback);
+//                break;
+//            case 'DELETE' :
+//                $slimApplication->delete($route->pathExpression(), $controllerCallback);
+//                break;
+//            case 'PUT' :
+//                $slimApplication->put($route->pathExpression(), $controllerCallback);
+//                break;
+//            case 'POST' :
+//                $slimApplication->post($route->pathExpression(), $controllerCallback);
+//                break;
+//        }
     }
 
     /**
@@ -40,23 +46,27 @@ class RoutingConfigApplier
      * @param Container $container
      * @return callable
      */
-    private function getControllerCallbackForRoute(Route $route, Container $container)
+    private function getControllerCallbackForRoute(Route $route, Container $container, SlimApplication $slimApplication)
     {
-        return function () use ($route, $container) {
-
+        return function ( ) use ($route, $container, $slimApplication) {
+//var_dump(func_get_args());exit;
             $controllerServiceId = $route->controllerServiceId();
             $actionMethodName    = $route->actionMethodName();
             $controllerObject    = $container[$controllerServiceId];
 
-            $response = $controllerObject->$actionMethodName();
+            $response = $controllerObject->$actionMethodName($slimApplication->request);
 
             if (is_array($response)) {
-                return new Response(json_encode($response));
-            } elseif ($response instanceof ResponseInterface) {
-                return $response;
+                $response = new Response(json_encode($response));
             }
-
-            throw new InvalidControllerException();
+            if (!$response instanceof ResponseInterface) {
+                throw new InvalidControllerException();
+            }
+return $response;
+//            $slimApplication->response()->setBody($response->getBody()->getContents());
+//            $slimApplication->response()->setStatus($response->getStatusCode());
+//            $slimApplication->response()->headers()->replace($response->getHeaders());
+//            $slimApplication->response()->headers()->set('Content-Type', 'application/json');
         };
     }
 }

@@ -7,7 +7,7 @@ use Psr\Http\Message\ResponseInterface;
 class SimpleController
 {
     /** @var string */
-    private $responseBody = '';
+    private $responseBody = '{"name": "Eminem"}';
 
     /**
      * @param string $responseBody

@@ -11,7 +11,7 @@
 
         "pimple/pimple":    "~3.0.1",
         "psr/http-message": "1.0.0",
-        "slim/slim":        "2.6.2"
+        "slim/slim":        "3.0.0-RC2"
     },
 
     "require-dev": {

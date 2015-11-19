@@ -3,9 +3,7 @@ namespace Ents\HttpMvcService\Framework;
 
 use Ents\HttpMvcService\Framework\Routing\RoutingConfigApplier;
 use Pimple\Container;
-use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\ResponseInterface;
-use Slim\Slim as SlimApplication;
+use Slim\App as SlimApplication;
 use Ents\HttpMvcService\Framework\Routing\RoutingConfigReader;
 
 class Application
@@ -78,24 +76,7 @@ class Application
         if (!$this->haveSomeRoutesConfigured) {
             throw new \RuntimeException('Must call takeRoutingConfig() before run()');
         }
-
+        $this->slimApplication->getContainer()->get('settings')['determineRouteBeforeAppMiddleware'] = true;
         $this->slimApplication->run();
-    }
-
-    /**
-     * @param RequestInterface $request
-     */
-    public function setRequest(RequestInterface $request)
-    {
-        $this->slimApplication->container['request'] = $request;
-    }
-
-    /**
-     * @return ResponseInterface
-     */
-    public function getResponse()
-    {
-        $this->slimApplication->call();
-        return $this->slimApplication->container['response'];
     }
 }
