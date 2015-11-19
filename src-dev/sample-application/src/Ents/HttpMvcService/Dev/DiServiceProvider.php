@@ -11,7 +11,7 @@ class DiServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $container)
     {
-        $container['ents.http-mvc-service.dev.simple-controller'] =
+        $container['ents.http-mvc-service.dev.sample-controller'] =
             function (Container $container) {
                 return new SimpleController();
             };

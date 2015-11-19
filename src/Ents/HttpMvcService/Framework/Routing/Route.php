@@ -90,7 +90,7 @@ class Route
         ) {
             throw new InvalidRouteConfigException("Must be a valid 'action-method-name' in route config");
         }
-        $this->controllerServiceId = $routeConfig['action-method-name'];
+        $this->actionMethodName = $routeConfig['action-method-name'];
     }
 
     /**

@@ -42,13 +42,13 @@ class RoutingConfigApplier
      */
     private function getControllerCallbackForRoute(Route $route, Container $container)
     {
-        return function (RequestInterface $request) use ($route, $container) {
+        return function () use ($route, $container) {
 
             $controllerServiceId = $route->controllerServiceId();
             $actionMethodName    = $route->actionMethodName();
             $controllerObject    = $container[$controllerServiceId];
 
-            $response = $controllerObject->$actionMethodName($request);
+            $response = $controllerObject->$actionMethodName();
 
             if (is_array($response)) {
                 return new Response(json_encode($response));
