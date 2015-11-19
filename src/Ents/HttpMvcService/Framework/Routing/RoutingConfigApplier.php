@@ -3,10 +3,10 @@ namespace Ents\HttpMvcService\Framework\Routing;
 
 use Ents\HttpMvcService\Framework\Exception\InvalidControllerException;
 use Pimple\Container;
+use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
-use Slim\Http\Response;
 use Slim\App as SlimApplication;
-use Slim\Interfaces\RouterInterface;
+use Zend\Diactoros\Response\JsonResponse;
 
 class RoutingConfigApplier
 {
@@ -24,49 +24,36 @@ class RoutingConfigApplier
             $route->pathExpression(),
             $controllerCallback
         )->setName($route->name());
-
-//        switch ($route->httpVerb()) {
-//            case 'GET' :
-//                $slimApplication->get($route->pathExpression(), $controllerCallback);
-//                break;
-//            case 'DELETE' :
-//                $slimApplication->delete($route->pathExpression(), $controllerCallback);
-//                break;
-//            case 'PUT' :
-//                $slimApplication->put($route->pathExpression(), $controllerCallback);
-//                break;
-//            case 'POST' :
-//                $slimApplication->post($route->pathExpression(), $controllerCallback);
-//                break;
-//        }
     }
 
     /**
-     * @param Route     $route
-     * @param Container $container
+     * @param Route           $route
+     * @param Container       $container
+     * @param SlimApplication $slimApplication
      * @return callable
      */
     private function getControllerCallbackForRoute(Route $route, Container $container, SlimApplication $slimApplication)
     {
-        return function ( ) use ($route, $container, $slimApplication) {
-//var_dump(func_get_args());exit;
+        return function (RequestInterface $request, ResponseInterface $response, array $urlVars) use ($route, $container, $slimApplication) {
+
             $controllerServiceId = $route->controllerServiceId();
             $actionMethodName    = $route->actionMethodName();
             $controllerObject    = $container[$controllerServiceId];
 
-            $response = $controllerObject->$actionMethodName($slimApplication->request);
+            $controllerResponse = $controllerObject->$actionMethodName($request, $response, $urlVars);
 
-            if (is_array($response)) {
-                $response = new Response(json_encode($response));
+            if (is_null($response)) {
+                $controllerResponse = $response;
+            } elseif (is_array($response)) {
+                $controllerResponse = new JsonResponse($response);
             }
-            if (!$response instanceof ResponseInterface) {
-                throw new InvalidControllerException();
+
+            if (!$controllerResponse instanceof ResponseInterface) {
+                throw new InvalidControllerException(
+                    "Didn't get a valid HTTP Response object, and couldn't generate one from controller output"
+                );
             }
-return $response;
-//            $slimApplication->response()->setBody($response->getBody()->getContents());
-//            $slimApplication->response()->setStatus($response->getStatusCode());
-//            $slimApplication->response()->headers()->replace($response->getHeaders());
-//            $slimApplication->response()->headers()->set('Content-Type', 'application/json');
+            return $controllerResponse;
         };
     }
 }

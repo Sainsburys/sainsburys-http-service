@@ -1,27 +1,21 @@
 <?php
 namespace Ents\HttpMvcService\Dev;
 
-use GuzzleHttp\Psr7\Response;
+use Zend\Diactoros\Response\JsonResponse;
+use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
 class SimpleController
 {
-    /** @var string */
-    private $responseBody = '{"name": "Eminem"}';
-
     /**
-     * @param string $responseBody
-     */
-    public function setResponse($responseBody)
-    {
-        $this->responseBody = $responseBody;
-    }
-
-    /**
+     * @param RequestInterface  $request
+     * @param ResponseInterface $response
+     * @param string[]          $urlVariables
+     *
      * @return ResponseInterface
      */
-    public function simpleAction()
+    public function simpleAction(RequestInterface $request, ResponseInterface $response, array $urlVariables)
     {
-        return new Response(200, [], $this->responseBody);
+        return new JsonResponse(['name' => 'Eminem']);
     }
 }
