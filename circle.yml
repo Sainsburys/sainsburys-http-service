@@ -7,9 +7,6 @@ test:
   override:
     - ./vendor/bin/phpunit --config tests/phpunit/phpunit.xml;
     - ./vendor/bin/phpspec run --config tests/phpspec/phpspec.yml;
-    - pushd src-dev/sample-application/public/;
-    - php -S localhost:8081 &> /dev/null &
-    - WEBSERVER_PROCESS_ID=$!;
-    - popd;
+    - pushd src-dev/sample-application/public/; php -S localhost:8081 &> /dev/null &; WEBSERVER_PROCESS_ID=$!; popd;
     - ./vendor/bin/behat --config tests/behat/behat.yml --suite webserver;
     - kill -9 $WEBSERVER_PROCESS_ID;
