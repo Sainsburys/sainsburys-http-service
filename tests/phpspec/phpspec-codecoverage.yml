@@ -12,5 +12,14 @@ suites:
         src_path:    src-dev/
         spec_path:   tests/phpspec/
 
+extensions:
+    - PhpSpec\Extension\CodeCoverageExtension
+
+code_coverage:
+    format:
+        - html
+    output:
+        html: tests/coverage/html
+
 bootstrap:
     tests/phpspec/bootstrap.php
