@@ -27,10 +27,26 @@ Try looking at the [example routing file](https://github.com/anobii/http-mvc-ser
 
 Controller actions must return either a PSR-7 HTTP Response object, or an array.  If an array is returned, it will be ```json_encode()```ed, and the status code on the response will be 200.  If you can't decide what PSR-7 implementation to use, the Zend Diactoros ```JsonResponse``` class would be a reasonable choice.  Any PSR-7 implementation should work.
 
+**Exception Handling**
+
+At this early stage, this hasn't been implemented yet, but the intention is described below.
+
+Throwing an uncaught exception from a controller will cause a response with the exception details encoded in JSON.  The status code will be 500.
+
+If the exception implements ```Ents\HttpMvcService\Framework\Exception\ExceptionWithHttpStatus```, the status code on the exception will be used.
+
+If you wish to implement your own error handler, for example if you don't want stack traces being visible in the response in production, call ```Ents\HttpMvcService\Framework\Application::setErrorHandler()'``` in your ```index.php``` file, and give it a different error controller it can use.
+
 Installation
 ------------
 
 Use Composer.
+
+```json
+    "require": {
+        "ents/http-mvc-service": "*"
+    }
+```
 
 Testing
 -------
