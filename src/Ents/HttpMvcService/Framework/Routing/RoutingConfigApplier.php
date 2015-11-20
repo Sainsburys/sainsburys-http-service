@@ -1,15 +1,23 @@
 <?php
 namespace Ents\HttpMvcService\Framework\Routing;
 
-use Ents\HttpMvcService\Framework\Exception\InvalidControllerException;
+use Ents\HttpMvcService\Framework\ControllerGenerator;
 use Pimple\Container;
-use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\ResponseInterface;
 use Slim\App as SlimApplication;
-use Zend\Diactoros\Response\JsonResponse;
 
 class RoutingConfigApplier
 {
+    /** @var ControllerGenerator */
+    private $controllerGenerator;
+
+    /**
+     * @param ControllerGenerator $controllerGenerator
+     */
+    public function __construct(ControllerGenerator $controllerGenerator)
+    {
+        $this->controllerGenerator = $controllerGenerator;
+    }
+
     /**
      * @param SlimApplication $slimApplication
      * @param Route           $route
@@ -17,8 +25,31 @@ class RoutingConfigApplier
      */
     public function configureApplicationWithRoute(SlimApplication $slimApplication, Route $route, Container $container)
     {
-        $controllerCallback = $this->getControllerCallbackForRoute($route, $container, $slimApplication);
+        $controllerCallback = $this->getControllerCallbackForRoute($slimApplication, $route, $container);
+        $this->applyRouteToSlimApplication($slimApplication, $route, $controllerCallback);
+    }
 
+    /**
+     * @param SlimApplication $slimApplication
+     * @param Route           $route
+     * @param Container       $container
+     * @return callable
+     */
+    private function getControllerCallbackForRoute(SlimApplication $slimApplication, Route $route, Container $container)
+    {
+        return $this->controllerGenerator->getControllerCallbackForRoute($route, $container, $slimApplication);
+    }
+
+    /**
+     * @param SlimApplication $slimApplication
+     * @param Route           $route
+     * @param callable        $controllerCallback
+     */
+    private function applyRouteToSlimApplication(
+        SlimApplication $slimApplication,
+        Route $route,
+        callable $controllerCallback
+    ) {
         $slimApplication
             ->map(
                 [$route->httpVerb()],
@@ -27,34 +58,5 @@ class RoutingConfigApplier
             )
             ->setName($route->name())
         ;
-    }
-
-    /**
-     * @param Route           $route
-     * @param Container       $container
-     * @param SlimApplication $slimApplication
-     * @return callable
-     */
-    private function getControllerCallbackForRoute(Route $route, Container $container, SlimApplication $slimApplication)
-    {
-        return function (RequestInterface $request, ResponseInterface $response, array $urlVars) use ($route, $container, $slimApplication) {
-
-            $controllerServiceId = $route->controllerServiceId();
-            $actionMethodName    = $route->actionMethodName();
-            $controllerObject    = $container[$controllerServiceId];
-
-            $controllerResponse = $controllerObject->$actionMethodName($request, $response, $urlVars);
-
-            if (is_null($response)) {
-                $controllerResponse = $response;
-            } elseif (is_array($response)) {
-                $controllerResponse = new JsonResponse($response);
-            }
-
-            if (!$controllerResponse instanceof ResponseInterface) {
-                throw new InvalidControllerException();
-            }
-            return $controllerResponse;
-        };
     }
 }
