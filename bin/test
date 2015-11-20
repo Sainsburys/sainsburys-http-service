@@ -2,11 +2,18 @@
 
 clear;
 ./vendor/bin/phpunit --config tests/phpunit/phpunit.xml;
+PHPUNIT_RETURN_CODE=$?
 ./vendor/bin/phpspec run --config tests/phpspec/phpspec.yml;
+PHPSPEC_RETURN_CODE=$?
 
 pushd src-dev/sample-application/public/;
 php -S localhost:8081 &> /dev/null &
 WEBSERVER_PROCESS_ID=$!;
 popd;
 ./vendor/bin/behat --config tests/behat/behat.yml --suite webserver;
+BEHAT_RETURN_CODE=$?
 kill -9 $WEBSERVER_PROCESS_ID;
+
+OVERALL_EXIT_CODE=$((PHPUNIT_RETURN_CODE + PHPSPEC_RETURN_CODE + BEHAT_RETURN_CODE))
+
+exit $OVERALL_EXIT_CODE;
