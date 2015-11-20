@@ -1,11 +1,6 @@
 ![logo](http://northcyprusfreepress.com/wp-content/uploads/2014/09/sainsburys-entertainment.png)
 
-XXXXXX Project Title
-====================
+HTTP MVC Service framework
+==========================
 
-Project desc
-
-Subtitle
---------
-
-Some other stuff
+PHP Micro-framework for small REST or HTTP RPC services
