@@ -1,3 +1,5 @@
+[![Circle CI](https://circleci.com/gh/anobii/http-mvc-service.svg?style=svg)](https://circleci.com/gh/anobii/http-mvc-service)
+
 ![logo](http://northcyprusfreepress.com/wp-content/uploads/2014/09/sainsburys-entertainment.png)
 
 HTTP MVC Service framework
