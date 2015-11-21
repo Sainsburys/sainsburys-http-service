@@ -2,6 +2,7 @@
 namespace Ents\HttpMvcService\Framework\Exception\WithStatusCode;
 
 use Ents\HttpMvcService\Framework\Exception\ExceptionWithHttpStatus;
+use Teapot\StatusCode\Http;
 
 class NotAuthorisedException extends \RuntimeException implements ExceptionWithHttpStatus
 {
@@ -21,6 +22,6 @@ class NotAuthorisedException extends \RuntimeException implements ExceptionWithH
      */
     public function getHttpStatusCode()
     {
-        return 401;
+        return Http::UNAUTHORIZED; //401
     }
 }

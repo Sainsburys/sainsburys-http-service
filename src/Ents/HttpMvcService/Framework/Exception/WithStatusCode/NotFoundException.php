@@ -2,6 +2,7 @@
 namespace Ents\HttpMvcService\Framework\Exception\WithStatusCode;
 
 use Ents\HttpMvcService\Framework\Exception\ExceptionWithHttpStatus;
+use Teapot\StatusCode\Http;
 
 class NotFoundException extends \RuntimeException implements ExceptionWithHttpStatus
 {
@@ -21,6 +22,6 @@ class NotFoundException extends \RuntimeException implements ExceptionWithHttpSt
      */
     public function getHttpStatusCode()
     {
-        return 404;
+        return Http::NOT_FOUND; //404
     }
 }
