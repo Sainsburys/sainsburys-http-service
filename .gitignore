@@ -3,7 +3,7 @@ vendor/
 composer.lock
 
 # Unit test coverage reports
-tests/coverage/html/
+tests/coverage/
 
 # PHPStorm
 .idea/

@@ -4,7 +4,7 @@ Feature: Setting up routing
     I want to set up routing for my API service
 
     Scenario: Querying a service that is configured in routing
-        Given my API is coded to return a the response '{"name":"Eminem"}' for route '/person/123'
+        Given my API is coded to return a the response '{"id":"123","name":"Eminem"}' for route '/person/123'
         When I send a GET request to '/person/123'
         Then I should get status code '200'
         And I should get response body '{"id":"123","name":"Eminem"}'
