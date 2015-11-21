@@ -1,4 +1,5 @@
 [![Circle CI](https://circleci.com/gh/anobii/http-mvc-service.svg?style=svg)](https://circleci.com/gh/anobii/http-mvc-service)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/anobii/http-mvc-service/badges/quality-score.png?b=master&s=b3463fab98afd125b9c7488d5a9268878afbed9c)](https://scrutinizer-ci.com/g/anobii/http-mvc-service/?branch=master)
 
 ![logo](http://northcyprusfreepress.com/wp-content/uploads/2014/09/sainsburys-entertainment.png)
 
