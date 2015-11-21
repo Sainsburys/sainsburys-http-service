@@ -16,6 +16,10 @@ class SimpleController
      */
     public function simpleAction(RequestInterface $request, ResponseInterface $response, array $urlVariables)
     {
-        return new JsonResponse(['name' => 'Eminem']);
+        $id = isset($urlVariables['id']) ? $urlVariables['id'] : 999;
+        return new JsonResponse([
+            'id' => $id,
+            'name' => 'Eminem'
+        ]);
     }
 }

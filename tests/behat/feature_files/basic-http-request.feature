@@ -7,7 +7,7 @@ Feature: Setting up routing
         Given my API is coded to return a the response '{"name":"Eminem"}' for route '/person/123'
         When I send a GET request to '/person/123'
         Then I should get status code '200'
-        And I should get response body '{"name":"Eminem"}'
+        And I should get response body '{"id":"123","name":"Eminem"}'
 
     Scenario: Getting a generic error
         Given my API is coded to throw a generic, uncaught exception in the controller
