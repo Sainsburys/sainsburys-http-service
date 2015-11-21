@@ -7,7 +7,7 @@
 
     "require": {
 
-        "php": "5.5.*",
+        "php": ">=5.5.0 <7.0.0",
 
         "pimple/pimple":                "~3.0.1",
         "psr/http-message":             "1.0.0",
@@ -21,8 +21,7 @@
         "phpspec/phpspec":                   "2.4.0-rc1",
         "behat/behat":                       "dev-master#2059cbe4bb8055c8555fa3365c6ea3b4b30288f5",
         "henrikbjorn/phpspec-code-coverage": "^1.0.1",
-        "guzzlehttp/guzzle":                 "6.1.0",
-        "guzzlehttp/psr7":                   "1.2.1"
+        "guzzlehttp/guzzle":                 "6.1.0"
     },
 
     "autoload": {
