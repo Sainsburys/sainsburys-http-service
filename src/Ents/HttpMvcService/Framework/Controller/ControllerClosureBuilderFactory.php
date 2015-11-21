@@ -18,7 +18,6 @@ class ControllerClosureBuilderFactory
     public function getControllerClosureBuilder(ErrorController $errorController)
     {
         $closureBuilder = $this->getSimpleControllerClosureBuilder();
-        $closureBuilder = $this->addArrayToResponseConversion($closureBuilder);
         $closureBuilder = $this->addResponseTypeChecking($closureBuilder);
         $closureBuilder = $this->addErrorChecking($closureBuilder, $errorController);
 
@@ -31,15 +30,6 @@ class ControllerClosureBuilderFactory
     private function getSimpleControllerClosureBuilder()
     {
         return new SimpleControllerClosureBuilder();
-    }
-
-    /**
-     * @param ControllerClosureBuilder $thingToDecorate
-     * @return ControllerClosureBuilder
-     */
-    private function addArrayToResponseConversion(ControllerClosureBuilder $thingToDecorate)
-    {
-        return new ArrayToResponseConversionDecorator($thingToDecorate);
     }
 
     /**

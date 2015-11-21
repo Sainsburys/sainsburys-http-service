@@ -35,9 +35,8 @@ for a clear example of this.
 
 **Controller Actions - acceptable return types**
 
-Controller actions must return either a PSR-7 HTTP Response object, or an array.  If an array is returned, it will be
-```json_encode()```ed, and the status code on the response will be 200.  If you can't decide what PSR-7 implementation
-to use, the Zend Diactoros ```JsonResponse``` class would be a reasonable choice.  Any PSR-7 implementation should work.
+Controller actions must return a PSR-7 HTTP Response object.  If you can't decide what PSR-7 implementation to use, the
+Zend Diactoros ```JsonResponse``` class would be a reasonable choice.  Any PSR-7 implementation should work.
 
 **Exception Handling**
 
