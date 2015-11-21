@@ -4,6 +4,7 @@ namespace Ents\HttpMvcService\Dev\Controller;
 use Zend\Diactoros\Response\JsonResponse;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Teapot\StatusCode\Http;
 
 class SimpleController
 {
@@ -16,10 +17,14 @@ class SimpleController
      */
     public function simpleAction(RequestInterface $request, ResponseInterface $response, array $urlVariables)
     {
-        $id = isset($urlVariables['id']) ? $urlVariables['id'] : 999;
-        return new JsonResponse([
-            'id' => $id,
-            'name' => 'Eminem'
-        ]);
+        $id = $urlVariables['id'];
+
+        return new JsonResponse(
+            [
+                'id' => $id,
+                'name' => 'Eminem'
+            ],
+            Http::OK
+        );
     }
 }

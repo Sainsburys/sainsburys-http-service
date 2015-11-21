@@ -10,6 +10,8 @@ use Ents\HttpMvcService\Framework\ErrorHandling\ErrorController;
 class ControllerClosureBuilderFactory
 {
     /**
+     * Assemble object graph of ControllerClosureBuilder implementations (Decorator Pattern)
+     *
      * @param ErrorController $errorController
      * @return ControllerClosureBuilder
      */
