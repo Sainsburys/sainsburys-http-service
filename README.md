@@ -40,13 +40,9 @@ to use, the Zend Diactoros ```JsonResponse``` class would be a reasonable choice
 
 **Exception Handling**
 
-At this early stage, this hasn't been implemented yet, but the intention is described below.
-
 Throwing an uncaught exception from a controller will cause a response with the exception details encoded in JSON.  The
-status code will be 500.
-
-If the exception implements ```Ents\HttpMvcService\Framework\Exception\ExceptionWithHttpStatus```, the status code on
-the exception will be used.
+status code will usually be 500.  If the exception implements
+```Ents\HttpMvcService\Framework\Exception\ExceptionWithHttpStatus```, the status code on the exception will be used.
 
 If you wish to implement your own error handler, for example if you don't want stack traces being visible in the
 response in production, call ```Ents\HttpMvcService\Framework\Application::setErrorHandler()'``` in your ```index.php```

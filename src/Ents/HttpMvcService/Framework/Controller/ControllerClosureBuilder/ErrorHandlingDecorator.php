@@ -22,8 +22,8 @@ class ErrorHandlingDecorator implements ControllerClosureBuilder
      */
     public function __construct(ControllerClosureBuilder $thingBeingDecorated, ErrorController $errorController)
     {
-        $this->thingBeingDecorated              = $thingBeingDecorated;
-        $this->errorController                  = $errorController;
+        $this->thingBeingDecorated = $thingBeingDecorated;
+        $this->errorController     = $errorController;
 
     }
 
