@@ -29,7 +29,7 @@ dependency injection - service location won't work here.
 Your routing config will map a path to the service ID of the controller, as defined in your dependency injection
 configuration.  (Only Pimple is supported ATOW, but Container Interop may be added later.)
 
-Try looking at the[example routing file](https://github.com/anobii/http-mvc-service/blob/master/src-dev/sample-application/config/routing.php)
+Try looking at the [example routing file](https://github.com/anobii/http-mvc-service/blob/master/src-dev/sample-application/config/routing.php)
 and [typical dependency injection configuration](https://github.com/anobii/http-mvc-service/blob/master/src-dev/sample-application/src/Ents/HttpMvcService/Dev/DiServiceProvider.php)
 for a clear example of this.
 
@@ -63,4 +63,7 @@ Use Composer.
 Testing
 -------
 
-Check the project out, run Composer, and type ```./bin/test``` to run all the tests.
+Check the project out, run Composer, and type ```./bin/test``` to run all the tests.  Read
+[that shell script](https://github.com/anobii/http-mvc-service/blob/master/bin/test) for specific test commands.
+PHPunit is used to test Dependency Injection configuration for the framework.  PHPSpec is used for unit testing, and
+Behat is used to test an example application using the framework, in conjunction with a webserver.
