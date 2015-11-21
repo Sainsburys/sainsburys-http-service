@@ -1,6 +1,7 @@
 <?php
 namespace Ents\HttpMvcService\Framework;
 
+use Ents\HttpMvcService\Framework\ErrorHandling\ErrorController;
 use Ents\HttpMvcService\Framework\Routing\RoutingConfigApplier;
 use Pimple\Container;
 use Slim\App as SlimApplication;
@@ -17,6 +18,9 @@ class Application
     /** @var RoutingConfigApplier */
     private $routingConfigApplier;
 
+    /** @var ErrorController */
+    private $errorController;
+
     /** @var Container */
     private $container;
 
@@ -27,15 +31,18 @@ class Application
      * @param SlimApplication      $slimApplication
      * @param RoutingConfigReader  $routingConfigReader
      * @param RoutingConfigApplier $routingConfigApplier
+     * @param ErrorController      $errorController
      */
     public function __construct(
         SlimApplication      $slimApplication,
         RoutingConfigReader  $routingConfigReader,
-        RoutingConfigApplier $routingConfigApplier
+        RoutingConfigApplier $routingConfigApplier,
+        ErrorController      $errorController
     ) {
         $this->slimApplication      = $slimApplication;
         $this->routingConfigReader  = $routingConfigReader;
         $this->routingConfigApplier = $routingConfigApplier;
+        $this->errorController      = $errorController;
     }
 
     /**
@@ -61,11 +68,20 @@ class Application
             $this->routingConfigApplier->configureApplicationWithRoute(
                 $this->slimApplication,
                 $route,
-                $this->container
+                $this->container,
+                $this->errorController
             );
         }
 
         $this->haveSomeRoutesConfigured = true;
+    }
+
+    /**
+     * @param ErrorController $errorController
+     */
+    public function setErrorHandler(ErrorController $errorController)
+    {
+        $this->errorController = $errorController;
     }
 
     /**
@@ -76,6 +92,7 @@ class Application
         if (!$this->haveSomeRoutesConfigured) {
             throw new \RuntimeException('Must call takeRoutingConfig() before run()');
         }
+
         $this->slimApplication->getContainer()->get('settings')['determineRouteBeforeAppMiddleware'] = true;
         $this->slimApplication->run();
     }

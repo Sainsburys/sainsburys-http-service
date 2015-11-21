@@ -7,5 +7,5 @@ default:
 
         webserver:
             paths:    [ %paths.base%/feature_files/ ]
-            filters:  { tags: ~wip&&@critical }
+            filters:  { tags: ~wip }
             contexts: [ \Ents\HttpMvcService\Test\Webserver\WebserverContext ]

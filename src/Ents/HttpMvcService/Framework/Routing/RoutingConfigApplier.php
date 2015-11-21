@@ -1,43 +1,41 @@
 <?php
 namespace Ents\HttpMvcService\Framework\Routing;
 
-use Ents\HttpMvcService\Framework\ControllerGenerator;
+use Ents\HttpMvcService\Framework\Controller\ControllerClosureBuilder;
+use Ents\HttpMvcService\Framework\Controller\ControllerClosureBuilderFactory;
+use Ents\HttpMvcService\Framework\ErrorHandling\ErrorController;
 use Pimple\Container;
 use Slim\App as SlimApplication;
 
 class RoutingConfigApplier
 {
-    /** @var ControllerGenerator */
-    private $controllerGenerator;
+    /** @var ControllerClosureBuilderFactory */
+    private $controllerClosureBuilderFactory;
 
     /**
-     * @param ControllerGenerator $controllerGenerator
+     * @param ControllerClosureBuilderFactory $controllerClosureBuilderFactory
      */
-    public function __construct(ControllerGenerator $controllerGenerator)
+    public function __construct(ControllerClosureBuilderFactory $controllerClosureBuilderFactory)
     {
-        $this->controllerGenerator = $controllerGenerator;
+        $this->controllerClosureBuilderFactory = $controllerClosureBuilderFactory;
     }
 
     /**
      * @param SlimApplication $slimApplication
      * @param Route           $route
      * @param Container       $container
+     * @param ErrorController $errorController
      */
-    public function configureApplicationWithRoute(SlimApplication $slimApplication, Route $route, Container $container)
-    {
-        $controllerCallback = $this->getControllerCallbackForRoute($slimApplication, $route, $container);
-        $this->applyRouteToSlimApplication($slimApplication, $route, $controllerCallback);
-    }
-
-    /**
-     * @param SlimApplication $slimApplication
-     * @param Route           $route
-     * @param Container       $container
-     * @return callable
-     */
-    private function getControllerCallbackForRoute(SlimApplication $slimApplication, Route $route, Container $container)
-    {
-        return $this->controllerGenerator->getControllerCallbackForRoute($route, $container, $slimApplication);
+    public function configureApplicationWithRoute(
+        SlimApplication $slimApplication,
+        Route           $route,
+        Container       $container,
+        ErrorController $errorController
+    ) {
+        $controllerClosureBuilder =
+            $this->controllerClosureBuilderFactory->getControllerClosureBuilder($errorController);
+        $controllerClosure = $controllerClosureBuilder->buildControllerClosure($container, $route);
+        $this->applyRouteToSlimApplication($slimApplication, $route, $controllerClosure);
     }
 
     /**

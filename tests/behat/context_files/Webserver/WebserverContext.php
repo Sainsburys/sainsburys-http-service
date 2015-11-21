@@ -25,7 +25,7 @@ class WebserverContext implements Context, SnippetAcceptingContext
      */
     public function iSendAGetRequestTo($path)
     {
-        $this->responseReceived = $this->guzzleClient->get('localhost:8081' . $path);
+        $this->responseReceived = $this->guzzleClient->get('localhost:8081' . $path, ['exceptions' => false]);
     }
 
     /**
@@ -55,5 +55,30 @@ class WebserverContext implements Context, SnippetAcceptingContext
      */
     public function myApiIsCodedToReturnAResponseForUrl($response, $route)
     {
+    }
+
+    /**
+     * @Given my API is coded to throw an exception with an HTTP status code on it
+     */
+    public function myApiIsCodedToThrowAnExceptionWithAnHttpStatusCodeOnIt()
+    {
+    }
+
+    /**
+     * @Given my API is coded to throw a generic, uncaught exception in the controller
+     */
+    public function myApiIsCodedToThrowAGenericUncaughtExceptionInTheController()
+    {
+    }
+
+    /**
+     * @Then the response body should contain :partialResponseBody
+     */
+    public function theResponseBodyShouldContain($partialResponseBody)
+    {
+        \PHPUnit_Framework_Assert::assertContains(
+            $partialResponseBody,
+            $this->responseReceived->getBody()->getContents()
+        );
     }
 }

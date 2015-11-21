@@ -1,5 +1,5 @@
 <?php
-namespace Ents\HttpMvcService\Dev;
+namespace Ents\HttpMvcService\Dev\Controller;
 
 use Zend\Diactoros\Response\JsonResponse;
 use Psr\Http\Message\RequestInterface;
