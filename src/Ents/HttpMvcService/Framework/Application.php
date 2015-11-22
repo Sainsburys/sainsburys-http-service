@@ -1,7 +1,6 @@
 <?php
 namespace Ents\HttpMvcService\Framework;
 
-use Ents\HttpMvcService\Framework\Controller\ControllerClosureBuilderFactory;
 use Ents\HttpMvcService\Framework\ErrorHandling\ErrorController;
 use Ents\HttpMvcService\Framework\Routing\RoutingConfigApplier;
 use Pimple\Container;
