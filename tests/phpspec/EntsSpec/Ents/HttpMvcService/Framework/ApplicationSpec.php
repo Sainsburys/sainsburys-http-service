@@ -26,11 +26,6 @@ class ApplicationSpec extends ObjectBehavior
         $this->shouldHaveType('Ents\HttpMvcService\Framework\Application');
     }
 
-    function it_can_be_set_up_with_a_container(ContainerInterface $container)
-    {
-        $this->takeContainerWithControllersConfigured($container);
-    }
-
     function it_can_be_set_up_with_a_container_and_routing_configs(
         ContainerInterface   $container,
         SlimApplication      $slimApplication,
@@ -65,6 +60,7 @@ class ApplicationSpec extends ObjectBehavior
         $this->takeContainerWithControllersConfigured($container);
         $this->takeRoutingConfigs(['config/routes.php']);
 
+        // ACT
         $this->run();
 
         // ASSERT
