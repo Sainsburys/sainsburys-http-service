@@ -3,9 +3,10 @@
 require_once __DIR__ . '/../../../vendor/autoload.php';
 
 use Pimple\Container;
-use Ents\HttpMvcService\Dev\MyServiceProvider;
+use Ents\HttpMvcService\Dev\MyDiConfig;
 use Ents\HttpMvcService\Framework\ApplicationBuilder;
 use Ents\HttpMvcService\Framework\DiContainer\PimpleContainerInteropAdapter;
+use Interop\Container\ContainerInterface;
 
 $containerWithControllers = getConfiguredContainer();
 
@@ -14,14 +15,13 @@ $application = $applicationBuilder->buildApplication([__DIR__ . '/../config/rout
 $application->run();
 
 /**
- * @return PimpleContainerInteropAdapter
+ * @return ContainerInterface
  */
 function getConfiguredContainer()
 {
-    $container = new Container();
-    $diConfig = new MyServiceProvider();
-    $diConfig->register($container);
-    $containerAdapter = new PimpleContainerInteropAdapter($container);
+    $pimpleContainer = new Container();
+    $pimpleContainer->register(new MyDiConfig());
+    $containerAdapter = new PimpleContainerInteropAdapter($pimpleContainer);
 
     return $containerAdapter;
 }
