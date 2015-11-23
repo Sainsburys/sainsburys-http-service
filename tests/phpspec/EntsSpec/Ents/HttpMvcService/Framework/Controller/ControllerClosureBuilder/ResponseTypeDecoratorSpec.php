@@ -28,13 +28,12 @@ class ResponseTypeDecoratorSpec extends ObjectBehavior
         ControllerClosureBuilder $thingBeingDecorated,
         ServerRequestInterface   $request,
         ResponseInterface        $response,
-        ErrorController          $errorController,
-        ResponseInterface        $responseFromThingBeingDecorated
+        ErrorController          $errorController
     ) {
         // ARRANGE
 
         $controllerClosureWithWrongReturnType =
-            function ($requestPassedIn, $responsePassedIn) use ($responseFromThingBeingDecorated) {
+            function ($requestPassedIn, $responsePassedIn) {
                 return 123; // Not a ResponseInterface object
             };
 
@@ -43,6 +42,7 @@ class ResponseTypeDecoratorSpec extends ObjectBehavior
         // ACT
         $controllerClosureProduced = $this->buildControllerClosure($container, $route, $errorController);
 
+        // ASSERT
         $controllerClosureProduced
             ->shouldThrow('\Ents\HttpMvcService\Framework\Exception\Framework\InvalidControllerException')
             ->during('__invoke', [$request, $response]);
