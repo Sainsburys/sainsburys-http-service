@@ -51,4 +51,23 @@ class ApplicationSpec extends ObjectBehavior
             ->configureApplicationWithRoutes($slimApplication, [$route], $container, $errorController)
             ->shouldHaveBeenCalled();
     }
+
+    function it_can_run(
+        ContainerInterface   $container,
+        SlimApplication      $slimApplication,
+        RoutingConfigReader  $routingConfigReader,
+        Route                $route
+    ) {
+
+        // ARRANGE
+        $routingConfigReader->getRoutesFromFile('config/routes.php')->willReturn([$route]);
+
+        $this->takeContainerWithControllersConfigured($container);
+        $this->takeRoutingConfigs(['config/routes.php']);
+
+        $this->run();
+
+        // ASSERT
+        $slimApplication->run()->shouldHaveBeenCalled();
+    }
 }
