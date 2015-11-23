@@ -1,7 +1,6 @@
 <?php
 namespace Ents\HttpMvcService\Framework\Controller;
 
-use Ents\HttpMvcService\Framework\Controller\ControllerClosureBuilder\ArrayToResponseConversionDecorator;
 use Ents\HttpMvcService\Framework\Controller\ControllerClosureBuilder\ErrorHandlingDecorator;
 use Ents\HttpMvcService\Framework\Controller\ControllerClosureBuilder\ResponseTypeDecorator;
 use Ents\HttpMvcService\Framework\Controller\ControllerClosureBuilder\SimpleControllerClosureBuilder;

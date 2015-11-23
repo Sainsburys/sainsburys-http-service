@@ -3,7 +3,7 @@ namespace Ents\HttpMvcService\Framework;
 
 use Ents\HttpMvcService\Framework\ErrorHandling\ErrorController;
 use Ents\HttpMvcService\Framework\Routing\RoutingConfigApplier;
-use Pimple\Container;
+use Interop\Container\ContainerInterface;
 use Slim\App as SlimApplication;
 use Ents\HttpMvcService\Framework\Routing\RoutingConfigReader;
 
@@ -21,7 +21,7 @@ class Application
     /** @var ErrorController */
     private $errorController;
 
-    /** @var Container */
+    /** @var ContainerInterface */
     private $container;
 
     /** @var bool */
@@ -46,9 +46,9 @@ class Application
     }
 
     /**
-     * @param Container $container
+     * @param ContainerInterface $container
      */
-    public function takeContainerWithControllersConfigured(Container $container)
+    public function takeContainerWithControllersConfigured(ContainerInterface $container)
     {
         $this->container = $container;
     }

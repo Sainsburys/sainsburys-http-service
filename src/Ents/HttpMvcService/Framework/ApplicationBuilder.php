@@ -2,21 +2,20 @@
 namespace Ents\HttpMvcService\Framework;
 
 use Ents\HttpMvcService\Di\ServiceProvider;
-use Pimple\Container;
+use Interop\Container\ContainerInterface;
+use Pimple\Container as PimpleContainer;
 
 class ApplicationBuilder
 {
     /**
-     * @param string[]  $routingConfigFilePaths
-     * @param Container $containerWithControllers
+     * @param string[]           $routingConfigFilePaths
+     * @param ContainerInterface $containerWithControllers
      * @return Application
      */
-    public function buildApplication($routingConfigFilePaths, Container $containerWithControllers)
+    public function buildApplication($routingConfigFilePaths, ContainerInterface $containerWithControllers)
     {
-        $diServiceProvider = new ServiceProvider();
-        $diServiceProvider->register($containerWithControllers);
+        $application = $this->getApplicationObject();
 
-        $application = $containerWithControllers['ents.http-mvc-service.application']; /** @var $application Application */
         $application->takeContainerWithControllersConfigured($containerWithControllers);
 
         foreach ($routingConfigFilePaths as $path) {
@@ -24,5 +23,17 @@ class ApplicationBuilder
         }
 
         return $application;
+    }
+
+    /**
+     * @return Application
+     */
+    private function getApplicationObject()
+    {
+        $containerWithFramework = new PimpleContainer();
+        $diServiceProvider = new ServiceProvider();
+        $diServiceProvider->register($containerWithFramework);
+
+        return $containerWithFramework['ents.http-mvc-service.application'];
     }
 }

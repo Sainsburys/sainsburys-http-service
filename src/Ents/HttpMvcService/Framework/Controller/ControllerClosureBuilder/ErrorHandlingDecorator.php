@@ -3,7 +3,7 @@ namespace Ents\HttpMvcService\Framework\Controller\ControllerClosureBuilder;
 
 use Ents\HttpMvcService\Framework\Controller\ControllerClosureBuilder;
 use Ents\HttpMvcService\Framework\ErrorHandling\ErrorController;
-use Pimple\Container;
+use Interop\Container\ContainerInterface;
 use Psr\Http\Message\RequestInterface;
 use Ents\HttpMvcService\Framework\Routing\Route;
 use Psr\Http\Message\ResponseInterface;
@@ -28,11 +28,11 @@ class ErrorHandlingDecorator implements ControllerClosureBuilder
     }
 
     /**
-     * @param Container $container
-     * @param Route     $route
+     * @param ContainerInterface $container
+     * @param Route              $route
      * @return callable
      */
-    public function buildControllerClosure(Container $container, Route $route)
+    public function buildControllerClosure(ContainerInterface $container, Route $route)
     {
         $rawControllerClosure = $this->thingBeingDecorated->buildControllerClosure($container, $route);
         $closureWhichAlsoDoesErrorHandling = $this->decorateWithErrorHandling(

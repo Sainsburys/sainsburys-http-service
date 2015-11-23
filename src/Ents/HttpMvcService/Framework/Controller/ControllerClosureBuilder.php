@@ -1,15 +1,15 @@
 <?php
 namespace Ents\HttpMvcService\Framework\Controller;
 
-use Pimple\Container;
+use Interop\Container\ContainerInterface;
 use Ents\HttpMvcService\Framework\Routing\Route;
 
 interface ControllerClosureBuilder
 {
     /**
-     * @param Container $container
-     * @param Route     $route
+     * @param ContainerInterface $container
+     * @param Route              $route
      * @return callable
      */
-    public function buildControllerClosure(Container $container, Route $route);
+    public function buildControllerClosure(ContainerInterface $container, Route $route);
 }

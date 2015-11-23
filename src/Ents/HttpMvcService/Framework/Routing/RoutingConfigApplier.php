@@ -5,7 +5,7 @@ use Ents\HttpMvcService\Framework\Controller\ControllerClosureBuilder;
 use Ents\HttpMvcService\Framework\Controller\ControllerClosureBuilderFactory;
 use Ents\HttpMvcService\Framework\ErrorHandling\ErrorController;
 use Ents\HttpMvcService\Framework\Exception\InvalidRouteConfigException;
-use Pimple\Container;
+use Interop\Container\ContainerInterface;
 use Slim\App as SlimApplication;
 
 class RoutingConfigApplier
@@ -22,16 +22,16 @@ class RoutingConfigApplier
     }
 
     /**
-     * @param SlimApplication $slimApplication
-     * @param Route           $route
-     * @param Container       $container
-     * @param ErrorController $errorController
+     * @param SlimApplication    $slimApplication
+     * @param Route              $route
+     * @param ContainerInterface $container
+     * @param ErrorController    $errorController
      */
     public function configureApplicationWithRoute(
-        SlimApplication $slimApplication,
-        Route           $route,
-        Container       $container,
-        ErrorController $errorController
+        SlimApplication    $slimApplication,
+        Route              $route,
+        ContainerInterface $container,
+        ErrorController    $errorController
     ) {
         $this->validateControllerIsInDiConfig($route, $container);
         $controllerClosure = $this->buildControllerClosure($errorController, $container, $route);
@@ -41,12 +41,12 @@ class RoutingConfigApplier
     /**
      * @throws InvalidRouteConfigException
      *
-     * @param Route     $route
-     * @param Container $container
+     * @param Route              $route
+     * @param ContainerInterface $container
      */
-    private function validateControllerIsInDiConfig(Route $route, Container $container)
+    private function validateControllerIsInDiConfig(Route $route, ContainerInterface $container)
     {
-        if (!isset($container[$route->controllerServiceId()])) {
+        if (!$container->has($route->controllerServiceId())) {
             throw new InvalidRouteConfigException(
                 "Route " . $route->name() . "' requires controller service ID '" . $route->controllerServiceId() .
                 "' - not found in DI config."
@@ -55,12 +55,12 @@ class RoutingConfigApplier
     }
 
     /**
-     * @param ErrorController $errorController
-     * @param Container       $container
-     * @param Route           $route
+     * @param ErrorController    $errorController
+     * @param ContainerInterface $container
+     * @param Route              $route
      * @return callable
      */
-    private function buildControllerClosure(ErrorController $errorController, Container $container, Route $route)
+    private function buildControllerClosure(ErrorController $errorController, ContainerInterface $container, Route $route)
     {
         $controllerClosureBuilder = $this
             ->controllerClosureBuilderFactory
@@ -76,8 +76,8 @@ class RoutingConfigApplier
      */
     private function applyRouteToSlimApplication(
         SlimApplication $slimApplication,
-        Route $route,
-        callable $controllerCallback
+        Route           $route,
+        callable        $controllerCallback
     ) {
         $slimApplication
             ->map(
