@@ -5,7 +5,7 @@ namespace EntsSpec\Ents\HttpMvcService\Framework\DiContainer;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
-class NotFoundExceptionSpec extends ObjectBehavior
+class ServiceNotFoundInContainerExceptionSpec extends ObjectBehavior
 {
     function it_is_initializable()
     {
