@@ -55,9 +55,9 @@ class Route
                 "Route '" . $this->name() . "': 'http-verb' not found in config for route"
             );
         }
-        if (!in_array($routeConfig['http-verb'], ['GET', 'POST', 'PUT', 'DELETE'])) {
+        if (!in_array($routeConfig['http-verb'], ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'])) {
             throw new InvalidRouteConfigException(
-                "Route '" . $this->name() . "HTTP verb in route config must be one of 'GET', 'POST', 'PUT', 'DELETE'"
+                "Route '" . $this->name() . "HTTP verb in route config must be one of 'GET', 'POST', 'PUT', 'DELETE', 'PATCH'"
             );
         }
         $this->httpVerb = $routeConfig['http-verb'];
