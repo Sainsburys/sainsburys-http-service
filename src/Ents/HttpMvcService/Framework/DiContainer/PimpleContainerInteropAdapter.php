@@ -2,19 +2,39 @@
 namespace Ents\HttpMvcService\Framework\DiContainer;
 
 use Interop\Container\ContainerInterface;
-use Pimple\Container;
+use Pimple\Container as PimpleContainer;
+use Pimple\ServiceProviderInterface;
 
 class PimpleContainerInteropAdapter implements ContainerInterface
 {
-    /** @var Container */
-    private $container;
+    /** @var PimpleContainer */
+    private $pimpleContainer;
 
     /**
-     * @param Container $container
+     * @param PimpleContainer|null $pimpleContainer
      */
-    public function __construct(Container $container)
+    public function __construct(PimpleContainer $pimpleContainer = null)
     {
-        $this->container = $container;
+        $this->pimpleContainer = $pimpleContainer ?: new PimpleContainer();
+    }
+
+    /**
+     * @param ServiceProviderInterface $serviceProvider
+     * @return PimpleContainerInteropAdapter
+     */
+    public static function constructConfiguredWith(ServiceProviderInterface $serviceProvider)
+    {
+        $container = new static();
+        $container->addConfig($serviceProvider);
+        return $container;
+    }
+
+    /**
+     * @param ServiceProviderInterface $pimpleServiceProvider
+     */
+    public function addConfig(ServiceProviderInterface $pimpleServiceProvider)
+    {
+        $this->pimpleContainer->register($pimpleServiceProvider);
     }
 
     /**
@@ -26,7 +46,7 @@ class PimpleContainerInteropAdapter implements ContainerInterface
         if (!$this->has($serviceId)) {
             throw NotFoundException::constructWithServiceId($serviceId);
         }
-        return $this->container[$serviceId];
+        return $this->pimpleContainer[$serviceId];
     }
 
     /**
@@ -35,6 +55,6 @@ class PimpleContainerInteropAdapter implements ContainerInterface
      */
     public function has($serviceId)
     {
-        return isset($this->container[$serviceId]);
+        return isset($this->pimpleContainer[$serviceId]);
     }
 }

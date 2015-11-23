@@ -22,11 +22,28 @@ class RoutingConfigApplier
 
     /**
      * @param SlimApplication    $slimApplication
+     * @param Route[]            $routes
+     * @param ContainerInterface $container
+     * @param ErrorController    $errorController
+     */
+    public function configureApplicationWithRoutes(
+        SlimApplication    $slimApplication,
+        array              $routes,
+        ContainerInterface $container,
+        ErrorController    $errorController
+    ) {
+        foreach ($routes as $route) {
+            $this->configureApplicationWithRoute($slimApplication, $route, $container, $errorController);
+        }
+    }
+
+    /**
+     * @param SlimApplication    $slimApplication
      * @param Route              $route
      * @param ContainerInterface $container
      * @param ErrorController    $errorController
      */
-    public function configureApplicationWithRoute(
+    private function configureApplicationWithRoute(
         SlimApplication    $slimApplication,
         Route              $route,
         ContainerInterface $container,

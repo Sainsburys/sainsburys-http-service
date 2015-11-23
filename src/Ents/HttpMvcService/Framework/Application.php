@@ -2,6 +2,7 @@
 namespace Ents\HttpMvcService\Framework;
 
 use Ents\HttpMvcService\Di\FrameworkDiConfig;
+use Ents\HttpMvcService\Framework\DiContainer\PimpleContainerInteropAdapter;
 use Ents\HttpMvcService\Framework\ErrorHandling\ErrorController;
 use Ents\HttpMvcService\Framework\Routing\RoutingConfigApplier;
 use Interop\Container\ContainerInterface;
@@ -49,17 +50,15 @@ class Application
 
     /**
      * @param string[]           $routingConfigFiles
-     * @param ContainerInterface $container
+     * @param ContainerInterface $containerWithControllers
      * @return Application
      */
-    public static function factory(array $routingConfigFiles, ContainerInterface $container)
+    public static function factory(array $routingConfigFiles, ContainerInterface $containerWithControllers)
     {
-        $containerWithFramework = new PimpleContainer();
-        $containerWithFramework->register(new FrameworkDiConfig());
+        $containerWithFramework = PimpleContainerInteropAdapter::constructConfiguredWith(new FrameworkDiConfig);
+        $application = $containerWithFramework->get('ents.http-mvc-service.application'); /** @var $application Application */
 
-        $application = $containerWithFramework['ents.http-mvc-service.application']; /** @var $application Application */
-
-        $application->takeContainerWithControllersConfigured($container);
+        $application->takeContainerWithControllersConfigured($containerWithControllers);
         $application->takeRoutingConfigs($routingConfigFiles);
 
         return $application;
@@ -93,16 +92,7 @@ class Application
         }
 
         $routes = $this->routingConfigReader->getRoutesFromFile($path);
-
-        foreach ($routes as $route) {
-            $this->routingConfigApplier->configureApplicationWithRoute(
-                $this->slimApplication,
-                $route,
-                $this->container,
-                $this->errorController
-            );
-        }
-
+        $this->routingConfigApplier->configureApplicationWithRoutes($this->slimApplication, $routes, $this->container, $this->errorController);
         $this->haveSomeRoutesConfigured = true;
     }
 
