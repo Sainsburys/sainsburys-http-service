@@ -50,7 +50,7 @@ class Route
      */
     private function setHttpVerb($routeConfig)
     {
-        $this->checkFieldIsPresent($routeConfig, 'http-verb');
+        $this->validateField($routeConfig, 'http-verb');
 
         if (!in_array($routeConfig['http-verb'], ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'])) {
             throw new InvalidRouteConfigException(
@@ -67,7 +67,7 @@ class Route
      */
     private function setPathExpression($routeConfig)
     {
-        $this->checkFieldIsPresent($routeConfig, 'path');
+        $this->validateField($routeConfig, 'path');
         $this->pathExpression = $routeConfig['path'];
     }
 
@@ -77,7 +77,7 @@ class Route
      */
     private function setControllerServiceId($routeConfig)
     {
-        $this->checkFieldIsPresent($routeConfig, 'controller-service-id');
+        $this->validateField($routeConfig, 'controller-service-id');
         $this->controllerServiceId = $routeConfig['controller-service-id'];
     }
 
@@ -87,7 +87,7 @@ class Route
      */
     private function setActionMethodName($routeConfig)
     {
-        $this->checkFieldIsPresent($routeConfig, 'action-method-name');
+        $this->validateField($routeConfig, 'action-method-name');
         $this->actionMethodName = $routeConfig['action-method-name'];
     }
 
@@ -135,7 +135,7 @@ class Route
      * @param string[] $routeConfig
      * @param string   $fieldName
      */
-    private function checkFieldIsPresent($routeConfig, $fieldName)
+    private function validateField($routeConfig, $fieldName)
     {
         if (
             !isset($routeConfig[$fieldName]) ||
