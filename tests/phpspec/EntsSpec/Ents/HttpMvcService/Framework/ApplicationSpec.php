@@ -53,7 +53,6 @@ class ApplicationSpec extends ObjectBehavior
         RoutingConfigReader  $routingConfigReader,
         Route                $route
     ) {
-
         // ARRANGE
         $routingConfigReader->getRoutesFromFile('config/routes.php')->willReturn([$route]);
 
@@ -65,5 +64,27 @@ class ApplicationSpec extends ObjectBehavior
 
         // ASSERT
         $slimApplication->run()->shouldHaveBeenCalled();
+    }
+
+    function it_lets_you_put_another_error_controller(
+        ContainerInterface   $container,
+        SlimApplication      $slimApplication,
+        RoutingConfigReader  $routingConfigReader,
+        RoutingConfigApplier $routingConfigApplier,
+        ErrorController      $newErrorController,
+        Route                $route
+    ) {
+        // ARRANGE
+        $routingConfigReader->getRoutesFromFile('config/routes.php')->willReturn([$route]);
+
+        // ACT
+        $this->setErrorHandler($newErrorController);
+        $this->takeContainerWithControllersConfigured($container);
+        $this->takeRoutingConfigs(['config/routes.php']);
+
+        // ASSERT
+        $routingConfigApplier
+            ->configureApplicationWithRoutes($slimApplication, [$route], $container, $newErrorController)
+            ->shouldHaveBeenCalled();
     }
 }
