@@ -112,7 +112,7 @@ class Application
             throw new \RuntimeException('Must call takeRoutingConfig() before run().  Try using Application::factory() to create the Application');
         }
 
-        $this->slimApplication->getContainer()->get('settings')['determineRouteBeforeAppMiddleware'] = true;
+//        $this->slimApplication->getContainer()->get('settings')['determineRouteBeforeAppMiddleware'] = true;
         $this->slimApplication->run();
     }
 }
