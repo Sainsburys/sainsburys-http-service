@@ -28,7 +28,7 @@ dependency injection - service location won't work here.
 
 Your routing config will map a path to the service ID of the controller, as defined in your dependency injection
 configuration.  You should use a Container Interop dependency injection container - a standards-compliant Pimple wrapper
-is provided (see [usage example](https://github.com/anobii/http-mvc-service/blob/master/src-dev/sample-application/public/index.php)).
+is provided (see [usage example](https://github.com/anobii/http-mvc-service/blob/master/src-dev/sample-application/public/index.php#L19-L26)).
 
 Try looking at the [example routing file](https://github.com/anobii/http-mvc-service/blob/master/src-dev/sample-application/config/routing.php)
 and [typical dependency injection configuration](https://github.com/anobii/http-mvc-service/blob/master/src-dev/sample-application/src/Ents/HttpMvcService/Dev/DiServiceProvider.php)
