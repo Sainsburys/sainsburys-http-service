@@ -6,7 +6,7 @@ use Pimple\Container;
 use Ents\HttpMvcService\Dev\Controller\SimpleController;
 use Ents\HttpMvcService\Dev\Controller\ControllerWithErrors;
 
-class DiServiceProvider implements ServiceProviderInterface
+class MyServiceProvider implements ServiceProviderInterface
 {
     /**
      * @param Container $container
