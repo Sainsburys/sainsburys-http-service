@@ -47,7 +47,7 @@ class ErrorHandlingDecoratorSpec extends ObjectBehavior
 
         // ACT
         $controllerClosure = $this->buildControllerClosure($container, $route, $errorController);
-        $result = $controllerClosure($request, $response, []);
+        $result = $controllerClosure($request, $response);
 
         // ASSERT
         $controllerClosure->shouldHaveType('closure');

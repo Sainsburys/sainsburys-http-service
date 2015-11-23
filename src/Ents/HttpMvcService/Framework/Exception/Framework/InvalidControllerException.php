@@ -13,7 +13,7 @@ class InvalidControllerException extends \RuntimeException implements ExceptionW
      */
     public function __construct($message = "", $code = 0, \Exception $previous = null)
     {
-        $this->message = 'A controller failed to return an array or a \Psr\Http\Message\ResponseInterface';
+        $this->message = 'A controller failed to return a \Psr\Http\Message\ResponseInterface';
     }
 
     /**
