@@ -57,4 +57,33 @@ class RoutingConfigApplierSpec extends ObjectBehavior
         // ACT
         $this->configureApplicationWithRoutes($slimApplication, [$route], $container, $errorController);
     }
+
+    function it_can_throw_an_exception_if_the_controller_isnt_in_the_container(
+        ControllerClosureBuilder $controllerClosureBuilder,
+        SlimApplication          $slimApplication,
+        Route                    $route,
+        ContainerInterface       $container,
+        ErrorController          $errorController,
+        SlimRoute                $slimRoute
+    ) {
+        // ARRANGE
+
+        // The controller closure builder builds the thing
+        $controllerClosure = function () {};
+        $controllerClosureBuilder->buildControllerClosure($container, $route, $errorController)->willReturn($controllerClosure);
+
+        // Route has stuff on it
+        $route->controllerServiceId()->willReturn('controller-service-id');
+        $route->httpVerb()->willReturn('GET');
+        $route->name()->willReturn('route-name');
+        $route->pathExpression()->willReturn('/path/');
+
+        // Controller is not in container
+        $container->has('controller-service-id')->willReturn(false);
+
+        // ACT
+        $this
+            ->shouldThrow('\Ents\HttpMvcService\Framework\Exception\Framework\InvalidRouteConfigException')
+            ->during('configureApplicationWithRoutes', [$slimApplication, [$route], $container, $errorController]);
+    }
 }
