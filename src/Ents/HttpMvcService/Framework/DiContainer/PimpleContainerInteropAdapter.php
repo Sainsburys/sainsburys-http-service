@@ -4,6 +4,7 @@ namespace Ents\HttpMvcService\Framework\DiContainer;
 use Interop\Container\ContainerInterface;
 use Pimple\Container as PimpleContainer;
 use Pimple\ServiceProviderInterface;
+use Interop\Container\Exception\NotFoundException;
 
 class PimpleContainerInteropAdapter implements ContainerInterface
 {
@@ -38,6 +39,8 @@ class PimpleContainerInteropAdapter implements ContainerInterface
     }
 
     /**
+     * @throws NotFoundException
+     *
      * @param string $serviceId
      * @return mixed
      */
