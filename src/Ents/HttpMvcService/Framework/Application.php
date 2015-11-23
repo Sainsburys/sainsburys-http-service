@@ -8,7 +8,6 @@ use Ents\HttpMvcService\Framework\Routing\RoutingConfigApplier;
 use Interop\Container\ContainerInterface;
 use Slim\App as SlimApplication;
 use Ents\HttpMvcService\Framework\Routing\RoutingConfigReader;
-use Pimple\Container as PimpleContainer;
 
 class Application
 {

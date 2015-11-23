@@ -15,7 +15,7 @@ Feature: Setting up routing
         Then I should get status code '500'
         And the response body should contain 'Exception message'
 
-    Scenario: Getting an error with a custom statuc code
+    Scenario: Getting an error with a custom status code
         Given my API is coded to throw an exception with an HTTP status code on it
         When I send a GET request to '/error/exception-with-status-code'
         Then I should get status code '401'

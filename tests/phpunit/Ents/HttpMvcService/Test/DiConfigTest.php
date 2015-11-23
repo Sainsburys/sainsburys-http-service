@@ -2,20 +2,18 @@
 namespace Ents\HttpMvcService\Test;
 
 use Ents\HttpMvcService\Di\FrameworkDiConfig;
+use Ents\HttpMvcService\Framework\DiContainer\PimpleContainerInteropAdapter;
 use PHPUnit_Framework_TestCase as TestCase;
-use Pimple\Container;
 
 class DiConfigTest extends TestCase
 {
     public function testDiConfig()
     {
         // ARRANGE
-        $serviceProvider = new FrameworkDiConfig();
-        $container = new Container();
-        $serviceProvider->register($container);
+        $container = PimpleContainerInteropAdapter::constructConfiguredWith(new FrameworkDiConfig());
 
         // ACT
-        $result = $container['ents.http-mvc-service.application'];
+        $result = $container->get('ents.http-mvc-service.application');
 
         // ASSERT
         $this->assertInstanceOf('\Ents\HttpMvcService\Framework\Application', $result);
