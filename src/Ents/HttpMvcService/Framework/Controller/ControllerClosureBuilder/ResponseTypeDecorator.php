@@ -2,6 +2,7 @@
 namespace Ents\HttpMvcService\Framework\Controller\ControllerClosureBuilder;
 
 use Ents\HttpMvcService\Framework\Controller\ControllerClosureBuilder;
+use Ents\HttpMvcService\Framework\ErrorHandling\ErrorController;
 use Ents\HttpMvcService\Framework\Exception\InvalidControllerException;
 use Interop\Container\ContainerInterface;
 use Psr\Http\Message\RequestInterface;
@@ -24,11 +25,12 @@ class ResponseTypeDecorator implements ControllerClosureBuilder
     /**
      * @param ContainerInterface $container
      * @param Route              $route
+     * @param ErrorController    $errorController
      * @return callable
      */
-    public function buildControllerClosure(ContainerInterface $container, Route $route)
+    public function buildControllerClosure(ContainerInterface $container, Route $route, ErrorController $errorController)
     {
-        $rawControllerClosure = $this->thingBeingDecorated->buildControllerClosure($container, $route);
+        $rawControllerClosure = $this->thingBeingDecorated->buildControllerClosure($container, $route, $errorController);
         $closureWhichAlsoDoesTypeChecking = $this->decorateWithResponseTypeChecking($rawControllerClosure);
         return $closureWhichAlsoDoesTypeChecking;
     }

@@ -1,6 +1,9 @@
 <?php
 namespace Ents\HttpMvcService\Di;
 
+use Ents\HttpMvcService\Framework\Controller\ControllerClosureBuilder\ErrorHandlingDecorator;
+use Ents\HttpMvcService\Framework\Controller\ControllerClosureBuilder\ResponseTypeDecorator;
+use Ents\HttpMvcService\Framework\Controller\ControllerClosureBuilder\SimpleControllerClosureBuilder;
 use Ents\HttpMvcService\Framework\Controller\ControllerClosureBuilderFactory;
 use Ents\HttpMvcService\Framework\Application;
 use Ents\HttpMvcService\Framework\ErrorHandling\DefaultErrorController;
@@ -22,7 +25,7 @@ class ServiceProvider implements ServiceProviderInterface
 
                 $slimApplication        = new SlimApplication();
                 $routingConfigReader    = new RoutingConfigReader();
-                $routingConfigApplier   = new RoutingConfigApplier(new ControllerClosureBuilderFactory());
+                $routingConfigApplier   = new RoutingConfigApplier($container['ents.http-mvc-service.controller-closure-builder']);
                 $defaultErrorController = new DefaultErrorController();
 
                 return new Application(
@@ -30,6 +33,16 @@ class ServiceProvider implements ServiceProviderInterface
                     $routingConfigReader,
                     $routingConfigApplier,
                     $defaultErrorController
+                );
+            };
+
+        $pimple['ents.http-mvc-service.controller-closure-builder'] =
+            function (Container $container) {
+
+                return new ErrorHandlingDecorator(
+                    new ResponseTypeDecorator(
+                        new SimpleControllerClosureBuilder()
+                    )
                 );
             };
     }

@@ -3,6 +3,7 @@
 namespace EntsSpec\Ents\HttpMvcService\Framework\Controller\ControllerClosureBuilder;
 
 use Ents\HttpMvcService\Dev\Controller\SimpleController;
+use Ents\HttpMvcService\Framework\ErrorHandling\ErrorController;
 use Ents\HttpMvcService\Framework\Routing\Route;
 use PhpSpec\ObjectBehavior;
 use Interop\Container\ContainerInterface;
@@ -24,7 +25,8 @@ class SimpleControllerClosureBuilderSpec extends ObjectBehavior
         SimpleController   $simpleController,
         RequestInterface   $request,
         ResponseInterface  $response,
-        JsonResponse       $jsonResponse
+        JsonResponse       $jsonResponse,
+        ErrorController    $errorController
     ) {
         // ARRANGE
         $route->controllerServiceId()->willReturn('controller-service-id');
@@ -35,7 +37,7 @@ class SimpleControllerClosureBuilderSpec extends ObjectBehavior
         $simpleController->simpleAction($request, $response, [])->willReturn($jsonResponse);
 
         // ACT
-        $controllerClosure = $this->buildControllerClosure($container, $route);
+        $controllerClosure = $this->buildControllerClosure($container, $route, $errorController);
         $result = $controllerClosure($request, $response, []);
 
         // ASSERT

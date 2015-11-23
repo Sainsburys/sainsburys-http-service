@@ -2,7 +2,6 @@
 namespace Ents\HttpMvcService\Framework\Routing;
 
 use Ents\HttpMvcService\Framework\Controller\ControllerClosureBuilder;
-use Ents\HttpMvcService\Framework\Controller\ControllerClosureBuilderFactory;
 use Ents\HttpMvcService\Framework\ErrorHandling\ErrorController;
 use Ents\HttpMvcService\Framework\Exception\InvalidRouteConfigException;
 use Interop\Container\ContainerInterface;
@@ -10,15 +9,15 @@ use Slim\App as SlimApplication;
 
 class RoutingConfigApplier
 {
-    /** @var ControllerClosureBuilderFactory */
-    private $controllerClosureBuilderFactory;
+    /** @var ControllerClosureBuilder */
+    private $controllerClosureBuilder;
 
     /**
-     * @param ControllerClosureBuilderFactory $controllerClosureBuilderFactory
+     * @param ControllerClosureBuilder $controllerClosureBuilder
      */
-    public function __construct(ControllerClosureBuilderFactory $controllerClosureBuilderFactory)
+    public function __construct(ControllerClosureBuilder $controllerClosureBuilder)
     {
-        $this->controllerClosureBuilderFactory = $controllerClosureBuilderFactory;
+        $this->controllerClosureBuilder = $controllerClosureBuilder;
     }
 
     /**
@@ -34,7 +33,7 @@ class RoutingConfigApplier
         ErrorController    $errorController
     ) {
         $this->validateControllerIsInDiConfig($route, $container);
-        $controllerClosure = $this->buildControllerClosure($errorController, $container, $route);
+        $controllerClosure = $this->controllerClosureBuilder->buildControllerClosure($container, $route, $errorController);
         $this->applyRouteToSlimApplication($slimApplication, $route, $controllerClosure);
     }
 
@@ -52,21 +51,6 @@ class RoutingConfigApplier
                 "' - not found in DI config."
             );
         }
-    }
-
-    /**
-     * @param ErrorController    $errorController
-     * @param ContainerInterface $container
-     * @param Route              $route
-     * @return callable
-     */
-    private function buildControllerClosure(ErrorController $errorController, ContainerInterface $container, Route $route)
-    {
-        $controllerClosureBuilder = $this
-            ->controllerClosureBuilderFactory
-            ->getControllerClosureBuilder($errorController);
-
-        return $controllerClosureBuilder->buildControllerClosure($container, $route);
     }
 
     /**
