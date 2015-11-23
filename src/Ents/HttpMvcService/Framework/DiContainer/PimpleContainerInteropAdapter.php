@@ -44,7 +44,7 @@ class PimpleContainerInteropAdapter implements ContainerInterface
     public function get($serviceId)
     {
         if (!$this->has($serviceId)) {
-            throw NotFoundException::constructWithServiceId($serviceId);
+            throw ServiceNotFoundInContainerException::constructWithServiceId($serviceId);
         }
         return $this->pimpleContainer[$serviceId];
     }

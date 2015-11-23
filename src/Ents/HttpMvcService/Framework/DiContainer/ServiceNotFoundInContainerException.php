@@ -1,11 +1,13 @@
 <?php
 namespace Ents\HttpMvcService\Framework\DiContainer;
 
-class NotFoundException extends \RuntimeException
+use Interop\Container\Exception\NotFoundException;
+
+class ServiceNotFoundInContainerException extends \RuntimeException implements NotFoundException
 {
     /**
      * @param string $serviceId
-     * @return NotFoundException
+     * @return ServiceNotFoundInContainerException
      */
     public static function constructWithServiceId($serviceId)
     {
