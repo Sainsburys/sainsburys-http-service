@@ -7,6 +7,7 @@ use Ents\HttpMvcService\Framework\Controller\ControllerClosureBuilder\ResponseTy
 use Ents\HttpMvcService\Framework\Controller\ControllerClosureBuilder\SimpleControllerClosureBuilder;
 use Ents\HttpMvcService\Framework\Application;
 use Ents\HttpMvcService\Framework\ErrorHandling\DefaultErrorController;
+use Ents\HttpMvcService\Framework\FileWork\PhpArrayConfigFileReader;
 use Ents\HttpMvcService\Framework\Routing\RoutingConfigApplier;
 use Ents\HttpMvcService\Framework\Routing\RoutingConfigReader;
 use Pimple\Container;
@@ -24,7 +25,7 @@ class FrameworkDiConfig implements ServiceProviderInterface
             function (Container $container) {
 
                 $slimApplication        = new SlimApplication();
-                $routingConfigReader    = new RoutingConfigReader();
+                $routingConfigReader    = new RoutingConfigReader(new PhpArrayConfigFileReader());
                 $routingConfigApplier   = new RoutingConfigApplier($container['ents.http-mvc-service.controller-closure-builder']);
                 $defaultErrorController = new DefaultErrorController();
 

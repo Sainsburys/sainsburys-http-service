@@ -1,15 +1,28 @@
 <?php
 namespace Ents\HttpMvcService\Framework\Routing;
 
+use Ents\HttpMvcService\Framework\FileWork\PhpArrayConfigFileReader;
+
 class RoutingConfigReader
 {
+    /** @var PhpArrayConfigFileReader */
+    private $phpArrayConfigFileReader;
+
+    /**
+     * @param PhpArrayConfigFileReader $phpArrayConfigFileReader
+     */
+    public function __construct(PhpArrayConfigFileReader $phpArrayConfigFileReader)
+    {
+        $this->phpArrayConfigFileReader = $phpArrayConfigFileReader;
+    }
+
     /**
      * @param string $path
      * @return Route[]
      */
     public function getRoutesFromFile($path)
     {
-        $fileContentsAsArray = require $path;
+        $fileContentsAsArray = $this->phpArrayConfigFileReader->readConfigFile($path);
 
         $routes = [];
 
