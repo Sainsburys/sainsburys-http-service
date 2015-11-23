@@ -87,4 +87,14 @@ class ApplicationSpec extends ObjectBehavior
             ->configureApplicationWithRoutes($slimApplication, [$route], $container, $newErrorController)
             ->shouldHaveBeenCalled();
     }
+
+    function it_cant_run_without_routes()
+    {
+        $this->shouldThrow('\RuntimeException')->during('run');
+    }
+
+    function it_use_routes_without_a_container()
+    {
+        $this->shouldThrow('\RuntimeException')->during('takeRoutingConfigs', [['config/routes.php']]);
+    }
 }
