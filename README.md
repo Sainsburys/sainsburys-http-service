@@ -55,9 +55,9 @@ Installation
 Use Composer.
 
 ```json
-    "require": {
-        "ents/http-mvc-service": "*"
-    }
+"require": {
+    "ents/http-mvc-service": "*"
+}
 ```
 
 Testing
