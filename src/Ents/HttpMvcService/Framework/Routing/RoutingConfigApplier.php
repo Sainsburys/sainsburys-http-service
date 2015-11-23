@@ -3,7 +3,7 @@ namespace Ents\HttpMvcService\Framework\Routing;
 
 use Ents\HttpMvcService\Framework\Controller\ControllerClosureBuilder;
 use Ents\HttpMvcService\Framework\ErrorHandling\ErrorController;
-use Ents\HttpMvcService\Framework\Exception\InvalidRouteConfigException;
+use Ents\HttpMvcService\Framework\Exception\Framework\InvalidRouteConfigException;
 use Interop\Container\ContainerInterface;
 use Slim\App as SlimApplication;
 

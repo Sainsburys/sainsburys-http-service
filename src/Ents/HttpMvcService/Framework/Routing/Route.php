@@ -1,7 +1,7 @@
 <?php
 namespace Ents\HttpMvcService\Framework\Routing;
 
-use Ents\HttpMvcService\Framework\Exception\InvalidRouteConfigException;
+use Ents\HttpMvcService\Framework\Exception\Framework\InvalidRouteConfigException;
 
 class Route
 {

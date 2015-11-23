@@ -1,5 +1,8 @@
 <?php
-namespace Ents\HttpMvcService\Framework\Exception;
+namespace Ents\HttpMvcService\Framework\Exception\Framework;
+
+use Ents\HttpMvcService\Framework\Exception\ExceptionWithHttpStatus;
+use Teapot\StatusCode\Http;
 
 class InvalidControllerException extends \RuntimeException implements ExceptionWithHttpStatus
 {
@@ -18,6 +21,6 @@ class InvalidControllerException extends \RuntimeException implements ExceptionW
      */
     public function getHttpStatusCode()
     {
-        return 500;
+        return Http::INTERNAL_SERVER_ERROR; //500
     }
 }

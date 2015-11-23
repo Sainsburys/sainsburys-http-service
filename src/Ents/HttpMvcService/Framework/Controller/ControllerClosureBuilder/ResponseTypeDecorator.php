@@ -3,7 +3,7 @@ namespace Ents\HttpMvcService\Framework\Controller\ControllerClosureBuilder;
 
 use Ents\HttpMvcService\Framework\Controller\ControllerClosureBuilder;
 use Ents\HttpMvcService\Framework\ErrorHandling\ErrorController;
-use Ents\HttpMvcService\Framework\Exception\InvalidControllerException;
+use Ents\HttpMvcService\Framework\Exception\Framework\InvalidControllerException;
 use Interop\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Ents\HttpMvcService\Framework\Routing\Route;
