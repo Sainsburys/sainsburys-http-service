@@ -8,13 +8,7 @@ class RouteSpec extends ObjectBehavior
 {
     function let()
     {
-        $exampleRouteConfig = [
-            'http-verb'             => 'GET',
-            'path'                  => '/person/:id',
-            'controller-service-id' => 'example-controller-service-id',
-            'action-method-name'    => 'exampleAction'
-        ];
-        $this->beConstructedWith('route-name', $exampleRouteConfig);
+        $this->beConstructedWith('route-name', $this->getValidConfigArray());
     }
 
     function it_is_initializable()
@@ -45,5 +39,72 @@ class RouteSpec extends ObjectBehavior
     function it_can_return_the_route_name()
     {
         $this->name()->shouldBe('route-name');
+    }
+
+    function it_always_has_a_path()
+    {
+        $configArray = $this->getValidConfigArray();
+        $configArray['path'] = '';
+        $this->beConstructedWith('route-name', $configArray);
+
+        $this
+            ->shouldThrow('Ents\HttpMvcService\Framework\Exception\Framework\InvalidRouteConfigException')
+            ->duringInstantiation();
+    }
+
+    function it_always_has_a_controller_service_id()
+    {
+        $configArray = $this->getValidConfigArray();
+        $configArray['controller-service-id'] = '';
+        $this->beConstructedWith('route-name', $configArray);
+
+        $this
+            ->shouldThrow('Ents\HttpMvcService\Framework\Exception\Framework\InvalidRouteConfigException')
+            ->duringInstantiation();
+    }
+
+    function it_always_has_an_action_method_name()
+    {
+        $configArray = $this->getValidConfigArray();
+        $configArray['action-method-name'] = '';
+        $this->beConstructedWith('route-name', $configArray);
+
+        $this
+            ->shouldThrow('Ents\HttpMvcService\Framework\Exception\Framework\InvalidRouteConfigException')
+            ->duringInstantiation();
+    }
+
+    function it_always_has_a_sensible_http_verb()
+    {
+        $configArray = $this->getValidConfigArray();
+        $configArray['http-verb'] = 'NOTANHTTPVERB';
+        $this->beConstructedWith('route-name', $configArray);
+
+        $this
+            ->shouldThrow('Ents\HttpMvcService\Framework\Exception\Framework\InvalidRouteConfigException')
+            ->duringInstantiation();
+    }
+
+    function it_always_has_a_name()
+    {
+        $configArray = $this->getValidConfigArray();
+        $this->beConstructedWith('', $configArray);
+
+        $this
+            ->shouldThrow('Ents\HttpMvcService\Framework\Exception\Framework\InvalidRouteConfigException')
+            ->duringInstantiation();
+    }
+
+    /**
+     * @return string[]
+     */
+    private function getValidConfigArray()
+    {
+        return [
+            'http-verb'             => 'GET',
+            'path'                  => '/person/:id',
+            'controller-service-id' => 'example-controller-service-id',
+            'action-method-name'    => 'exampleAction'
+        ];
     }
 }
