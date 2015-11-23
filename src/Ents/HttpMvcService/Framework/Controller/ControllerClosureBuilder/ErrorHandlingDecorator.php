@@ -31,9 +31,7 @@ class ErrorHandlingDecorator implements ControllerClosureBuilder
     public function buildControllerClosure(ContainerInterface $container, Route $route, ErrorController $errorController)
     {
         $rawControllerClosure = $this->thingBeingDecorated->buildControllerClosure($container, $route, $errorController);
-        $closureWhichAlsoDoesErrorHandling = $this->decorateWithErrorHandling(
-            $rawControllerClosure, $errorController
-        );
+        $closureWhichAlsoDoesErrorHandling = $this->decorateWithErrorHandling($rawControllerClosure, $errorController);
         return $closureWhichAlsoDoesErrorHandling;
     }
 
