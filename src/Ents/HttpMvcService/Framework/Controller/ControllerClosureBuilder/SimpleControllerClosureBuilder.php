@@ -5,7 +5,7 @@ use Ents\HttpMvcService\Framework\Controller\ControllerClosureBuilder;
 use Ents\HttpMvcService\Framework\ErrorHandling\ErrorController;
 use Ents\HttpMvcService\Framework\Routing\Route;
 use Interop\Container\ContainerInterface;
-use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
 class SimpleControllerClosureBuilder implements ControllerClosureBuilder
@@ -22,11 +22,11 @@ class SimpleControllerClosureBuilder implements ControllerClosureBuilder
         $actionMethodName    = $route->actionMethodName();
 
         $controllerClosure =
-            function (RequestInterface $request, ResponseInterface $response, array $urlVars) use (
+            function (ServerRequestInterface $request, ResponseInterface $response) use (
                 $container, $controllerServiceId, $actionMethodName
             ) {
                 $controllerObject   = $container->get($controllerServiceId);
-                $controllerResponse = $controllerObject->$actionMethodName($request, $response, $urlVars);
+                $controllerResponse = $controllerObject->$actionMethodName($request, $response);
                 return $controllerResponse;
             };
 

@@ -4,7 +4,7 @@ namespace Ents\HttpMvcService\Framework\Controller\ControllerClosureBuilder;
 use Ents\HttpMvcService\Framework\Controller\ControllerClosureBuilder;
 use Ents\HttpMvcService\Framework\ErrorHandling\ErrorController;
 use Interop\Container\ContainerInterface;
-use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use Ents\HttpMvcService\Framework\Routing\Route;
 use Psr\Http\Message\ResponseInterface;
 
@@ -43,11 +43,11 @@ class ErrorHandlingDecorator implements ControllerClosureBuilder
     private function decorateWithErrorHandling(callable $rawControllerClosure, ErrorController $errorController)
     {
         $controllerClosureWithErrorHandling =
-            function (RequestInterface $request, ResponseInterface $response, array $urlVars) use (
+            function (ServerRequestInterface $request, ResponseInterface $response) use (
                 $rawControllerClosure, $errorController
             ) {
                 try {
-                    return $rawControllerClosure($request, $response, $urlVars);
+                    return $rawControllerClosure($request, $response);
                 } catch (\Exception $exception) {
                     return $errorController->handleError($exception);
                 }

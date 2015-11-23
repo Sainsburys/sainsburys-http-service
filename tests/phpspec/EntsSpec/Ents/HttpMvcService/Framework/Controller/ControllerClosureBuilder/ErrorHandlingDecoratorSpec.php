@@ -7,7 +7,7 @@ use Ents\HttpMvcService\Framework\ErrorHandling\ErrorController;
 use Ents\HttpMvcService\Framework\Routing\Route;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Interop\Container\ContainerInterface;
 
@@ -27,7 +27,7 @@ class ErrorHandlingDecoratorSpec extends ObjectBehavior
         ContainerInterface       $container,
         Route                    $route,
         ControllerClosureBuilder $thingBeingDecorated,
-        RequestInterface         $request,
+        ServerRequestInterface   $request,
         ResponseInterface        $response,
         ErrorController          $errorController,
         ResponseInterface        $errorControllerResponse
@@ -37,7 +37,7 @@ class ErrorHandlingDecoratorSpec extends ObjectBehavior
         $exceptionThrownByUserController = new \Exception();
 
         $controllerClosureWhichErrors =
-            function ($requestPassedIn, $responsePassedIn, $urlVarsPassedIn) use ($exceptionThrownByUserController) {
+            function ($requestPassedIn, $responsePassedIn) use ($exceptionThrownByUserController) {
                 throw $exceptionThrownByUserController;
             };
 

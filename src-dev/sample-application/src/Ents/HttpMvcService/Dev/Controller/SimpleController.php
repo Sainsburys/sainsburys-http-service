@@ -1,23 +1,22 @@
 <?php
 namespace Ents\HttpMvcService\Dev\Controller;
 
+use Psr\Http\Message\ServerRequestInterface;
 use Zend\Diactoros\Response\JsonResponse;
-use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Teapot\StatusCode\Http;
 
 class SimpleController
 {
     /**
-     * @param RequestInterface  $request
-     * @param ResponseInterface $response
-     * @param string[]          $urlVariables
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface      $response
      *
      * @return ResponseInterface
      */
-    public function simpleAction(RequestInterface $request, ResponseInterface $response, array $urlVariables)
+    public function simpleAction(ServerRequestInterface $request, ResponseInterface $response)
     {
-        $id = $urlVariables['id'];
+        $id = $request->getAttribute('id');
 
         return new JsonResponse(
             [

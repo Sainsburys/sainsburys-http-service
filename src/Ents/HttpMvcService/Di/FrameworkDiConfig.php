@@ -1,6 +1,7 @@
 <?php
 namespace Ents\HttpMvcService\Di;
 
+use Ents\HttpMvcService\Framework\Controller\ControllerClosureBuilder\CleanRequestAttributesDecorator;
 use Ents\HttpMvcService\Framework\Controller\ControllerClosureBuilder\ErrorHandlingDecorator;
 use Ents\HttpMvcService\Framework\Controller\ControllerClosureBuilder\ResponseTypeDecorator;
 use Ents\HttpMvcService\Framework\Controller\ControllerClosureBuilder\SimpleControllerClosureBuilder;
@@ -37,12 +38,14 @@ class FrameworkDiConfig implements ServiceProviderInterface
 
         $pimple['ents.http-mvc-service.controller-closure-builder'] =
             function (Container $container) {
-
-                return new ErrorHandlingDecorator(
-                    new ResponseTypeDecorator(
-                        new SimpleControllerClosureBuilder()
-                    )
-                );
+                return
+                    new ErrorHandlingDecorator(
+                        new ResponseTypeDecorator(
+                            new CleanRequestAttributesDecorator(
+                                new SimpleControllerClosureBuilder()
+                            )
+                        )
+                    );
             };
     }
 }

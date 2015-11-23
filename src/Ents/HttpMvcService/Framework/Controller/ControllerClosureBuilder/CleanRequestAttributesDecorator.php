@@ -3,13 +3,12 @@ namespace Ents\HttpMvcService\Framework\Controller\ControllerClosureBuilder;
 
 use Ents\HttpMvcService\Framework\Controller\ControllerClosureBuilder;
 use Ents\HttpMvcService\Framework\ErrorHandling\ErrorController;
-use Ents\HttpMvcService\Framework\Exception\InvalidControllerException;
 use Interop\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Ents\HttpMvcService\Framework\Routing\Route;
 use Psr\Http\Message\ResponseInterface;
 
-class ResponseTypeDecorator implements ControllerClosureBuilder
+class CleanRequestAttributesDecorator implements ControllerClosureBuilder
 {
     /** @var ControllerClosureBuilder */
     private $thingBeingDecorated;
@@ -20,6 +19,7 @@ class ResponseTypeDecorator implements ControllerClosureBuilder
     public function __construct(ControllerClosureBuilder $thingBeingDecorated)
     {
         $this->thingBeingDecorated = $thingBeingDecorated;
+
     }
 
     /**
@@ -31,30 +31,25 @@ class ResponseTypeDecorator implements ControllerClosureBuilder
     public function buildControllerClosure(ContainerInterface $container, Route $route, ErrorController $errorController)
     {
         $rawControllerClosure = $this->thingBeingDecorated->buildControllerClosure($container, $route, $errorController);
-        $closureWhichAlsoDoesTypeChecking = $this->decorateWithResponseTypeChecking($rawControllerClosure);
-        return $closureWhichAlsoDoesTypeChecking;
+        $closureWhichAlsoDoesErrorHandling = $this->decorateWithRequestCleaning($rawControllerClosure, $errorController);
+        return $closureWhichAlsoDoesErrorHandling;
     }
 
     /**
-     * @param callable $rawControllerClosure
+     * @param callable        $rawControllerClosure
+     * @param ErrorController $errorController
      * @return callable
      */
-    private function decorateWithResponseTypeChecking(callable $rawControllerClosure)
+    private function decorateWithRequestCleaning(callable $rawControllerClosure, ErrorController $errorController)
     {
-        $controllerClosureWithTypeChecking =
+        $controllerClosureWithRequestCleaning =
             function (ServerRequestInterface $request, ResponseInterface $response) use (
-                $rawControllerClosure
+                $rawControllerClosure, $errorController
             ) {
-
-                $response = $rawControllerClosure($request, $response);
-
-                if (!$response instanceof ResponseInterface) {
-                    throw new InvalidControllerException();
-                }
-
-                return $response;
+                $request = $request->withoutAttribute('route')->withoutAttribute('route-info');
+                return $rawControllerClosure($request, $response);
             };
 
-        return $controllerClosureWithTypeChecking;
+        return $controllerClosureWithRequestCleaning;
     }
 }
