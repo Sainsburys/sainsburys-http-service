@@ -73,18 +73,18 @@ class RoutingConfigApplier
     /**
      * @param SlimApplication $slimApplication
      * @param Route           $route
-     * @param callable        $controllerCallback
+     * @param callable        $controllerClosure
      */
     private function applyRouteToSlimApplication(
         SlimApplication $slimApplication,
         Route           $route,
-        callable        $controllerCallback
+        callable        $controllerClosure
     ) {
         $slimApplication
             ->map(
                 [$route->httpVerb()],
                 $route->pathExpression(),
-                $controllerCallback
+                $controllerClosure
             )
             ->setName($route->name())
         ;
