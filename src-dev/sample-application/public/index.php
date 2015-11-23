@@ -4,14 +4,13 @@ require_once __DIR__ . '/../../../vendor/autoload.php';
 
 use Pimple\Container;
 use Ents\HttpMvcService\Dev\MyDiConfig;
-use Ents\HttpMvcService\Framework\ApplicationBuilder;
+use Ents\HttpMvcService\Framework\Application;
 use Ents\HttpMvcService\Framework\DiContainer\PimpleContainerInteropAdapter;
 use Interop\Container\ContainerInterface;
 
 $containerWithControllers = getConfiguredContainer();
 
-$applicationBuilder = new ApplicationBuilder();
-$application = $applicationBuilder->buildApplication([__DIR__ . '/../config/routing.php'], $containerWithControllers);
+$application = Application::factory([__DIR__ . '/../config/routing.php'], $containerWithControllers);
 $application->run();
 
 /**

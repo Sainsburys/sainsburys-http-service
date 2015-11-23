@@ -4,7 +4,6 @@ namespace Ents\HttpMvcService\Di;
 use Ents\HttpMvcService\Framework\Controller\ControllerClosureBuilder\ErrorHandlingDecorator;
 use Ents\HttpMvcService\Framework\Controller\ControllerClosureBuilder\ResponseTypeDecorator;
 use Ents\HttpMvcService\Framework\Controller\ControllerClosureBuilder\SimpleControllerClosureBuilder;
-use Ents\HttpMvcService\Framework\Controller\ControllerClosureBuilderFactory;
 use Ents\HttpMvcService\Framework\Application;
 use Ents\HttpMvcService\Framework\ErrorHandling\DefaultErrorController;
 use Ents\HttpMvcService\Framework\Routing\RoutingConfigApplier;
@@ -13,7 +12,7 @@ use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 use Slim\App as SlimApplication;
 
-class ServiceProvider implements ServiceProviderInterface
+class FrameworkDiConfig implements ServiceProviderInterface
 {
     /**
      * @param Container $pimple

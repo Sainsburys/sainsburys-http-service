@@ -1,7 +1,7 @@
 <?php
 namespace Ents\HttpMvcService\Test;
 
-use Ents\HttpMvcService\Di\ServiceProvider;
+use Ents\HttpMvcService\Di\FrameworkDiConfig;
 use PHPUnit_Framework_TestCase as TestCase;
 use Pimple\Container;
 
@@ -10,7 +10,7 @@ class DiConfigTest extends TestCase
     public function testDiConfig()
     {
         // ARRANGE
-        $serviceProvider = new ServiceProvider();
+        $serviceProvider = new FrameworkDiConfig();
         $container = new Container();
         $serviceProvider->register($container);
 

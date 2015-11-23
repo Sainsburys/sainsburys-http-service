@@ -1,11 +1,13 @@
 <?php
 namespace Ents\HttpMvcService\Framework;
 
+use Ents\HttpMvcService\Di\FrameworkDiConfig;
 use Ents\HttpMvcService\Framework\ErrorHandling\ErrorController;
 use Ents\HttpMvcService\Framework\Routing\RoutingConfigApplier;
 use Interop\Container\ContainerInterface;
 use Slim\App as SlimApplication;
 use Ents\HttpMvcService\Framework\Routing\RoutingConfigReader;
+use Pimple\Container as PimpleContainer;
 
 class Application
 {
@@ -46,6 +48,24 @@ class Application
     }
 
     /**
+     * @param string[]           $routingConfigFiles
+     * @param ContainerInterface $container
+     * @return Application
+     */
+    public static function factory(array $routingConfigFiles, ContainerInterface $container)
+    {
+        $containerWithFramework = new PimpleContainer();
+        $containerWithFramework->register(new FrameworkDiConfig());
+
+        $application = $containerWithFramework['ents.http-mvc-service.application']; /** @var $application Application */
+
+        $application->takeContainerWithControllersConfigured($container);
+        $application->takeRoutingConfigs($routingConfigFiles);
+
+        return $application;
+    }
+
+    /**
      * @param ContainerInterface $container
      */
     public function takeContainerWithControllersConfigured(ContainerInterface $container)
@@ -54,12 +74,22 @@ class Application
     }
 
     /**
+     * @param string[] $paths
+     */
+    public function takeRoutingConfigs(array $paths)
+    {
+        foreach ($paths as $path) {
+            $this->takeRoutingConfig($path);
+        }
+    }
+
+    /**
      * @param string $path
      */
-    public function takeRoutingConfig($path)
+    private function takeRoutingConfig($path)
     {
         if (!$this->container) {
-            throw new \RuntimeException('Must call takeContainerWithControllersConfigured() before takeRoutingConfig()');
+            throw new \RuntimeException('Must call takeContainerWithControllersConfigured() before takeRoutingConfig().  Try using Application::factory() to create the Application');
         }
 
         $routes = $this->routingConfigReader->getRoutesFromFile($path);
@@ -90,7 +120,7 @@ class Application
     public function run()
     {
         if (!$this->haveSomeRoutesConfigured) {
-            throw new \RuntimeException('Must call takeRoutingConfig() before run()');
+            throw new \RuntimeException('Must call takeRoutingConfig() before run().  Try using Application::factory() to create the Application');
         }
 
         $this->slimApplication->getContainer()->get('settings')['determineRouteBeforeAppMiddleware'] = true;
