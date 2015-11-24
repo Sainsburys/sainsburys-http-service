@@ -31,7 +31,7 @@ configuration.  You should use a Container Interop dependency injection containe
 is provided (see [usage example](https://github.com/anobii/sainsburys-http-service/blob/master/src-dev/sample-application/public/index.php)).
 
 Try looking at the [example routing file](https://github.com/anobii/sainsburys-http-service/blob/master/src-dev/sample-application/config/routing.php)
-and [typical dependency injection configuration](https://github.com/anobii/sainsburys-http-service/blob/master/src-dev/sample-application/src/Sainsburys/HttpService/Dev/DiServiceProvider.php)
+and [typical dependency injection configuration](https://github.com/anobii/sainsburys-http-service/blob/master/src-dev/sample-application/src/Sainsburys/HttpService/Dev/MyDiConfig.php)
 for a clear example of this.
 
 **Controller Actions - acceptable return types**
