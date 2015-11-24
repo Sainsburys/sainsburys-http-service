@@ -3,10 +3,10 @@
 
 ![logo](http://www.sainsburys.co.uk/homepage/images/sainsburys.png)
 
-HTTP MVC Service framework
-==========================
+Sainsburys HTTP Service Framework
+=================================
 
-PHP Micro-framework for small REST or HTTP RPC services
+PHP Micro-framework for small REST or HTTP RPC services.  Built and open sourced by J Sainsbury plc.
 
 Basic Usage
 -----------
