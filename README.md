@@ -11,8 +11,8 @@ PHP Micro-framework for small REST or HTTP RPC services.  Built and open sourced
 Basic Usage
 -----------
 
-See the [sample application](https://github.com/anobii/sainsburys-http-service/tree/master/src-dev/sample-application) for an
-example of how to use it.  The sample application is used by the automated tests as well, so will be up-to-date.
+See the [sample application](https://github.com/anobii/sainsburys-http-service/tree/master/src-dev/sample-application)
+for an example of how to use it.  The sample application is used by the automated tests as well, so will be up-to-date.
 
 Core Concept
 ------------
@@ -38,6 +38,12 @@ for a clear example of this.
 
 Controller actions must return a PSR-7 HTTP Response object.  If you can't decide what PSR-7 implementation to use, the
 Zend Diactoros ```JsonResponse``` class would be a reasonable choice.  Any PSR-7 implementation should work.
+
+**Middlewares**
+
+To use middlewares in the framework, call ```Sainsburys\HttpService\Framework\Application::middlewareManager()```.  You
+can add your own implementations of the ```BeforeMiddleware``` and ```AfterMiddleware``` interfaces to a list.  They
+will run accordingly.
 
 **Exception Handling**
 
