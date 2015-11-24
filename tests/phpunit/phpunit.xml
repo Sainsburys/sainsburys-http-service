@@ -3,7 +3,7 @@
 
     <testsuites>
         <testsuite name="All">
-            <directory>Ents</directory>
+            <directory>Sainsburys</directory>
         </testsuite>
     </testsuites>
 

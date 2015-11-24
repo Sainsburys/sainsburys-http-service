@@ -8,4 +8,4 @@ default:
         webserver:
             paths:    [ %paths.base%/feature_files/ ]
             filters:  { tags: ~wip }
-            contexts: [ \Ents\HttpMvcService\Test\Webserver\WebserverContext ]
+            contexts: [ \Sainsburys\HttpService\Test\Webserver\WebserverContext ]

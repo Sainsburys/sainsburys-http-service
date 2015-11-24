@@ -1,15 +1,9 @@
 suites:
 
     src:
-        namespace:   Ents\HttpMvcService
-        spec_prefix: EntsSpec
+        namespace:   Sainsburys\HttpService
+        spec_prefix: SainsburysSpec
         src_path:    src/
-        spec_path:   tests/phpspec/
-
-    srcdev:
-        namespace:   Ents\HttpMvcService\Dev
-        spec_prefix: EntsSpec
-        src_path:    src-dev/
         spec_path:   tests/phpspec/
 
 bootstrap:

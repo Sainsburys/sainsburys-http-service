@@ -27,14 +27,14 @@
 
     "autoload": {
         "psr-0": {
-            "Ents\\HttpMvcService\\": "src/"
+            "Sainsburys\\HttpService\\": "src/"
         }
     },
 
     "autoload-dev": {
         "psr-0": {
-            "Ents\\HttpMvcService\\Dev\\":  "src-dev/sample-application/src/",
-            "Ents\\HttpMvcService\\Test\\": "tests/behat/context_files/"
+            "Sainsburys\\HttpService\\Dev\\":  "src-dev/sample-application/src/",
+            "Sainsburys\\HttpService\\Test\\": "tests/behat/context_files/"
         }
     }
 }
