@@ -31,7 +31,7 @@ configuration.  You should use a Container Interop dependency injection containe
 is provided (see [usage example](https://github.com/anobii/sainsburys-http-service/blob/master/src-dev/sample-application/public/index.php)).
 
 Try looking at the [example routing file](https://github.com/anobii/sainsburys-http-service/blob/master/src-dev/sample-application/config/routing.php)
-and [typical dependency injection configuration](https://github.com/anobii/sainsburys-http-service/blob/master/src-dev/sample-application/src/Ents/HttpMvcService/Dev/DiServiceProvider.php)
+and [typical dependency injection configuration](https://github.com/anobii/sainsburys-http-service/blob/master/src-dev/sample-application/src/Sainsburys/HttpService/Dev/DiServiceProvider.php)
 for a clear example of this.
 
 **Controller Actions - acceptable return types**
@@ -43,10 +43,10 @@ Zend Diactoros ```JsonResponse``` class would be a reasonable choice.  Any PSR-7
 
 Throwing an uncaught exception from a controller will cause a response with the exception details encoded in JSON.  The
 status code will usually be 500.  If the exception implements
-```Ents\HttpMvcService\Framework\Exception\ExceptionWithHttpStatus```, the status code on the exception will be used.
+```Sainsburys\HttpService\Framework\Exception\ExceptionWithHttpStatus```, the status code on the exception will be used.
 
 If you wish to implement your own error handler, for example if you don't want stack traces being visible in the
-response in production, call ```Ents\HttpMvcService\Framework\Application::setErrorHandler()'``` in your ```index.php```
+response in production, call ```Sainsburys\HttpService\Framework\Application::setErrorHandler()'``` in your ```index.php```
 file, and give it a different error controller it can use.
 
 Installation
@@ -56,7 +56,7 @@ Use Composer.
 
 ```json
 "require": {
-    "ents/sainsburys-http-service": "*"
+    "sainsburys/sainsburys-http-service": "*"
 }
 ```
 
