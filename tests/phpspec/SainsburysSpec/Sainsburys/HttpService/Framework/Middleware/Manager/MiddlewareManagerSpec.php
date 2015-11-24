@@ -3,10 +3,11 @@ namespace SainsburysSpec\Sainsburys\HttpService\Framework\Middleware\Manager;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use Sainsburys\HttpService\Framework\Middleware\BeforeMiddleware;
 use Sainsburys\HttpService\Framework\Middleware\AfterMiddleware;
+use Sainsburys\HttpService\Framework\Middleware\RequestAndResponse;
 
 class MiddlewareManagerSpec extends ObjectBehavior
 {
@@ -16,87 +17,98 @@ class MiddlewareManagerSpec extends ObjectBehavior
     }
 
     function it_can_apply_before_middlewares(
-        RequestInterface  $originalRequest,
-        ResponseInterface $originalResponse,
-        BeforeMiddleware  $beforeMiddleware,
-        ResponseInterface $finalRequest,
-        ResponseInterface $finalResponse
+        RequestAndResponse $originalRequestAndResponse,
+        BeforeMiddleware   $beforeMiddleware,
+        RequestAndResponse $finalRequestAndResponse
     ) {
         // ARRANGE
-
         $beforeMiddleware
-            ->apply($originalRequest, $originalResponse)
-            ->willReturn([$finalRequest, $finalResponse]);
+            ->apply($originalRequestAndResponse)
+            ->willReturn($finalRequestAndResponse);
 
         $this->clearBeforeMiddlewareList();
         $this->addToStartOfBeforeMiddlewareList($beforeMiddleware);
 
         // ACT
-        $result = $this->applyBeforeMiddlewares($originalRequest, $originalResponse);
+        $result = $this->applyBeforeMiddlewares($originalRequestAndResponse);
 
         // ASSERT
-        $result->shouldBe([$finalRequest, $finalResponse]);
+        $result->shouldBe($finalRequestAndResponse);
     }
 
     function it_can_apply_multiple_before_middlewares_in_the_right_order(
-        RequestInterface  $originalRequest,
-        ResponseInterface $originalResponse,
-        BeforeMiddleware  $beforeMiddleware1,
-        RequestInterface  $requestAfterMiddleware1,
-        ResponseInterface $responseAfterMiddleware1,
-        BeforeMiddleware  $beforeMiddleware2,
-        ResponseInterface $finalRequest,
-        ResponseInterface $finalResponse
+        RequestAndResponse $originalRequestAndResponse,
+        BeforeMiddleware   $beforeMiddleware1,
+        RequestAndResponse $requestAndResponseAfterMiddleware1,
+        BeforeMiddleware   $beforeMiddleware2,
+        RequestAndResponse $finalRequestAndResponse
     ) {
         // ARRANGE
 
         $beforeMiddleware1
-            ->apply($originalRequest, $originalResponse)
-            ->willReturn([$requestAfterMiddleware1, $responseAfterMiddleware1]);
+            ->apply($originalRequestAndResponse)
+            ->willReturn($requestAndResponseAfterMiddleware1);
 
         $beforeMiddleware2
-            ->apply($requestAfterMiddleware1, $responseAfterMiddleware1)
-            ->willReturn([$finalRequest, $finalResponse]);
+            ->apply($requestAndResponseAfterMiddleware1)
+            ->willReturn($finalRequestAndResponse);
 
         $this->clearBeforeMiddlewareList();
         $this->addToStartOfBeforeMiddlewareList($beforeMiddleware1);
         $this->addToEndOfBeforeMiddlewareList($beforeMiddleware2);
 
         // ACT
-        $result = $this->applyBeforeMiddlewares($originalRequest, $originalResponse);
+        $result = $this->applyBeforeMiddlewares($originalRequestAndResponse);
 
         // ASSERT
-        $result->shouldBe([$finalRequest, $finalResponse]);
+        $result->shouldBe($finalRequestAndResponse);
     }
 
     function it_can_apply_multiple_after_middlewares_in_the_right_order(
-        RequestInterface  $originalRequest,
-        ResponseInterface $originalResponse,
-        AfterMiddleware   $afterMiddleware1,
-        RequestInterface  $requestAfterMiddleware1,
-        ResponseInterface $responseAfterMiddleware1,
-        AfterMiddleware   $afterMiddleware2,
-        ResponseInterface $finalRequest,
-        ResponseInterface $finalResponse
+        RequestAndResponse $originalRequestAndResponse,
+        AfterMiddleware    $middleware1,
+        RequestAndResponse $requestAndResponseAfterMiddleware1,
+        AfterMiddleware    $middleware2,
+        RequestAndResponse $finalRequestAndResponse
     ) {
         // ARRANGE
 
-        $afterMiddleware1
-            ->apply($originalRequest, $originalResponse)
-            ->willReturn([$requestAfterMiddleware1, $responseAfterMiddleware1]);
+        $middleware1
+            ->apply($originalRequestAndResponse)
+            ->willReturn($requestAndResponseAfterMiddleware1);
 
-        $afterMiddleware2
-            ->apply($requestAfterMiddleware1, $responseAfterMiddleware1)
-            ->willReturn([$finalRequest, $finalResponse]);
+        $middleware2
+            ->apply($requestAndResponseAfterMiddleware1)
+            ->willReturn($finalRequestAndResponse);
 
         $this->clearAfterMiddlewareList();
-        $this->addToStartOfAfterMiddlewareList($afterMiddleware1);
-        $this->addToEndOfAfterMiddlewareList($afterMiddleware2);
+        $this->addToEndOfAfterMiddlewareList($middleware1);
+        $this->addToEndOfAfterMiddlewareList($middleware2);
 
         // ACT
-        $result = $this->applyAfterMiddlewares($originalRequest, $originalResponse);
+        $result = $this->applyAfterMiddlewares($originalRequestAndResponse);
 
         // ASSERT
-        $result->shouldBe([$finalRequest, $finalResponse]);
+        $result->shouldBe($finalRequestAndResponse);
+    }
+
+    function it_can_validate_middleware_responses(
+        RequestAndResponse $originalRequestAndResponse,
+        \stdClass          $resultOfMiddleware,
+        BeforeMiddleware   $beforeMiddleware
+    ) {
+        $beforeMiddleware
+            ->getName()
+            ->willReturn('middleware-name');
+
+        $beforeMiddleware
+            ->apply($originalRequestAndResponse)
+            ->willReturn([]);
+
+        $this->addToStartOfBeforeMiddlewareList($beforeMiddleware);
+
+        $this
+            ->shouldThrow('Sainsburys\HttpService\Framework\Middleware\Exception\MiddlewareReturnTypeException')
+            ->during('applyBeforeMiddlewares', [$originalRequestAndResponse]);
     }
 }

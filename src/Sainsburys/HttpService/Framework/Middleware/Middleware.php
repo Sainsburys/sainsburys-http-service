@@ -1,10 +1,6 @@
 <?php
 namespace Sainsburys\HttpService\Framework\Middleware;
 
-use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\MessageInterface;
-
 interface Middleware
 {
     /**
@@ -13,10 +9,8 @@ interface Middleware
     public function getName();
 
     /**
-     * @param RequestInterface  $request
-     * @param ResponseInterface $response
-     *
-     * @return MessageInterface[]  [0 => RequestInterface, 1 => ResponseInterface]
+     * @param RequestAndResponse $originalRequestAndResponse
+     * @return RequestAndResponse
      */
-    public function apply(RequestInterface $request, ResponseInterface $response);
+    public function apply(RequestAndResponse $originalRequestAndResponse);
 }

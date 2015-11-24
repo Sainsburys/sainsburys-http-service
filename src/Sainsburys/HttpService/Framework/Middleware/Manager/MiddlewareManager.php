@@ -1,12 +1,12 @@
 <?php
 namespace Sainsburys\HttpService\Framework\Middleware\Manager;
 
-use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\ResponseInterface;
 use Sainsburys\HttpService\Framework\Middleware\BeforeMiddleware;
 use Sainsburys\HttpService\Framework\Middleware\AfterMiddleware;
+use Sainsburys\HttpService\Framework\Middleware\Exception\MiddlewareReturnTypeException;
 use Sainsburys\HttpService\Framework\Middleware\Middleware;
 use Psr\Http\Message\MessageInterface;
+use Sainsburys\HttpService\Framework\Middleware\RequestAndResponse;
 
 class MiddlewareManager
 {
@@ -59,47 +59,49 @@ class MiddlewareManager
     }
 
     /**
-     * @param RequestInterface  $request
-     * @param ResponseInterface $response
+     * @param RequestAndResponse $requestAndResponse
      * @return MessageInterface[]
      */
-    public function applyBeforeMiddlewares(RequestInterface $request, ResponseInterface $response)
+    public function applyBeforeMiddlewares(RequestAndResponse $requestAndResponse)
     {
-        return $this->applyMiddlewareList($this->beforeMiddlewareList, $request, $response);
+        return $this->applyMiddlewareList($this->beforeMiddlewareList, $requestAndResponse);
     }
 
     /**
-     * @param RequestInterface $request
-     * @param ResponseInterface $response
+     * @param RequestAndResponse $requestAndResponse
      * @return MessageInterface[]
      */
-    public function applyAfterMiddlewares(RequestInterface $request, ResponseInterface $response)
+    public function applyAfterMiddlewares(RequestAndResponse $requestAndResponse)
     {
-        return $this->applyMiddlewareList($this->afterMiddlewareList, $request, $response);
+        return $this->applyMiddlewareList($this->afterMiddlewareList, $requestAndResponse);
     }
 
     /**
-     * @param Middleware[]      $middlewares
-     * @param RequestInterface  $request
-     * @param ResponseInterface $response
-     * @return MessageInterface[]
+     * @param Middleware[]       $middlewares
+     * @param RequestAndResponse $requestAndResponse
+     * @return RequestAndResponse
      */
-    private function applyMiddlewareList(array $middlewares, RequestInterface $request, ResponseInterface $response)
+    private function applyMiddlewareList(array $middlewares, RequestAndResponse $requestAndResponse)
     {
         foreach ($middlewares as $middleware) {
-            list($request, $response) = $this->applyMiddleware($middleware, $request, $response);
+            $requestAndResponse = $this->applyMiddleware($middleware, $requestAndResponse);
         }
-        return [$request, $response];
+        return $requestAndResponse;
     }
 
     /**
-     * @param Middleware        $middleware
-     * @param RequestInterface  $request
-     * @param ResponseInterface $response
-     * @return MessageInterface[]
+     * @param Middleware         $middleware
+     * @param RequestAndResponse $requestAndResponse
+     * @return RequestAndResponse
      */
-    private function applyMiddleware(Middleware $middleware, RequestInterface $request, ResponseInterface $response)
+    private function applyMiddleware(Middleware $middleware, RequestAndResponse $requestAndResponse)
     {
-        return $middleware->apply($request, $response);
+        $result = $middleware->apply($requestAndResponse);
+
+        if (! $result instanceof RequestAndResponse) {
+            throw MiddlewareReturnTypeException::constructFromMiddleware($middleware);
+        }
+
+        return $result;
     }
 }
