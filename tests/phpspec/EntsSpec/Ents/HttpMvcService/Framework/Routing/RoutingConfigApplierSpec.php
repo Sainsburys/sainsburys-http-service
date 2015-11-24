@@ -63,8 +63,7 @@ class RoutingConfigApplierSpec extends ObjectBehavior
         SlimApplication          $slimApplication,
         Route                    $route,
         ContainerInterface       $container,
-        ErrorController          $errorController,
-        SlimRoute                $slimRoute
+        ErrorController          $errorController
     ) {
         // ARRANGE
 
@@ -74,9 +73,7 @@ class RoutingConfigApplierSpec extends ObjectBehavior
 
         // Route has stuff on it
         $route->controllerServiceId()->willReturn('controller-service-id');
-        $route->httpVerb()->willReturn('GET');
         $route->name()->willReturn('route-name');
-        $route->pathExpression()->willReturn('/path/');
 
         // Controller is not in container
         $container->has('controller-service-id')->willReturn(false);
