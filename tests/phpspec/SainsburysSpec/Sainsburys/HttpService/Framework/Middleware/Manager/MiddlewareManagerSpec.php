@@ -3,8 +3,6 @@ namespace SainsburysSpec\Sainsburys\HttpService\Framework\Middleware\Manager;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
 use Sainsburys\HttpService\Framework\Middleware\BeforeMiddleware;
 use Sainsburys\HttpService\Framework\Middleware\AfterMiddleware;
 use Sainsburys\HttpService\Framework\Middleware\RequestAndResponse;
@@ -103,7 +101,7 @@ class MiddlewareManagerSpec extends ObjectBehavior
 
         $beforeMiddleware
             ->apply($originalRequestAndResponse)
-            ->willReturn([]);
+            ->willReturn($resultOfMiddleware);
 
         $this->addToStartOfBeforeMiddlewareList($beforeMiddleware);
 
