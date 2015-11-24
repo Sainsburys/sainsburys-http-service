@@ -1,6 +1,7 @@
 <?php
 namespace Sainsburys\HttpService\Test\Webserver;
 
+use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
 use GuzzleHttp\Client as GuzzleClient;
@@ -52,23 +53,22 @@ class WebserverContext implements Context, SnippetAcceptingContext
     /**
      * @Given my API is coded to return a the response :response for route :route
      */
-    public function myApiIsCodedToReturnAResponseForUrl($response, $route)
-    {
-    }
+    public function myApiIsCodedToReturnAResponseForUrl($response, $route) {}
 
     /**
      * @Given my API is coded to throw an exception with an HTTP status code on it
      */
-    public function myApiIsCodedToThrowAnExceptionWithAnHttpStatusCodeOnIt()
-    {
-    }
+    public function myApiIsCodedToThrowAnExceptionWithAnHttpStatusCodeOnIt() {}
 
     /**
      * @Given my API is coded to throw a generic, uncaught exception in the controller
      */
-    public function myApiIsCodedToThrowAGenericUncaughtExceptionInTheController()
-    {
-    }
+    public function myApiIsCodedToThrowAGenericUncaughtExceptionInTheController() {}
+
+    /**
+     * @Given my API is coded put the correct Content-Type with a middleware
+     */
+    public function myApiIsCodedPutTheCorrectContentTypeWithAMiddleware() {}
 
     /**
      * @Then the response body should contain :partialResponseBody
@@ -79,5 +79,18 @@ class WebserverContext implements Context, SnippetAcceptingContext
             $partialResponseBody,
             $this->responseReceived->getBody()->getContents()
         );
+    }
+
+    /**
+     * @When the response headers should contain :expectedHeader
+     */
+    public function theResponseHeadersShouldContain($expectedHeader)
+    {
+        list($headerTitle, $expectedHeaderValue) = explode(':', $expectedHeader);
+        $expectedHeaderValue = trim($expectedHeaderValue);
+
+        $headerValuesReceived = $this->responseReceived->getHeader($headerTitle);
+
+        \PHPUnit_Framework_Assert::assertEquals($expectedHeaderValue, $headerValuesReceived[0]);
     }
 }

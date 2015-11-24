@@ -7,6 +7,12 @@ return [
             'controller-service-id' => 'ents.http-mvc-service.dev.sample-controller',
             'action-method-name'    => 'simpleAction',
         ],
+        'route-which-just-returns-response' => [
+            'http-verb'             => 'GET',
+            'path'                  => '/empty/response',
+            'controller-service-id' => 'ents.http-mvc-service.dev.sample-controller',
+            'action-method-name'    => 'emptyAction',
+        ],
         'route-with-generic-error' => [
             'http-verb'             => 'GET',
             'path'                  => '/error/generic-exception',

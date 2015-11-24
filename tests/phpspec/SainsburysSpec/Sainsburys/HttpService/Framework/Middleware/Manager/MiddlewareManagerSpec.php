@@ -3,6 +3,7 @@ namespace SainsburysSpec\Sainsburys\HttpService\Framework\Middleware\Manager;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
+use Psr\Http\Message\ResponseInterface;
 use Sainsburys\HttpService\Framework\Middleware\BeforeMiddleware;
 use Sainsburys\HttpService\Framework\Middleware\AfterMiddleware;
 use Sainsburys\HttpService\Framework\Middleware\RequestAndResponse;
@@ -63,31 +64,31 @@ class MiddlewareManagerSpec extends ObjectBehavior
     }
 
     function it_can_apply_multiple_after_middlewares_in_the_right_order(
-        RequestAndResponse $originalRequestAndResponse,
-        AfterMiddleware    $middleware1,
-        RequestAndResponse $requestAndResponseAfterMiddleware1,
-        AfterMiddleware    $middleware2,
-        RequestAndResponse $finalRequestAndResponse
+        ResponseInterface $originalResponse,
+        AfterMiddleware   $middleware1,
+        ResponseInterface $responseAfterMiddleware1,
+        AfterMiddleware   $middleware2,
+        ResponseInterface $finalResponse
     ) {
         // ARRANGE
 
         $middleware1
-            ->apply($originalRequestAndResponse)
-            ->willReturn($requestAndResponseAfterMiddleware1);
+            ->apply($originalResponse)
+            ->willReturn($responseAfterMiddleware1);
 
         $middleware2
-            ->apply($requestAndResponseAfterMiddleware1)
-            ->willReturn($finalRequestAndResponse);
+            ->apply($responseAfterMiddleware1)
+            ->willReturn($finalResponse);
 
         $this->clearAfterMiddlewareList();
         $this->addToEndOfAfterMiddlewareList($middleware1);
         $this->addToEndOfAfterMiddlewareList($middleware2);
 
         // ACT
-        $result = $this->applyAfterMiddlewares($originalRequestAndResponse);
+        $result = $this->applyAfterMiddlewares($originalResponse);
 
         // ASSERT
-        $result->shouldBe($finalRequestAndResponse);
+        $result->shouldBe($finalResponse);
     }
 
     function it_can_validate_middleware_responses(
@@ -101,7 +102,7 @@ class MiddlewareManagerSpec extends ObjectBehavior
         $this->addToStartOfBeforeMiddlewareList($beforeMiddleware);
 
         $this
-            ->shouldThrow('Sainsburys\HttpService\Framework\Middleware\Exception\MiddlewareReturnTypeException')
+            ->shouldThrow('Sainsburys\HttpService\Framework\Middleware\Exception\BeforeMiddlewareReturnTypeException')
             ->during('applyBeforeMiddlewares', [$originalRequestAndResponse]);
     }
 }

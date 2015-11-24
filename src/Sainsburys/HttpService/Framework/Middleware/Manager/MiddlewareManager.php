@@ -1,11 +1,11 @@
 <?php
 namespace Sainsburys\HttpService\Framework\Middleware\Manager;
 
+use Psr\Http\Message\ResponseInterface;
 use Sainsburys\HttpService\Framework\Middleware\BeforeMiddleware;
 use Sainsburys\HttpService\Framework\Middleware\AfterMiddleware;
-use Sainsburys\HttpService\Framework\Middleware\Exception\MiddlewareReturnTypeException;
-use Sainsburys\HttpService\Framework\Middleware\Middleware;
-use Psr\Http\Message\MessageInterface;
+use Sainsburys\HttpService\Framework\Middleware\Exception\AfterMiddlewareReturnTypeException;
+use Sainsburys\HttpService\Framework\Middleware\Exception\BeforeMiddlewareReturnTypeException;
 use Sainsburys\HttpService\Framework\Middleware\RequestAndResponse;
 
 class MiddlewareManager
@@ -64,44 +64,46 @@ class MiddlewareManager
      */
     public function applyBeforeMiddlewares(RequestAndResponse $requestAndResponse)
     {
-        return $this->applyMiddlewareList($this->beforeMiddlewareList, $requestAndResponse);
-    }
-
-    /**
-     * @param RequestAndResponse $requestAndResponse
-     * @return MessageInterface[]
-     */
-    public function applyAfterMiddlewares(RequestAndResponse $requestAndResponse)
-    {
-        return $this->applyMiddlewareList($this->afterMiddlewareList, $requestAndResponse);
-    }
-
-    /**
-     * @param Middleware[]       $middlewares
-     * @param RequestAndResponse $requestAndResponse
-     * @return RequestAndResponse
-     */
-    private function applyMiddlewareList(array $middlewares, RequestAndResponse $requestAndResponse)
-    {
-        foreach ($middlewares as $middleware) {
-            $requestAndResponse = $this->applyMiddleware($middleware, $requestAndResponse);
+        foreach ($this->beforeMiddlewareList as $beforeMiddleware) {
+            $requestAndResponse = $beforeMiddleware->apply($requestAndResponse);
+            $this->validateBeforeMiddlewareReturnType($beforeMiddleware, $requestAndResponse);
         }
+
         return $requestAndResponse;
     }
 
     /**
-     * @param Middleware         $middleware
-     * @param RequestAndResponse $requestAndResponse
-     * @return RequestAndResponse
+     * @param ResponseInterface $response
+     * @return ResponseInterface
      */
-    private function applyMiddleware(Middleware $middleware, RequestAndResponse $requestAndResponse)
+    public function applyAfterMiddlewares(ResponseInterface $response)
     {
-        $result = $middleware->apply($requestAndResponse);
-
-        if (! $result instanceof RequestAndResponse) {
-            throw MiddlewareReturnTypeException::constructFromMiddleware($middleware);
+        foreach ($this->afterMiddlewareList as $afterMiddleware) {
+            $response = $afterMiddleware->apply($response);
+            $this->validateAfterMiddlewareReturnType($afterMiddleware, $response);
         }
+        return $response;
+    }
 
-        return $result;
+    /**
+     * @param BeforeMiddleware $middleware
+     * @param mixed            $thingToValidate
+     */
+    private function validateBeforeMiddlewareReturnType(BeforeMiddleware $middleware, $thingToValidate)
+    {
+        if (! $thingToValidate instanceof RequestAndResponse) {
+            throw BeforeMiddlewareReturnTypeException::constructFromMiddleware($middleware);
+        }
+    }
+
+    /**
+     * @param AfterMiddleware $middleware
+     * @param mixed           $thingToValidate
+     */
+    private function validateAfterMiddlewareReturnType(AfterMiddleware $middleware, $thingToValidate)
+    {
+        if (! $thingToValidate instanceof ResponseInterface) {
+            throw AfterMiddlewareReturnTypeException::constructFromMiddleware($middleware);
+        }
     }
 }

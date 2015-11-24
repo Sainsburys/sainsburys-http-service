@@ -26,4 +26,15 @@ class SimpleController
             Http::OK
         );
     }
+
+    /**
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface      $response
+     *
+     * @return ResponseInterface
+     */
+    public function emptyAction(ServerRequestInterface $request, ResponseInterface $response)
+    {
+        return $response;
+    }
 }

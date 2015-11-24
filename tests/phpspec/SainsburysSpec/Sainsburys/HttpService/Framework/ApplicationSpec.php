@@ -1,6 +1,7 @@
 <?php
 namespace SainsburysSpec\Sainsburys\HttpService\Framework;
 
+use Sainsburys\HttpService\Framework\Middleware\Manager\MiddlewareManager;
 use Sainsburys\HttpService\Framework\Routing\Route;
 use Interop\Container\ContainerInterface;
 use PhpSpec\ObjectBehavior;
@@ -16,9 +17,10 @@ class ApplicationSpec extends ObjectBehavior
         SlimApplication      $slimApplication,
         RoutingConfigReader  $routingConfigReader,
         RoutingConfigApplier $routingConfigApplier,
-        ErrorController      $errorController
+        ErrorController      $errorController,
+        MiddlewareManager    $middlewareManager
     ) {
-        $this->beConstructedWith($slimApplication, $routingConfigReader, $routingConfigApplier, $errorController);
+        $this->beConstructedWith($slimApplication, $routingConfigReader, $routingConfigApplier, $errorController, $middlewareManager);
     }
 
     function it_is_initializable()

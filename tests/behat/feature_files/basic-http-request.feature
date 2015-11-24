@@ -20,3 +20,8 @@ Feature: Setting up routing
         When I send a GET request to '/error/exception-with-status-code'
         Then I should get status code '401'
         And the response body should contain 'Access to resource is not authorised.'
+
+    Scenario: Using middlewares to get the right Content-Type header
+        Given my API is coded put the correct Content-Type with a middleware
+        When I send a GET request to '/empty/response'
+        And the response headers should contain 'Content-Type: application/json'
