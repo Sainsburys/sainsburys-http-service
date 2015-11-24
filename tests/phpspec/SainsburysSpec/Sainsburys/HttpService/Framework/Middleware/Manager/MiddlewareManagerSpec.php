@@ -95,13 +95,8 @@ class MiddlewareManagerSpec extends ObjectBehavior
         \stdClass          $resultOfMiddleware,
         BeforeMiddleware   $beforeMiddleware
     ) {
-        $beforeMiddleware
-            ->getName()
-            ->willReturn('middleware-name');
-
-        $beforeMiddleware
-            ->apply($originalRequestAndResponse)
-            ->willReturn($resultOfMiddleware);
+        $beforeMiddleware->getName()->willReturn('middleware-name');
+        $beforeMiddleware->apply($originalRequestAndResponse)->willReturn($resultOfMiddleware);
 
         $this->addToStartOfBeforeMiddlewareList($beforeMiddleware);
 
