@@ -1,5 +1,5 @@
-[![Circle CI](https://circleci.com/gh/anobii/http-mvc-service.svg?style=svg&circle-token=4f6110679c820d7a52903bb0cd6a7d552363cc48)](https://circleci.com/gh/anobii/http-mvc-service)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/anobii/http-mvc-service/badges/quality-score.png?b=master&s=b3463fab98afd125b9c7488d5a9268878afbed9c)](https://scrutinizer-ci.com/g/anobii/http-mvc-service/?branch=master)
+[![Circle CI](https://circleci.com/gh/anobii/sainsburys-http-service.svg?style=svg&circle-token=4f6110679c820d7a52903bb0cd6a7d552363cc48)](https://circleci.com/gh/anobii/sainsburys-http-service)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/anobii/sainsburys-http-service/badges/quality-score.png?b=master&s=ad6f751b0f40e1246e30ac7b185b4a3b35c5fcc3)](https://scrutinizer-ci.com/g/anobii/sainsburys-http-service/?branch=master)
 
 ![logo](http://www.sainsburys.co.uk/homepage/images/sainsburys.png)
 
