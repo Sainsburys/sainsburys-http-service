@@ -52,8 +52,8 @@ status code will usually be 500.  If the exception implements
 ```Sainsburys\HttpService\Framework\Exception\ExceptionWithHttpStatus```, the status code on the exception will be used.
 
 If you wish to implement your own error handler, for example if you don't want stack traces being visible in the
-response in production, call ```Sainsburys\HttpService\Framework\Application::setErrorHandler()'``` in your ```index.php```
-file, and give it a different error controller it can use.
+response in production, call ```Sainsburys\HttpService\Framework\Application::setErrorHandler()'``` in your
+```index.php``` file, and give it a different error controller it can use.
 
 Installation
 ------------
