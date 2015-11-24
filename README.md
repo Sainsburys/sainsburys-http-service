@@ -1,7 +1,7 @@
 [![Circle CI](https://circleci.com/gh/anobii/sainsburys-http-service.svg?style=svg&circle-token=4f6110679c820d7a52903bb0cd6a7d552363cc48)](https://circleci.com/gh/anobii/sainsburys-http-service)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/anobii/sainsburys-http-service/badges/quality-score.png?b=master&s=ad6f751b0f40e1246e30ac7b185b4a3b35c5fcc3)](https://scrutinizer-ci.com/g/anobii/sainsburys-http-service/?branch=master)
 
-![logo](http://www.sainsburys.co.uk/homepage/images/sainsburys.png)
+![logo](http://www.sainsburys.co.uk/homepage/images/sainsburys.png)h
 
 Sainsburys HTTP Service Framework
 =================================
@@ -11,7 +11,7 @@ PHP Micro-framework for small REST or HTTP RPC services.  Built and open sourced
 Basic Usage
 -----------
 
-See the [sample application](https://github.com/anobii/http-mvc-service/tree/master/src-dev/sample-application) for an
+See the [sample application](https://github.com/anobii/sainsburys-http-service/tree/master/src-dev/sample-application) for an
 example of how to use it.  The sample application is used by the automated tests as well, so will be up-to-date.
 
 Core Concept
@@ -28,10 +28,10 @@ dependency injection - service location won't work here.
 
 Your routing config will map a path to the service ID of the controller, as defined in your dependency injection
 configuration.  You should use a Container Interop dependency injection container - a standards-compliant Pimple wrapper
-is provided (see [usage example](https://github.com/anobii/http-mvc-service/blob/master/src-dev/sample-application/public/index.php)).
+is provided (see [usage example](https://github.com/anobii/sainsburys-http-service/blob/master/src-dev/sample-application/public/index.php)).
 
-Try looking at the [example routing file](https://github.com/anobii/http-mvc-service/blob/master/src-dev/sample-application/config/routing.php)
-and [typical dependency injection configuration](https://github.com/anobii/http-mvc-service/blob/master/src-dev/sample-application/src/Ents/HttpMvcService/Dev/DiServiceProvider.php)
+Try looking at the [example routing file](https://github.com/anobii/sainsburys-http-service/blob/master/src-dev/sample-application/config/routing.php)
+and [typical dependency injection configuration](https://github.com/anobii/sainsburys-http-service/blob/master/src-dev/sample-application/src/Ents/HttpMvcService/Dev/DiServiceProvider.php)
 for a clear example of this.
 
 **Controller Actions - acceptable return types**
@@ -56,7 +56,7 @@ Use Composer.
 
 ```json
 "require": {
-    "ents/http-mvc-service": "*"
+    "ents/sainsburys-http-service": "*"
 }
 ```
 
@@ -64,6 +64,6 @@ Testing
 -------
 
 Check the project out, run Composer, and type ```./bin/test``` to run all the tests.  Read
-[that shell script](https://github.com/anobii/http-mvc-service/blob/master/bin/test) for specific test commands.
+[that shell script](https://github.com/anobii/sainsburys-http-service/blob/master/bin/test) for specific test commands.
 PHPunit is used to test Dependency Injection configuration for the framework.  PHPSpec is used for unit testing, and
 Behat is used to test an example application using the framework, in conjunction with a webserver.
