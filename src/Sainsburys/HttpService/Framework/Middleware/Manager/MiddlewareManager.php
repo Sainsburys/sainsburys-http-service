@@ -60,7 +60,7 @@ class MiddlewareManager
 
     /**
      * @param RequestAndResponse $requestAndResponse
-     * @return MessageInterface[]
+     * @return RequestAndResponse
      */
     public function applyBeforeMiddlewares(RequestAndResponse $requestAndResponse)
     {
