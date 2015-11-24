@@ -14,9 +14,14 @@ class FrameworkDiConfigSpec extends ObjectBehavior
 
     function it_can_configure_a_container()
     {
+        // ARRANGE
         $container = new Container();
         $this->register($container);
 
-        $container['ents.http-mvc-service.application'];
+        // ACT
+        $application = $container['ents.http-mvc-service.application'];
+
+        // ASSERT
+        \PHPUnit_Framework_Assert::assertInstanceOf('\Ents\HttpMvcService\Framework\Application', $application);
     }
 }
