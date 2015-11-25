@@ -81,6 +81,11 @@ class ApplicationSpec extends ObjectBehavior
         $errorControllerManager->useThisErrorController($newErrorController)->shouldHaveBeenCalled();
     }
 
+    function it_can_return_the_middleware_manager(MiddlewareManager $middlewareManager)
+    {
+        $this->middlewareManager()->shouldBe($middlewareManager);
+    }
+
     function it_cant_run_without_routes()
     {
         $this->shouldThrow('\RuntimeException')->during('run');
