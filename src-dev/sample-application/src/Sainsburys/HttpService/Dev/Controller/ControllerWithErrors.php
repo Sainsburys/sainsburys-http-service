@@ -1,7 +1,7 @@
 <?php
 namespace Sainsburys\HttpService\Dev\Controller;
 
-use Sainsburys\HttpService\Framework\Exception\WithStatusCode\NotAuthorisedException;
+use Sainsburys\HttpService\Components\HttpExceptions\WithStatusCode\NotAuthorisedException;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 

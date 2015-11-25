@@ -41,7 +41,7 @@ Zend Diactoros ```JsonResponse``` class would be a reasonable choice.  Any PSR-7
 
 **Middlewares**
 
-To use middlewares in the framework, call ```Sainsburys\HttpService\Framework\Application::middlewareManager()```.  You
+To use middlewares in the framework, call ```Sainsburys\HttpService\Application::middlewareManager()```.  You
 can add your own implementations of the ```BeforeMiddleware``` and ```AfterMiddleware``` interfaces to a list.  They
 will run accordingly.
 
@@ -49,10 +49,10 @@ will run accordingly.
 
 Throwing an uncaught exception from a controller will cause a response with the exception details encoded in JSON.  The
 status code will usually be 500.  If the exception implements
-```Sainsburys\HttpService\Framework\Exception\ExceptionWithHttpStatus```, the status code on the exception will be used.
+```Sainsburys\HttpService\Components\HttpExceptions\ExceptionWithHttpStatus```, the status code on the exception will be used.
 
 If you wish to implement your own error handler, for example if you don't want stack traces being visible in the
-response in production, call ```Sainsburys\HttpService\Framework\Application::setErrorHandler()'``` in your
+response in production, call ```Sainsburys\HttpService\Application::useThisErrorController()'``` in your
 ```index.php``` file, and give it a different error controller it can use.
 
 Installation
