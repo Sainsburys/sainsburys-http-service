@@ -24,13 +24,31 @@ Core Concepts
 
 **Controllers and Dependency Injection**
 
-Controllers must be objects, not closures.  No abstract controller is provided - controllers should be stand-alone
-objects with no inheritance.  Controllers will not be given access to the service container, and must use proper
-dependency injection - service location won't work here.
+This is what a controller should look like:
 
-Your routing config will map a path to the service ID of the controller, as defined in your dependency injection
-configuration.  You should use a Container Interop dependency injection container - a standards-compliant Pimple wrapper
-is provided (see [usage example](https://github.com/anobii/sainsburys-http-service/blob/master/src-dev/sample-application/public/index.php)).
+```php
+<?php
+namespace MyNamespace;
+
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\ResponseInterface;
+
+class EmptyController
+{
+    public function emptyAction(ServerRequestInterface $request, ResponseInterface $response)
+    {
+        return $response;
+    }
+}
+```
+
+Controllers must be objects, not closures.  No abstract controller is provided - controllers should be stand-alone
+objects with no inheritance.  Controllers will be retrieved from a dependency injection container.
+
+Your routing config will map a route pattern to the service ID of the controller.  Provide a Container Interop
+container with your controllers in it.  A standards-compliant Pimple 3 wrapper is provided (see
+[usage example](https://github.com/anobii/sainsburys-http-service/blob/master/src-dev/sample-application/public/index.php))
+.
 
 Try looking at the [example routing file](https://github.com/anobii/sainsburys-http-service/blob/master/src-dev/sample-application/config/routing.php)
 and [typical dependency injection configuration](https://github.com/anobii/sainsburys-http-service/blob/master/src-dev/sample-application/src/Sainsburys/HttpService/Dev/MyDiConfig.php)
@@ -38,8 +56,8 @@ for a clear example of this.
 
 **Controller Actions - acceptable return types**
 
-Controller actions must return a PSR-7 HTTP Response object.  If you can't decide what PSR-7 implementation to use, the
-Zend Diactoros ```JsonResponse``` class would be a reasonable choice.  Any PSR-7 implementation should work.
+Controller actions must return a PSR-7 HTTP Response object.  The parametric reponse is a Zend Diactoros
+```JsonResponse```.
 
 **Middlewares**
 
