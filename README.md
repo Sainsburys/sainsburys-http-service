@@ -6,7 +6,7 @@
 Sainsburys HTTP Service Framework
 =================================
 
-PHP Micro-framework for small REST or HTTP RPC services.  Built and open sourced by J Sainsbury plc.
+PHP micro-framework for small REST or HTTP RPC services.  Built and open sourced by J Sainsbury plc.
 
 The framework is basically a wrapper for the Slim micro-framework in PHP, but works only with a more structured
 application.
@@ -68,7 +68,7 @@ will run accordingly.
 
 Throwing an uncaught exception from a controller will cause a response with the exception details encoded in JSON.  The
 status code will usually be 500.  If the exception implements
-```Sainsburys\HttpService\Components\HttpExceptions\ExceptionWithHttpStatus```, the status code on the exception will be used.
+```Sainsburys\HttpService\Components\ErrorHandlind\Exceptions\ExceptionWithHttpStatus```, the status code on the exception will be used.
 
 If you wish to implement your own error handler, for example if you don't want stack traces being visible in the
 response in production, call ```Sainsburys\HttpService\Application::useThisErrorController()'``` in your
