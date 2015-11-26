@@ -22,10 +22,12 @@ class ConvertToJsonResponseObject implements BeforeMiddleware
     public function apply(RequestAndResponse $originalRequestAndResponse)
     {
         $originalResponse = $originalRequestAndResponse->response();
-        $newResponse = new JsonResponse([], $originalResponse->getStatusCode(), $originalResponse->getHeaders());
-        $newResponse = $newResponse->withoutHeader('Content-Type');
-        $newResponse = $newResponse->withHeader('Content-Type', 'application/json');
+        $headers = $originalResponse->getHeaders();
+        $headers['Content-Type'] = 'application/json';
 
-        return new RequestAndResponse($originalRequestAndResponse->request(), $newResponse);
+        return new RequestAndResponse(
+            $originalRequestAndResponse->request(),
+            new JsonResponse([], $originalResponse->getStatusCode(), $headers)
+        );
     }
 }
