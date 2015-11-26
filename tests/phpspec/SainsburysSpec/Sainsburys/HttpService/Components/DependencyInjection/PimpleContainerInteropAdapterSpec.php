@@ -18,7 +18,7 @@ class PimpleContainerInteropAdapterSpec extends ObjectBehavior
         $this->beConstructedWith($pimpleContainer);
     }
 
-    function it_is_initializable()
+    function it_is_initialisable()
     {
         $this->shouldHaveType('Sainsburys\HttpService\Components\DependencyInjection\PimpleContainerInteropAdapter');
     }
@@ -57,7 +57,7 @@ class PimpleContainerInteropAdapterSpec extends ObjectBehavior
         $pimpleContainer->register($pimpleServiceProvider)->shouldHaveBeenCalled();
     }
 
-    function it_has_a_nice_named_constructor(PimpleContainer $pimpleContainer, ServiceProviderInterface $pimpleServiceProvider)
+    function it_has_a_nice_named_constructor(ServiceProviderInterface $pimpleServiceProvider)
     {
         $this->beConstructedThrough('constructConfiguredWith', [$pimpleServiceProvider]);
         $this->shouldHaveType('Sainsburys\HttpService\Components\DependencyInjection\PimpleContainerInteropAdapter');

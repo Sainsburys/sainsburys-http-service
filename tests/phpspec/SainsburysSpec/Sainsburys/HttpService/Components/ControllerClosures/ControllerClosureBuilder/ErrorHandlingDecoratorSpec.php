@@ -22,7 +22,7 @@ class ErrorHandlingDecoratorSpec extends ObjectBehavior
         $this->beConstructedWith($thingBeingDecorated, $errorControllerManager);
     }
 
-    function it_is_initializable()
+    function it_is_initialisable()
     {
         $this->shouldHaveType('Sainsburys\HttpService\Components\ControllerClosures\ControllerClosureBuilder\ErrorHandlingDecorator');
     }

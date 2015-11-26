@@ -17,7 +17,7 @@ class RoutingConfigReaderSpec extends ObjectBehavior
         $this->beConstructedWith($phpArrayConfigFileReader);
     }
 
-    function it_is_initializable()
+    function it_is_initialisable()
     {
         $this->shouldHaveType('\Sainsburys\HttpService\Components\Routing\RoutingConfigReader');
     }

@@ -14,7 +14,7 @@ use Sainsburys\HttpService\Components\Middlewares\MiddlewareManager;
  */
 class MiddlewareManagerSpec extends ObjectBehavior
 {
-    function it_is_initializable()
+    function it_is_initialisable()
     {
         $this->shouldHaveType('\Sainsburys\HttpService\Components\Middlewares\MiddlewareManager');
     }

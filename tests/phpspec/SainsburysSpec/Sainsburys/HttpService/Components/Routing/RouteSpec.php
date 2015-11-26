@@ -15,7 +15,7 @@ class RouteSpec extends ObjectBehavior
         $this->beConstructedWith('route-name', $this->getValidConfigArray());
     }
 
-    function it_is_initializable()
+    function it_is_initialisable()
     {
         $this->shouldHaveType('\Sainsburys\HttpService\Components\Routing\Route');
     }

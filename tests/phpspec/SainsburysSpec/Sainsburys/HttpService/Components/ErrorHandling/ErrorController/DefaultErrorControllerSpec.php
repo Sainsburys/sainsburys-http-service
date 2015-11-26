@@ -10,7 +10,7 @@ use Prophecy\Argument;
  */
 class DefaultErrorControllerSpec extends ObjectBehavior
 {
-    function it_is_initializable()
+    function it_is_initialisable()
     {
         $this->shouldHaveType('Sainsburys\HttpService\Components\ErrorHandling\ErrorController\DefaultErrorController');
     }

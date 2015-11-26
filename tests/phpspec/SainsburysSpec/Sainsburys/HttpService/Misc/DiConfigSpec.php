@@ -11,7 +11,7 @@ use Prophecy\Argument;
  */
 class DiConfigSpec extends ObjectBehavior
 {
-    function it_is_initializable()
+    function it_is_initialisable()
     {
         $this->shouldHaveType('Sainsburys\HttpService\Misc\DiConfig');
     }
