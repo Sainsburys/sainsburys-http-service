@@ -1,7 +1,7 @@
 <?php
-namespace Sainsburys\HttpService\Components\HttpExceptions\WithStatusCode;
+namespace Sainsburys\HttpService\Components\ErrorHandling\Exceptions\WithStatusCode;
 
-use Sainsburys\HttpService\Components\HttpExceptions\ExceptionWithHttpStatus;
+use Sainsburys\HttpService\Components\ErrorHandling\Exceptions\ExceptionWithHttpStatus;
 use Teapot\StatusCode\Http;
 
 class NotFoundException extends \RuntimeException implements ExceptionWithHttpStatus

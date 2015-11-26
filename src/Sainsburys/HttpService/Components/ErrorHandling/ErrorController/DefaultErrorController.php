@@ -1,7 +1,7 @@
 <?php
-namespace Sainsburys\HttpService\Components\ErrorHandling;
+namespace Sainsburys\HttpService\Components\ErrorHandling\ErrorController;
 
-use Sainsburys\HttpService\Components\HttpExceptions\ExceptionWithHttpStatus;
+use Sainsburys\HttpService\Components\ErrorHandling\Exceptions\ExceptionWithHttpStatus;
 use Psr\Http\Message\ResponseInterface;
 use Zend\Diactoros\Response\JsonResponse;
 

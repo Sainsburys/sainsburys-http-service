@@ -1,5 +1,5 @@
 <?php
-namespace Sainsburys\HttpService\Components\ErrorHandling;
+namespace Sainsburys\HttpService\Components\ErrorHandling\ErrorController;
 
 use Psr\Http\Message\ResponseInterface;
 

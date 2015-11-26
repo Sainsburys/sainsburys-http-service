@@ -1,9 +1,9 @@
 <?php
 namespace Sainsburys\HttpService;
 
-use Sainsburys\HttpService\Components\ErrorHandling\ErrorControllerManager;
+use Sainsburys\HttpService\Components\ErrorHandling\ErrorController\ErrorControllerManager;
 use Sainsburys\HttpService\Components\DependencyInjection\PimpleContainerInteropAdapter;
-use Sainsburys\HttpService\Components\ErrorHandling\ErrorController;
+use Sainsburys\HttpService\Components\ErrorHandling\ErrorController\ErrorController;
 use Sainsburys\HttpService\Components\Middlewares\MiddlewareManager;
 use Sainsburys\HttpService\Components\Routing\RoutingConfigApplier;
 use Interop\Container\ContainerInterface;

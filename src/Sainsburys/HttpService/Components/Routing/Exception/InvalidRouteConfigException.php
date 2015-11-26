@@ -1,7 +1,7 @@
 <?php
 namespace Sainsburys\HttpService\Components\Routing\Exception;
 
-use Sainsburys\HttpService\Components\HttpExceptions\ExceptionWithHttpStatus;
+use Sainsburys\HttpService\Components\ErrorHandling\Exceptions\ExceptionWithHttpStatus;
 use Teapot\StatusCode\Http;
 
 class InvalidRouteConfigException extends \RuntimeException implements ExceptionWithHttpStatus

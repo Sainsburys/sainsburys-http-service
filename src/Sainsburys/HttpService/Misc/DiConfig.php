@@ -1,14 +1,13 @@
 <?php
 namespace Sainsburys\HttpService\Misc;
 
-use Sainsburys\HttpService\Components\ErrorHandling\ErrorControllerManager;
-use Sainsburys\HttpService\Components\ControllerClosures\ControllerClosureBuilder\CleanRequestAttributesDecorator;
+use Sainsburys\HttpService\Components\ErrorHandling\ErrorController\ErrorControllerManager;
 use Sainsburys\HttpService\Components\ControllerClosures\ControllerClosureBuilder\ErrorHandlingDecorator;
 use Sainsburys\HttpService\Components\ControllerClosures\ControllerClosureBuilder\MiddlewareDecorator;
 use Sainsburys\HttpService\Components\ControllerClosures\ControllerClosureBuilder\ResponseTypeDecorator;
 use Sainsburys\HttpService\Components\ControllerClosures\ControllerClosureBuilder\SimpleControllerClosureBuilder;
 use Sainsburys\HttpService\Application;
-use Sainsburys\HttpService\Components\ErrorHandling\DefaultErrorController;
+use Sainsburys\HttpService\Components\ErrorHandling\ErrorController\DefaultErrorController;
 use Sainsburys\HttpService\Components\Routing\FileWork\PhpArrayConfigFileReader;
 use Sainsburys\HttpService\Components\Middlewares\MiddlewareLibrary\BeforeMiddleware\CleanRequestAttributes;
 use Sainsburys\HttpService\Components\Middlewares\MiddlewareLibrary\BeforeMiddleware\ConvertToJsonResponseObject;

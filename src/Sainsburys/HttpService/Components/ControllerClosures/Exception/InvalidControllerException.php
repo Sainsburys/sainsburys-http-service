@@ -1,7 +1,7 @@
 <?php
 namespace Sainsburys\HttpService\Components\ControllerClosures\Exception;
 
-use Sainsburys\HttpService\Components\HttpExceptions\ExceptionWithHttpStatus;
+use Sainsburys\HttpService\Components\ErrorHandling\Exceptions\ExceptionWithHttpStatus;
 use Teapot\StatusCode\Http;
 
 class InvalidControllerException extends \RuntimeException implements ExceptionWithHttpStatus

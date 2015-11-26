@@ -1,5 +1,5 @@
 <?php
-namespace SainsburysSpec\Sainsburys\HttpService\Components\HttpExceptions\WithStatusCode;
+namespace SainsburysSpec\Sainsburys\HttpService\Components\ErrorHandling\Exceptions\WithStatusCode;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
@@ -9,7 +9,7 @@ class NotFoundExceptionSpec extends ObjectBehavior
 {
     function it_is_initializable()
     {
-        $this->shouldHaveType('\Sainsburys\HttpService\Components\HttpExceptions\WithStatusCode\NotFoundException');
+        $this->shouldHaveType('\Sainsburys\HttpService\Components\ErrorHandling\Exceptions\WithStatusCode\NotFoundException');
     }
 
     function it_has_a_meaningful_message()

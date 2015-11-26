@@ -1,7 +1,7 @@
 <?php
 namespace Sainsburys\HttpService\Components\ControllerClosures\ControllerClosureBuilder;
 
-use Sainsburys\HttpService\Components\ErrorHandling\ErrorControllerManager;
+use Sainsburys\HttpService\Components\ErrorHandling\ErrorController\ErrorControllerManager;
 use Sainsburys\HttpService\Components\ControllerClosures\ControllerClosureBuilder;
 use Interop\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface;

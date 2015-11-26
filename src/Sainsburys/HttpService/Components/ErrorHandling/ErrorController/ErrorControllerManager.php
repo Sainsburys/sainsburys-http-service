@@ -1,5 +1,5 @@
 <?php
-namespace Sainsburys\HttpService\Components\ErrorHandling;
+namespace Sainsburys\HttpService\Components\ErrorHandling\ErrorController;
 
 class ErrorControllerManager
 {

@@ -1,5 +1,5 @@
 <?php
-namespace SainsburysSpec\Sainsburys\HttpService\Components\ErrorHandling;
+namespace SainsburysSpec\Sainsburys\HttpService\Components\ErrorHandling\ErrorController;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
@@ -8,7 +8,7 @@ class DefaultErrorControllerSpec extends ObjectBehavior
 {
     function it_is_initializable()
     {
-        $this->shouldHaveType('Sainsburys\HttpService\Components\ErrorHandling\DefaultErrorController');
+        $this->shouldHaveType('Sainsburys\HttpService\Components\ErrorHandling\ErrorController\DefaultErrorController');
     }
 
     function it_can_handle_errors()

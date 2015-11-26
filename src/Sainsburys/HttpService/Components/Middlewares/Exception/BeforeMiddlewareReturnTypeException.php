@@ -1,7 +1,7 @@
 <?php
 namespace Sainsburys\HttpService\Components\Middlewares\Exception;
 
-use Sainsburys\HttpService\Components\HttpExceptions\ExceptionWithHttpStatus;
+use Sainsburys\HttpService\Components\ErrorHandling\Exceptions\ExceptionWithHttpStatus;
 use Sainsburys\HttpService\Components\Middlewares\MiddlewareInterfaces\BeforeMiddleware;
 use Teapot\StatusCode\Http;
 

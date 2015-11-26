@@ -2,8 +2,8 @@
 namespace SainsburysSpec\Sainsburys\HttpService\Components\ControllerClosures\ControllerClosureBuilder;
 
 use Sainsburys\HttpService\Components\ControllerClosures\ControllerClosureBuilder;
-use Sainsburys\HttpService\Components\ErrorHandling\ErrorControllerManager;
-use Sainsburys\HttpService\Components\ErrorHandling\ErrorController;
+use Sainsburys\HttpService\Components\ErrorHandling\ErrorController\ErrorControllerManager;
+use Sainsburys\HttpService\Components\ErrorHandling\ErrorController\ErrorController;
 use Sainsburys\HttpService\Components\Routing\Route;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;

@@ -6,7 +6,7 @@ use Sainsburys\HttpService\Components\Routing\Route;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Sainsburys\HttpService\Components\ControllerClosures\ControllerClosureBuilder;
-use Sainsburys\HttpService\Components\ErrorHandling\ErrorController;
+use Sainsburys\HttpService\Components\ErrorHandling\ErrorController\ErrorController;
 use Interop\Container\ContainerInterface;
 use Slim\App as SlimApplication;
 use Slim\Route as SlimRoute;
@@ -18,7 +18,7 @@ class RoutingConfigApplierSpec extends ObjectBehavior
         $this->beConstructedWith($controllerClosureBuilder);
     }
 
-    function it_is_initializable()
+    function it_is_initialisable()
     {
         $this->shouldHaveType('Sainsburys\HttpService\Components\Routing\RoutingConfigApplier');
     }
@@ -68,7 +68,7 @@ class RoutingConfigApplierSpec extends ObjectBehavior
 
         // The controller closure builder builds the thing
         $controllerClosure = function () {};
-        $controllerClosureBuilder->buildControllerClosure($container, $route, $errorController)->willReturn($controllerClosure);
+        $controllerClosureBuilder->buildControllerClosure($container, $route)->willReturn($controllerClosure);
 
         // Route has stuff on it
         $route->controllerServiceId()->willReturn('controller-service-id');

@@ -1,13 +1,13 @@
 <?php
 namespace SainsburysSpec\Sainsburys\HttpService;
 
-use Sainsburys\HttpService\Components\ErrorHandling\ErrorControllerManager;
+use Sainsburys\HttpService\Components\ErrorHandling\ErrorController\ErrorControllerManager;
 use Sainsburys\HttpService\Components\Middlewares\MiddlewareManager;
 use Sainsburys\HttpService\Components\Routing\Route;
 use Interop\Container\ContainerInterface;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use Sainsburys\HttpService\Components\ErrorHandling\ErrorController;
+use Sainsburys\HttpService\Components\ErrorHandling\ErrorController\ErrorController;
 use Sainsburys\HttpService\Components\Routing\RoutingConfigApplier;
 use Sainsburys\HttpService\Components\Routing\RoutingConfigReader;
 use Slim\App as SlimApplication;

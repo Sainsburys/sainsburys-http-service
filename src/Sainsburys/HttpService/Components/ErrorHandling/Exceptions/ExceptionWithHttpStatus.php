@@ -1,5 +1,5 @@
 <?php
-namespace Sainsburys\HttpService\Components\HttpExceptions;
+namespace Sainsburys\HttpService\Components\ErrorHandling\Exceptions;
 
 interface ExceptionWithHttpStatus
 {
