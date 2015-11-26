@@ -50,9 +50,7 @@ class DiConfig implements ServiceProviderInterface
                     new ErrorHandlingDecorator(
                         new MiddlewareDecorator(
                             new ResponseTypeDecorator(
-                                new CleanRequestAttributesDecorator(
-                                    new SimpleControllerClosureBuilder()
-                                )
+                                new SimpleControllerClosureBuilder()
                             ),
                             $container['ents.http-mvc-service.middleware-manager']
                         ),

@@ -21,9 +21,10 @@ class CleanRequestAttributes implements BeforeMiddleware
     public function apply(RequestAndResponse $originalRequestAndResponse)
     {
         $request = $originalRequestAndResponse->request();
-        $request = $request->withoutAttribute('route');
-        $request = $request->withoutAttribute('route-info');
 
-        return new RequestAndResponse($request, $originalRequestAndResponse->response());
+        return new RequestAndResponse(
+            $request->withoutAttribute('route')->withoutAttribute('route-info'),
+            $originalRequestAndResponse->response()
+        );
     }
 }
