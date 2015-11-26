@@ -90,5 +90,5 @@ Testing
 
 Check the project out, run Composer, and type ```./bin/test``` to run all the tests.  Read
 [that shell script](https://github.com/anobii/sainsburys-http-service/blob/master/bin/test) for specific test commands.
-PHPunit is used to test Dependency Injection configuration for the framework.  PHPSpec is used for unit testing, and
+PHPUnit is used to test Dependency Injection configuration for the framework.  PHPSpec is used for unit testing, and
 Behat is used to test an example application using the framework, in conjunction with a webserver.
