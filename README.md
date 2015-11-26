@@ -8,17 +8,19 @@ Sainsburys HTTP Service Framework
 
 PHP Micro-framework for small REST or HTTP RPC services.  Built and open sourced by J Sainsbury plc.
 
+The framework is basically a wrapper for the Slim micro-framework in PHP, but works only with a more structured
+application.
+
+It currently relies on Slim 3.0.0-RC2.
+
 Basic Usage
 -----------
 
 See the [sample application](https://github.com/anobii/sainsburys-http-service/tree/master/src-dev/sample-application)
 for an example of how to use it.  The sample application is used by the automated tests as well, so will be up-to-date.
 
-Core Concept
-------------
-
-The framework is basically a wrapper for the Slim micro-framework in PHP, but works only with a more structured
-application.
+Core Concepts
+-------------
 
 **Controllers and Dependency Injection**
 
