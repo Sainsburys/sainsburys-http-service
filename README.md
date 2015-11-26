@@ -56,7 +56,7 @@ for a clear example of this.
 
 **Controller Actions - acceptable return types**
 
-Controller actions must return a PSR-7 HTTP Response object.  The parametric reponse is a Zend Diactoros ```JsonResponse```.
+Controller actions must return a PSR-7 HTTP Response object.  The parametric response is a Zend Diactoros ```JsonResponse```.
 
 **Middlewares**
 
