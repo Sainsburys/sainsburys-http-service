@@ -1,6 +1,7 @@
 <?php
 namespace SainsburysSpec\Sainsburys\HttpService\Components\ControllerClosures\ControllerClosureBuilder;
 
+use Sainsburys\HttpService\Components\ControllerClosures\ControllerClosureBuilder\SimpleControllerClosureBuilder;
 use Sainsburys\HttpService\Dev\Controller\SimpleController;
 use Sainsburys\HttpService\Components\Routing\Route;
 use PhpSpec\ObjectBehavior;
@@ -10,6 +11,9 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Zend\Diactoros\Response\JsonResponse;
 
+/**
+ * @mixin SimpleControllerClosureBuilder
+ */
 class SimpleControllerClosureBuilderSpec extends ObjectBehavior
 {
     function it_is_initializable()

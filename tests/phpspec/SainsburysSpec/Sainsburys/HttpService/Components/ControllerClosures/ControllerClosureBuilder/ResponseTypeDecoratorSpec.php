@@ -1,6 +1,7 @@
 <?php
 namespace SainsburysSpec\Sainsburys\HttpService\Components\ControllerClosures\ControllerClosureBuilder;
 
+use Sainsburys\HttpService\Components\ControllerClosures\ControllerClosureBuilder\ResponseTypeDecorator;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Sainsburys\HttpService\Components\ControllerClosures\ControllerClosureBuilder;
@@ -9,6 +10,9 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Interop\Container\ContainerInterface;
 
+/**
+ * @mixin ResponseTypeDecorator
+ */
 class ResponseTypeDecoratorSpec extends ObjectBehavior
 {
     function let(ControllerClosureBuilder $thingBeingDecorated)

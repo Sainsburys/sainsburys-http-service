@@ -1,10 +1,13 @@
 <?php
-
 namespace SainsburysSpec\Sainsburys\HttpService\Components\DependencyInjection;
 
+use Sainsburys\HttpService\Components\DependencyInjection\ServiceNotFoundInContainerException;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
+/**
+ * @mixin ServiceNotFoundInContainerException
+ */
 class ServiceNotFoundInContainerExceptionSpec extends ObjectBehavior
 {
     function it_is_initializable()

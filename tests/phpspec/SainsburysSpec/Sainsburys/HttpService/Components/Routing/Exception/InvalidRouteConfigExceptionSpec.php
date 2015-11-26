@@ -1,10 +1,14 @@
 <?php
 namespace SainsburysSpec\Sainsburys\HttpService\Components\Routing\Exception;
 
+use Sainsburys\HttpService\Components\Routing\Exception\InvalidRouteConfigException;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Teapot\StatusCode\Http;
 
+/**
+ * @mixin InvalidRouteConfigException
+ */
 class InvalidRouteConfigExceptionSpec extends ObjectBehavior
 {
     function it_is_initializable()

@@ -1,12 +1,16 @@
 <?php
 namespace SainsburysSpec\Sainsburys\HttpService\Components\Middlewares\MiddlewareLibrary\BeforeMiddleware;
 
+use Sainsburys\HttpService\Components\Middlewares\MiddlewareLibrary\BeforeMiddleware\CleanRequestAttributes;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Sainsburys\HttpService\Components\Middlewares\Http\RequestAndResponse;
 
+/**
+ * @mixin CleanRequestAttributes
+ */
 class CleanRequestAttributesSpec extends ObjectBehavior
 {
     function it_is_initialisable()

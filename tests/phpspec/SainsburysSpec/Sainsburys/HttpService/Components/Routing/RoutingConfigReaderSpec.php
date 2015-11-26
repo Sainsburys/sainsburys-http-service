@@ -1,11 +1,15 @@
 <?php
 namespace SainsburysSpec\Sainsburys\HttpService\Routing;
 
+use Sainsburys\HttpService\Components\Routing\RoutingConfigReader;
 use Sainsburys\HttpService\Components\Routing\FileWork\PhpArrayConfigFileReader;
 use Sainsburys\HttpService\Components\Routing\Route;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
+/**
+ * @mixin RoutingConfigReader
+ */
 class RoutingConfigReaderSpec extends ObjectBehavior
 {
     function let(PhpArrayConfigFileReader $phpArrayConfigFileReader)

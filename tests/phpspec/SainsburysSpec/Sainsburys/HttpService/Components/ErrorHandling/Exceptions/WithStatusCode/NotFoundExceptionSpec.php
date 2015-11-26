@@ -1,10 +1,14 @@
 <?php
 namespace SainsburysSpec\Sainsburys\HttpService\Components\ErrorHandling\Exceptions\WithStatusCode;
 
+use Sainsburys\HttpService\Components\ErrorHandling\Exceptions\WithStatusCode\NotFoundException;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Teapot\StatusCode\Http;
 
+/**
+ * @mixin NotFoundException
+ */
 class NotFoundExceptionSpec extends ObjectBehavior
 {
     function it_is_initializable()

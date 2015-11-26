@@ -1,6 +1,7 @@
 <?php
 namespace SainsburysSpec\Sainsburys\HttpService\Components\ControllerClosures\ControllerClosureBuilder;
 
+use Sainsburys\HttpService\Components\ControllerClosures\ControllerClosureBuilder\ErrorHandlingDecorator;
 use Sainsburys\HttpService\Components\ControllerClosures\ControllerClosureBuilder;
 use Sainsburys\HttpService\Components\ErrorHandling\ErrorController\ErrorControllerManager;
 use Sainsburys\HttpService\Components\ErrorHandling\ErrorController\ErrorController;
@@ -11,6 +12,9 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Interop\Container\ContainerInterface;
 
+/**
+ * @mixin ErrorHandlingDecorator
+ */
 class ErrorHandlingDecoratorSpec extends ObjectBehavior
 {
     function let(ControllerClosureBuilder $thingBeingDecorated, ErrorControllerManager $errorControllerManager)
@@ -49,7 +53,7 @@ class ErrorHandlingDecoratorSpec extends ObjectBehavior
         $errorController->handleError($exceptionThrownByUserController)->willReturn($errorControllerResponse);
 
         // ACT
-        $controllerClosure = $this->buildControllerClosure($container, $route, $errorController);
+        $controllerClosure = $this->buildControllerClosure($container, $route);
         $result = $controllerClosure($request, $response);
 
         // ASSERT

@@ -1,13 +1,17 @@
 <?php
 namespace SainsburysSpec\Sainsburys\HttpService\Components\ErrorHandling\Exceptions\WithStatusCode;
 
+use Sainsburys\HttpService\Components\ErrorHandling\Exceptions\WithStatusCode\NotAuthorisedException;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Teapot\StatusCode\Http;
 
+/**
+ * @mixin NotAuthorisedException
+ */
 class NotAuthorisedExceptionSpec extends ObjectBehavior
 {
-    function it_is_initializable()
+    function it_is_initialisable()
     {
         $this->shouldHaveType('\Sainsburys\HttpService\Components\ErrorHandling\Exceptions\WithStatusCode\NotAuthorisedException');
     }

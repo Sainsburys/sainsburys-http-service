@@ -1,7 +1,7 @@
 <?php
-
 namespace SainsburysSpec\Sainsburys\HttpService\Components\Routing;
 
+use Sainsburys\HttpService\Components\Routing\RoutingConfigApplier;
 use Sainsburys\HttpService\Components\Routing\Route;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
@@ -11,6 +11,9 @@ use Interop\Container\ContainerInterface;
 use Slim\App as SlimApplication;
 use Slim\Route as SlimRoute;
 
+/**
+ * @mixin RoutingConfigApplier
+ */
 class RoutingConfigApplierSpec extends ObjectBehavior
 {
     function let(ControllerClosureBuilder $controllerClosureBuilder)

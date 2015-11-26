@@ -7,7 +7,11 @@ use Psr\Http\Message\ResponseInterface;
 use Sainsburys\HttpService\Components\Middlewares\MiddlewareInterfaces\BeforeMiddleware;
 use Sainsburys\HttpService\Components\Middlewares\MiddlewareInterfaces\AfterMiddleware;
 use Sainsburys\HttpService\Components\Middlewares\Http\RequestAndResponse;
+use Sainsburys\HttpService\Components\Middlewares\MiddlewareManager;
 
+/**
+ * @mixin MiddlewareManager
+ */
 class MiddlewareManagerSpec extends ObjectBehavior
 {
     function it_is_initializable()

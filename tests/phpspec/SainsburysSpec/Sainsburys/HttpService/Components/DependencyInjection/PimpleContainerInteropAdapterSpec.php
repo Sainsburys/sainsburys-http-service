@@ -1,13 +1,16 @@
 <?php
-
 namespace SainsburysSpec\Sainsburys\HttpService\Components\DependencyInjection;
 
+use Sainsburys\HttpService\Components\DependencyInjection\PimpleContainerInteropAdapter;
 use Sainsburys\HttpService\Dev\Controller\SimpleController;
 use PhpSpec\ObjectBehavior;
 use Pimple\ServiceProviderInterface;
 use Prophecy\Argument;
 use Pimple\Container as PimpleContainer;
 
+/**
+ * @mixin PimpleContainerInteropAdapter
+ */
 class PimpleContainerInteropAdapterSpec extends ObjectBehavior
 {
     function let(PimpleContainer $pimpleContainer)

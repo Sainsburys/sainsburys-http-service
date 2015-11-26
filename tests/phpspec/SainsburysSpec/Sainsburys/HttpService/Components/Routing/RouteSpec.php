@@ -1,9 +1,13 @@
 <?php
 namespace SainsburysSpec\Sainsburys\HttpService\Components\Routing;
 
+use Sainsburys\HttpService\Components\Routing\Route;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
+/**
+ * @mixin Route
+ */
 class RouteSpec extends ObjectBehavior
 {
     function let()

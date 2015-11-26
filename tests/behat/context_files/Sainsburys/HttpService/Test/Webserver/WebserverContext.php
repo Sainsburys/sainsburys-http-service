@@ -1,7 +1,6 @@
 <?php
 namespace Sainsburys\HttpService\Test\Webserver;
 
-use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
 use GuzzleHttp\Client as GuzzleClient;

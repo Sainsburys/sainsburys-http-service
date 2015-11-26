@@ -1,6 +1,7 @@
 <?php
 namespace SainsburysSpec\Sainsburys\HttpService;
 
+use Sainsburys\HttpService\Application;
 use Sainsburys\HttpService\Components\ErrorHandling\ErrorController\ErrorControllerManager;
 use Sainsburys\HttpService\Components\Middlewares\MiddlewareManager;
 use Sainsburys\HttpService\Components\Routing\Route;
@@ -12,6 +13,9 @@ use Sainsburys\HttpService\Components\Routing\RoutingConfigApplier;
 use Sainsburys\HttpService\Components\Routing\RoutingConfigReader;
 use Slim\App as SlimApplication;
 
+/**
+ * @mixin Application
+ */
 class ApplicationSpec extends ObjectBehavior
 {
     function let(

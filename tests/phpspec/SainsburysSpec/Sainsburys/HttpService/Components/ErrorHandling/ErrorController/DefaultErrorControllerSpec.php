@@ -1,9 +1,13 @@
 <?php
 namespace SainsburysSpec\Sainsburys\HttpService\Components\ErrorHandling\ErrorController;
 
+use Sainsburys\HttpService\Components\ErrorHandling\ErrorController\DefaultErrorController;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
+/**
+ * @mixin DefaultErrorController
+ */
 class DefaultErrorControllerSpec extends ObjectBehavior
 {
     function it_is_initializable()
