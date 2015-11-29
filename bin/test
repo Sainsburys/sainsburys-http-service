@@ -30,6 +30,5 @@ echo -n 'Behat return code:   ';
 echo $BEHAT_RETURN_CODE;
 
 # Work out an exit code, and exit
-
 OVERALL_EXIT_CODE=$((PHPUNIT_RETURN_CODE + PHPSPEC_RETURN_CODE + BEHAT_RETURN_CODE))
 exit $OVERALL_EXIT_CODE;
