@@ -12,7 +12,7 @@ PHP micro-framework for small REST or HTTP RPC services.  Built and open sourced
 The framework is basically a wrapper for the Slim micro-framework in PHP, but works only with a more structured
 application.
 
-It currently relies on Slim 3.0.0-RC2.
+It currently relies on Slim 3.0.0-RC3.
 
 Basic Usage
 -----------
