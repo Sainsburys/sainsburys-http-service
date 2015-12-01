@@ -2,7 +2,7 @@
 namespace Sainsburys\HttpService\Test;
 
 use Sainsburys\HttpService\Misc\DiConfig;
-use Sainsburys\HttpService\Components\DependencyInjection\PimpleContainerInteropAdapter;
+use SamBurns\Pimple3ContainerInterop\ServiceContainer;
 use PHPUnit_Framework_TestCase as TestCase;
 
 class DiConfigTest extends TestCase
@@ -10,7 +10,7 @@ class DiConfigTest extends TestCase
     public function testDiConfig()
     {
         // ARRANGE
-        $container = PimpleContainerInteropAdapter::constructConfiguredWith(new DiConfig());
+        $container = ServiceContainer::constructConfiguredWith(new DiConfig());
 
         // ACT
         $result = $container->get('ents.http-mvc-service.application');

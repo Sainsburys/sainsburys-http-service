@@ -47,9 +47,9 @@ Controllers must be objects, not closures.  No abstract controller is provided -
 objects with no inheritance.  Controllers will be retrieved from a dependency injection container.
 
 Your routing config will map a route pattern to the service ID of the controller.  Provide a Container Interop
-container with your controllers in it.  A standards-compliant Pimple 3 wrapper is provided (see
-[usage example](https://github.com/anobii/sainsburys-http-service/blob/master/src-dev/sample-application/public/index.php))
-.
+container with your controllers in it.  A [standards-compliant Pimple 3
+wrapper](https://github.com/Sam-Burns/pimple3-containerinterop) is used in the [example index
+file](https://github.com/anobii/sainsburys-http-service/blob/master/src-dev/sample-application/public/index.php) provided.
 
 Try looking at the [example routing file](https://github.com/anobii/sainsburys-http-service/blob/master/src-dev/sample-application/config/routing.php)
 and [typical dependency injection configuration](https://github.com/anobii/sainsburys-http-service/blob/master/src-dev/sample-application/src/Sainsburys/HttpService/Dev/MyDiConfig.php)

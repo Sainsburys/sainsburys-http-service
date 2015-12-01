@@ -2,7 +2,7 @@
 namespace Sainsburys\HttpService;
 
 use Sainsburys\HttpService\Components\ErrorHandling\ErrorController\ErrorControllerManager;
-use Sainsburys\HttpService\Components\DependencyInjection\PimpleContainerInteropAdapter;
+use SamBurns\Pimple3ContainerInterop\ServiceContainer;
 use Sainsburys\HttpService\Components\ErrorHandling\ErrorController\ErrorController;
 use Sainsburys\HttpService\Components\Middlewares\MiddlewareManager;
 use Sainsburys\HttpService\Components\Routing\RoutingConfigApplier;
@@ -62,7 +62,7 @@ class Application
      */
     public static function factory(array $routingConfigFiles, ContainerInterface $containerWithControllers)
     {
-        $containerWithFramework = PimpleContainerInteropAdapter::constructConfiguredWith(new DiConfig());
+        $containerWithFramework = ServiceContainer::constructConfiguredWith(new DiConfig());
         $application = $containerWithFramework->get('ents.http-mvc-service.application'); /** @var $application Application */
 
         $application->takeContainerWithControllersConfigured($containerWithControllers);
