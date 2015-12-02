@@ -15,6 +15,6 @@ code_coverage:
     format:
         - clover
     output:
-        clover: tests/coverage/clover.xml
+        clover: build/logs/clover.xml
 
 formatter.name: dot
