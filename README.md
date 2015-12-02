@@ -23,6 +23,14 @@ for an example of how to use it.  The sample application is used by the automate
 Core Concepts
 -------------
 
+**Standards Compliance**
+
+The framework aims to comply with the [PSR-3](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-3-logger-interface.md)
+standard for interchangable loggers, the [PSR-7](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-7-http-message.md)
+standard for interchangable HTTP request and response objects, the [Container-Interop](https://github.com/container-interop/container-interop)
+standard for interchangable Dependency Injection Containers, and with [semantic versioning](http://semver.org/) in its
+release numbers.
+
 **Controllers and Dependency Injection**
 
 This is what a controller should look like:
@@ -74,7 +82,8 @@ exception will be used.
 
 If you wish to implement your own error handler, for example if you don't want stack traces being visible in the
 response in production, call ```Sainsburys\HttpService\Application::useThisErrorController()'``` in your
-```index.php``` file, and give it a different error controller it can use.
+```index.php``` file, and give it a different error controller it can use.  ```Sainsburys\HttpService\Components\ErrorHandling\ErrorController\ProductionExternalisedErrorController```
+is provided if you wish to use an error controller with less verbose output.
 
 **Error Logging**
 
@@ -104,5 +113,6 @@ Testing
 
 Check the project out, run Composer, and type ```./bin/test``` to run all the tests.  Read
 [that shell script](https://github.com/anobii/sainsburys-http-service/blob/master/bin/test) for specific test commands.
-PHPUnit is used to test Dependency Injection configuration for the framework.  PHPSpec is used for unit testing, and
-Behat is used to test an example application using the framework, in conjunction with a webserver.
+ - PHPUnit is used to test Dependency Injection configuration for the framework, and for some integration testing;
+ - PHPSpec is used for unit testing;
+ - Behat is used to provide behavioural tests, with an example application using the framework, in conjunction with a webserver.
