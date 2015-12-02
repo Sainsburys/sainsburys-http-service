@@ -1,5 +1,5 @@
 <?php
-namespace SainsburysSpec\Sainsburys\HttpService\Routing;
+namespace SainsburysSpec\Sainsburys\HttpService\Components\Routing;
 
 use Sainsburys\HttpService\Components\Routing\RoutingConfigReader;
 use Sainsburys\HttpService\Components\Routing\FileWork\PhpArrayConfigFileReader;
