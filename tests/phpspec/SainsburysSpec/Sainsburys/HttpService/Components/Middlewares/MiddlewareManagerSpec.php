@@ -95,7 +95,7 @@ class MiddlewareManagerSpec extends ObjectBehavior
         $result->shouldBe($finalResponse);
     }
 
-    function it_can_validate_middleware_responses(
+    function it_can_validate_before_middleware_responses(
         RequestAndResponse $originalRequestAndResponse,
         \stdClass          $resultOfMiddleware,
         BeforeMiddleware   $beforeMiddleware
@@ -108,5 +108,20 @@ class MiddlewareManagerSpec extends ObjectBehavior
         $this
             ->shouldThrow('\Sainsburys\HttpService\Components\Middlewares\Exception\BeforeMiddlewareReturnTypeException')
             ->during('applyBeforeMiddlewares', [$originalRequestAndResponse]);
+    }
+
+    function it_can_validate_after_middleware_responses(
+        ResponseInterface $originalResponse,
+        \stdClass          $resultOfMiddleware,
+        AfterMiddleware   $afterMiddleware
+    ) {
+        $afterMiddleware->getName()->willReturn('middleware-name');
+        $afterMiddleware->apply($originalResponse)->willReturn($resultOfMiddleware);
+
+        $this->addToStartOfAfterMiddlewareList($afterMiddleware);
+
+        $this
+            ->shouldThrow('\Sainsburys\HttpService\Components\Middlewares\Exception\AfterMiddlewareReturnTypeException')
+            ->during('applyAfterMiddlewares', [$originalResponse]);
     }
 }
