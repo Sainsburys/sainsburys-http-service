@@ -10,7 +10,7 @@ install:
 
 script:
     - ./bin/test
-    - ./vendor/bin/phpspec r -c tests/phpspec/phpspec-codecoverage.yml
 
 after_script:
-    - php vendor/bin/coveralls -v
+    - ./vendor/bin/phpspec r -c tests/phpspec/phpspec-codecoverage.yml
+    - php ./vendor/bin/coveralls.php -v
