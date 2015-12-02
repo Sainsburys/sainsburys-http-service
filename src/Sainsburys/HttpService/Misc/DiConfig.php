@@ -31,8 +31,8 @@ class DiConfig implements ServiceProviderInterface
             function (Container $container) {
 
                 $slimApplication        = new SlimApplication();
-                $routingConfigReader    = new RoutingConfigReader(new PhpArrayConfigFileReader());
-                $routingConfigApplier   = new RoutingConfigApplier($container['sainsburys.sainsburys-http-service.controller-closure-builder']);
+                $routingConfigReader    = $container['sainsburys.sainsburys-http-service.routing-config-reader'];
+                $routingConfigApplier   = $container['sainsburys.sainsburys-http-service.routing-config-applier'];
                 $errorControllerManager = $container['sainsburys.sainsburys-http-service.error-controller-manager'];
                 $middlewareManager      = $container['sainsburys.sainsburys-http-service.middleware-manager'];
                 $loggingManager         = $container['sainsburys.sainsburys-http-service.logging-manager'];
@@ -45,6 +45,16 @@ class DiConfig implements ServiceProviderInterface
                     $middlewareManager,
                     $loggingManager
                 );
+            };
+
+        $container['sainsburys.sainsburys-http-service.routing-config-reader'] =
+            function (Container $container) {
+                return new RoutingConfigReader(new PhpArrayConfigFileReader());
+            };
+
+        $container['sainsburys.sainsburys-http-service.routing-config-applier'] =
+            function (Container $container) {
+                return new RoutingConfigApplier($container['sainsburys.sainsburys-http-service.controller-closure-builder']);
             };
 
         $container['sainsburys.sainsburys-http-service.controller-closure-builder'] =
