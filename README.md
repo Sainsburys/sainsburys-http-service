@@ -96,6 +96,9 @@ Use Composer.
 }
 ```
 
+You may also need to require ```"slim/slim": "^3.0.0-RC3"```, depending on your project's composer settings.  This will
+change shortly.
+
 Testing
 -------
 
