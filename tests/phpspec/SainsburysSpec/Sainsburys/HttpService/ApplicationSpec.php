@@ -1,8 +1,10 @@
 <?php
 namespace SainsburysSpec\Sainsburys\HttpService;
 
+use Psr\Log\LoggerInterface;
 use Sainsburys\HttpService\Application;
 use Sainsburys\HttpService\Components\ErrorHandling\ErrorController\ErrorControllerManager;
+use Sainsburys\HttpService\Components\Logging\LoggingManager;
 use Sainsburys\HttpService\Components\Middlewares\MiddlewareManager;
 use Sainsburys\HttpService\Components\Routing\Route;
 use Interop\Container\ContainerInterface;
@@ -23,10 +25,16 @@ class ApplicationSpec extends ObjectBehavior
         RoutingConfigReader    $routingConfigReader,
         RoutingConfigApplier   $routingConfigApplier,
         ErrorControllerManager $errorControllerManager,
-        MiddlewareManager      $middlewareManager
+        MiddlewareManager      $middlewareManager,
+        LoggingManager         $loggingManager
     ) {
         $this->beConstructedWith(
-            $slimApplication, $routingConfigReader, $routingConfigApplier, $errorControllerManager, $middlewareManager
+            $slimApplication,
+            $routingConfigReader,
+            $routingConfigApplier,
+            $errorControllerManager,
+            $middlewareManager,
+            $loggingManager
         );
     }
 
@@ -83,6 +91,17 @@ class ApplicationSpec extends ObjectBehavior
 
         // ASSERT
         $errorControllerManager->useThisErrorController($newErrorController)->shouldHaveBeenCalled();
+    }
+
+    function it_lets_you_put_another_logger(
+        LoggerInterface $logger,
+        LoggingManager  $loggingManager
+    ) {
+        // ACT
+        $this->useThisLogger($logger);
+
+        // ASSERT
+        $loggingManager->useThisLogger($logger)->shouldHaveBeenCalled();
     }
 
     function it_can_return_the_middleware_manager(MiddlewareManager $middlewareManager)

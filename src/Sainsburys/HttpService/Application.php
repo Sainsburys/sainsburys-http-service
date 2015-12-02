@@ -1,6 +1,8 @@
 <?php
 namespace Sainsburys\HttpService;
 
+use Psr\Log\LoggerInterface;
+use Sainsburys\HttpService\Components\Logging\LoggingManager;
 use Sainsburys\HttpService\Components\ErrorHandling\ErrorController\ErrorControllerManager;
 use SamBurns\Pimple3ContainerInterop\ServiceContainer;
 use Sainsburys\HttpService\Components\ErrorHandling\ErrorController\ErrorController;
@@ -28,6 +30,9 @@ class Application
     /** @var MiddlewareManager */
     private $middlewareManager;
 
+    /** @var LoggingManager */
+    private $loggingManager;
+
     /** @var ContainerInterface */
     private $container;
 
@@ -40,19 +45,22 @@ class Application
      * @param RoutingConfigApplier   $routingConfigApplier
      * @param ErrorControllerManager $errorControllerManager
      * @param MiddlewareManager      $middlewareManager
+     * @param LoggingManager         $loggingManager
      */
     public function __construct(
         SlimApplication        $slimApplication,
         RoutingConfigReader    $routingConfigReader,
         RoutingConfigApplier   $routingConfigApplier,
         ErrorControllerManager $errorControllerManager,
-        MiddlewareManager      $middlewareManager
+        MiddlewareManager      $middlewareManager,
+        LoggingManager         $loggingManager
     ) {
         $this->slimApplication        = $slimApplication;
         $this->routingConfigReader    = $routingConfigReader;
         $this->routingConfigApplier   = $routingConfigApplier;
         $this->errorControllerManager = $errorControllerManager;
         $this->middlewareManager      = $middlewareManager;
+        $this->loggingManager         = $loggingManager;
     }
 
     /**
@@ -109,6 +117,14 @@ class Application
     public function useThisErrorController(ErrorController $errorController)
     {
         $this->errorControllerManager->useThisErrorController($errorController);
+    }
+
+    /**
+     * @param LoggerInterface $logger
+     */
+    public function useThisLogger(LoggerInterface $logger)
+    {
+        $this->loggingManager->useThisLogger($logger);
     }
 
     /**

@@ -69,11 +69,21 @@ will run accordingly.
 
 Throwing an uncaught exception from a controller will cause a response with the exception details encoded in JSON.  The
 status code will usually be 500.  If the exception implements
-```Sainsburys\HttpService\Components\ErrorHandling\Exceptions\ExceptionWithHttpStatus```, the status code on the exception will be used.
+```Sainsburys\HttpService\Components\ErrorHandling\Exceptions\ExceptionWithHttpStatus```, the status code on the
+exception will be used.
 
 If you wish to implement your own error handler, for example if you don't want stack traces being visible in the
 response in production, call ```Sainsburys\HttpService\Application::useThisErrorController()'``` in your
 ```index.php``` file, and give it a different error controller it can use.
+
+**Error Logging**
+
+Your error controller will be passed a ```Psr\Log\LoggerInterface```, which by default will be a
+```Psr\Log\NullLogger```.  This does nothing.  To do error logging, call ```Application::useThisLogger()```.  You will
+need a PSR-3 compliant logger for this.  We suggest that you pass your choice of logging object into your other
+controllers or other classes as well, where logging is required.  You can do this when you configure the dependencies of
+your controller in your DI container.  The [Monolog logging tool](https://github.com/Seldaek/monolog) may be a good
+choice of logging library in PHP if you are looking for ideas.
 
 Installation
 ------------

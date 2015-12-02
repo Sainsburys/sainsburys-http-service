@@ -1,10 +1,12 @@
 <?php
 namespace SainsburysSpec\Sainsburys\HttpService\Components\ControllerClosures\ControllerClosureBuilder;
 
+use Psr\Log\LoggerInterface;
 use Sainsburys\HttpService\Components\ControllerClosures\ControllerClosureBuilder\ErrorHandlingDecorator;
 use Sainsburys\HttpService\Components\ControllerClosures\ControllerClosureBuilder;
 use Sainsburys\HttpService\Components\ErrorHandling\ErrorController\ErrorControllerManager;
 use Sainsburys\HttpService\Components\ErrorHandling\ErrorController\ErrorController;
+use Sainsburys\HttpService\Components\Logging\LoggingManager;
 use Sainsburys\HttpService\Components\Routing\Route;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
@@ -17,9 +19,12 @@ use Interop\Container\ContainerInterface;
  */
 class ErrorHandlingDecoratorSpec extends ObjectBehavior
 {
-    function let(ControllerClosureBuilder $thingBeingDecorated, ErrorControllerManager $errorControllerManager)
-    {
-        $this->beConstructedWith($thingBeingDecorated, $errorControllerManager);
+    function let(
+        ControllerClosureBuilder $thingBeingDecorated,
+        ErrorControllerManager   $errorControllerManager,
+        LoggingManager           $loggingManager
+    ) {
+        $this->beConstructedWith($thingBeingDecorated, $errorControllerManager, $loggingManager);
     }
 
     function it_is_initialisable()
@@ -35,13 +40,17 @@ class ErrorHandlingDecoratorSpec extends ObjectBehavior
         ResponseInterface        $response,
         ErrorController          $errorController,
         ErrorControllerManager   $errorControllerManager,
-        ResponseInterface        $errorControllerResponse
+        ResponseInterface        $errorControllerResponse,
+        LoggingManager           $loggingManager,
+        LoggerInterface          $logger
     ) {
         // ARRANGE
 
         $exceptionThrownByUserController = new \Exception();
 
         $errorControllerManager->errorController()->willReturn($errorController);
+
+        $loggingManager->logger()->willReturn($logger);
 
         $controllerClosureWhichErrors =
             function ($requestPassedIn, $responsePassedIn) use ($exceptionThrownByUserController) {
@@ -50,7 +59,7 @@ class ErrorHandlingDecoratorSpec extends ObjectBehavior
 
         $thingBeingDecorated->buildControllerClosure($container, $route)->willReturn($controllerClosureWhichErrors);
 
-        $errorController->handleError($exceptionThrownByUserController)->willReturn($errorControllerResponse);
+        $errorController->handleError($exceptionThrownByUserController, $logger)->willReturn($errorControllerResponse);
 
         // ACT
         $controllerClosure = $this->buildControllerClosure($container, $route);
