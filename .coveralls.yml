@@ -1,4 +1,4 @@
-json_path: tests/coverage/coveralls-upload.json
+json_path: build/logs/coveralls-upload.json
 
 coverage_clover:
     - build/logs/clover.xml
