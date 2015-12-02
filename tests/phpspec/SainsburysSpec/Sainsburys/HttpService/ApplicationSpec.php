@@ -104,6 +104,11 @@ class ApplicationSpec extends ObjectBehavior
         $loggingManager->setLogger($logger)->shouldHaveBeenCalled();
     }
 
+    function it_is_standards_compliant_wrt_psr3()
+    {
+        $this->shouldHaveType('Psr\Log\LoggerAwareInterface');
+    }
+
     function it_can_return_the_middleware_manager(MiddlewareManager $middlewareManager)
     {
         $this->middlewareManager()->shouldBe($middlewareManager);
