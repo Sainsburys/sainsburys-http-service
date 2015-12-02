@@ -15,11 +15,33 @@ class ProductionExternalisedErrorController implements ErrorController
      */
     public function handleError(\Exception $exception, LoggerInterface $logger)
     {
-        $responseBodyArray = [
-            'exception-class' => get_class($exception)
-        ];
+        $this->logError($exception, $logger);
+        $response = $this->prepareHttpResponse($exception);
 
-        $logger->critical($exception->getMessage(), $responseBodyArray);
+        return $response;
+    }
+
+    /**
+     * @param \Exception      $exception
+     * @param LoggerInterface $logger
+     */
+    private function logError(\Exception $exception, LoggerInterface $logger)
+    {
+        $logger->critical(
+            get_class($exception) . ': ' . $exception->getMessage(),
+            $exception->getTrace()
+        );
+    }
+
+    /**
+     * @param \Exception $exception
+     * @return JsonResponse
+     */
+    private function prepareHttpResponse(\Exception $exception)
+    {
+        $responseBodyArray = [
+            'error-message' => 'We\'re sorry, an internal server error occurred.'
+        ];
 
         $statusCode = $exception instanceof ExceptionWithHttpStatus ? $exception->getHttpStatusCode() : 500;
 

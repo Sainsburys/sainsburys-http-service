@@ -38,6 +38,6 @@ class DefaultErrorControllerSpec extends ObjectBehavior
         $result = $this->handleError($exception, $logger);
 
         // ASSERT
-        $logger->critical(Argument::any(), Argument::any())->shouldHaveBeenCalled();
+        $logger->critical('Exception: message', $exception->getTrace())->shouldHaveBeenCalled();
     }
 }

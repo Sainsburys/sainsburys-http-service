@@ -15,13 +15,35 @@ class DefaultErrorController implements ErrorController
      */
     public function handleError(\Exception $exception, LoggerInterface $logger)
     {
+        $this->logError($exception, $logger);
+        $response = $this->prepareHttpResponse($exception);
+
+        return $response;
+    }
+
+    /**
+     * @param \Exception      $exception
+     * @param LoggerInterface $logger
+     */
+    private function logError(\Exception $exception, LoggerInterface $logger)
+    {
+        $logger->critical(
+            get_class($exception) . ': ' . $exception->getMessage(),
+            $exception->getTrace()
+        );
+    }
+
+    /**
+     * @param \Exception $exception
+     * @return JsonResponse
+     */
+    private function prepareHttpResponse(\Exception $exception)
+    {
         $responseBodyArray = [
             'exception-class' => get_class($exception),
             'message'         => $exception->getMessage(),
-            'stack-trace'     => $exception->getTraceAsString()
+            'stack-trace'     => $exception->getTrace()
         ];
-
-        $logger->critical($exception->getMessage(), $responseBodyArray);
 
         $statusCode = $exception instanceof ExceptionWithHttpStatus ? $exception->getHttpStatusCode() : 500;
 
