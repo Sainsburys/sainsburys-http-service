@@ -85,8 +85,8 @@ class MiddlewareManagerSpec extends ObjectBehavior
             ->willReturn($finalResponse);
 
         $this->clearAfterMiddlewareList();
-        $this->addToEndOfAfterMiddlewareList($middleware1);
         $this->addToEndOfAfterMiddlewareList($middleware2);
+        $this->addToStartOfAfterMiddlewareList($middleware1);
 
         // ACT
         $result = $this->applyAfterMiddlewares($originalResponse);
