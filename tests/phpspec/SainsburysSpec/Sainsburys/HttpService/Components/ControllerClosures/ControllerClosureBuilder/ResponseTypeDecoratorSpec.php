@@ -9,6 +9,7 @@ use Sainsburys\HttpService\Components\Routing\Route;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Interop\Container\ContainerInterface;
+use Zend\Diactoros\Response\JsonResponse;
 
 /**
  * @mixin ResponseTypeDecorator
@@ -48,5 +49,29 @@ class ResponseTypeDecoratorSpec extends ObjectBehavior
         $controllerClosureProduced
             ->shouldThrow('\Sainsburys\HttpService\Components\ControllerClosures\Exception\InvalidControllerException')
             ->during('__invoke', [$request, $response]);
+    }
+
+    function it_doesnt_error_if_the_response_type_is_fine(
+        ContainerInterface       $container,
+        Route                    $route,
+        ControllerClosureBuilder $thingBeingDecorated,
+        ServerRequestInterface   $request,
+        ResponseInterface        $initialResponseObject
+    ) {
+        // ARRANGE
+
+        $controllerClosureWithWrongReturnType =
+            function ($requestPassedIn, $responsePassedIn) {
+                return new JsonResponse([]);
+            };
+
+        $thingBeingDecorated->buildControllerClosure($container, $route)->willReturn($controllerClosureWithWrongReturnType);
+
+        // ACT
+        $controllerClosureProduced = $this->buildControllerClosure($container, $route);
+
+        // ASSERT
+        $controllerClosureProduced($request, $initialResponseObject)
+            ->shouldHaveType('\Zend\Diactoros\Response\JsonResponse');
     }
 }
