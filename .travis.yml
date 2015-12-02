@@ -15,5 +15,5 @@ script:
     - ./bin/test
 
 after_script:
-    - ./vendor/bin/phpspec r -c tests/phpspec/phpspec-codecoverage.yml
+    - ./vendor/bin/phpspec r -c tests/phpspec/phpspec-travis.yml
     - php ./vendor/bin/coveralls.php -v
