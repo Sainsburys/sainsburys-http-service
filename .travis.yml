@@ -8,7 +8,7 @@ php:
 sudo: true
 
 install:
-    - sudo composer self-update
+    - composer self-update
     - composer install
 
 script:
