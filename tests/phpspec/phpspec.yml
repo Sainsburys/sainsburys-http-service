@@ -5,6 +5,3 @@ suites:
         spec_prefix: SainsburysSpec
         src_path:    src/
         spec_path:   tests/phpspec/
-
-bootstrap:
-    tests/phpspec/bootstrap.php

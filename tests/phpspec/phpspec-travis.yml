@@ -13,6 +13,8 @@ code_coverage:
     whitelist:
         - src/
     format:
-        - html
+        - clover
     output:
-        html: tests/coverage/html
+        clover: tests/coverage/clover.xml
+
+formatter.name: dot
