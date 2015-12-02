@@ -88,7 +88,7 @@ is provided if you wish to use an error controller with less verbose output.
 **Error Logging**
 
 Your error controller will be passed a ```Psr\Log\LoggerInterface```, which by default will be a
-```Psr\Log\NullLogger```.  This does nothing.  To do error logging, call ```Application::useThisLogger()```.  You will
+```Psr\Log\NullLogger```.  This does nothing.  To do error logging, call ```Application::setLogger()```.  You will
 need a PSR-3 compliant logger for this.  We suggest that you pass your choice of logging object into your other
 controllers or other classes as well, where logging is required.  You can do this when you configure the dependencies of
 your controller in your DI container.  The [Monolog logging tool](https://github.com/Seldaek/monolog) may be a good

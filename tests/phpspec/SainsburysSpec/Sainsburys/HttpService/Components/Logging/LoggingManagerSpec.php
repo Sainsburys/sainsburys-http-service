@@ -24,7 +24,7 @@ class LoggingManagerSpec extends ObjectBehavior
     function it_can_accept_a_new_logger(LoggerInterface $logger, LoggerInterface $anotherLogger)
     {
         $this->logger()->shouldBe($logger);
-        $this->useThisLogger($anotherLogger);
+        $this->setLogger($anotherLogger);
         $this->logger()->shouldBe($anotherLogger);
     }
 }

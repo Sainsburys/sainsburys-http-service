@@ -1,9 +1,10 @@
 <?php
 namespace Sainsburys\HttpService\Components\Logging;
 
+use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
 
-class LoggingManager
+class LoggingManager implements LoggerAwareInterface
 {
     /** @var LoggerInterface */
     private $logger;
@@ -17,9 +18,19 @@ class LoggingManager
     }
 
     /**
+     * @deprecated  Use LoggingManager::setLogger()
      * @param LoggerInterface $logger
      */
     public function useThisLogger(LoggerInterface $logger)
+    {
+        $this->setLogger($logger);
+    }
+
+    /**
+     * @param LoggerInterface $logger
+     * @return null
+     */
+    public function setLogger(LoggerInterface $logger)
     {
         $this->logger = $logger;
     }

@@ -1,6 +1,7 @@
 <?php
 namespace Sainsburys\HttpService;
 
+use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
 use Sainsburys\HttpService\Components\Logging\LoggingManager;
 use Sainsburys\HttpService\Components\ErrorHandling\ErrorController\ErrorControllerManager;
@@ -13,7 +14,7 @@ use Sainsburys\HttpService\Misc\DiConfig;
 use Slim\App as SlimApplication;
 use Sainsburys\HttpService\Components\Routing\RoutingConfigReader;
 
-class Application
+class Application implements LoggerAwareInterface
 {
     /** @var SlimApplication */
     private $slimApplication;
@@ -120,11 +121,21 @@ class Application
     }
 
     /**
+     * @deprecated  Use Application::setLogger()
      * @param LoggerInterface $logger
      */
     public function useThisLogger(LoggerInterface $logger)
     {
-        $this->loggingManager->useThisLogger($logger);
+        $this->setLogger($logger);
+    }
+
+    /**
+     * @param LoggerInterface $logger
+     * @return null
+     */
+    public function setLogger(LoggerInterface $logger)
+    {
+        $this->loggingManager->setLogger($logger);
     }
 
     /**

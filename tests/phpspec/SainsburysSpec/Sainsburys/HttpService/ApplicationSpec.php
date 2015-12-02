@@ -98,10 +98,10 @@ class ApplicationSpec extends ObjectBehavior
         LoggingManager  $loggingManager
     ) {
         // ACT
-        $this->useThisLogger($logger);
+        $this->setLogger($logger);
 
         // ASSERT
-        $loggingManager->useThisLogger($logger)->shouldHaveBeenCalled();
+        $loggingManager->setLogger($logger)->shouldHaveBeenCalled();
     }
 
     function it_can_return_the_middleware_manager(MiddlewareManager $middlewareManager)
