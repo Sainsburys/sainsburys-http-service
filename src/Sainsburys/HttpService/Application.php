@@ -72,7 +72,7 @@ class Application implements LoggerAwareInterface
     public static function factory(array $routingConfigFiles, ContainerInterface $containerWithControllers)
     {
         $containerWithFramework = ServiceContainer::constructConfiguredWith(new DiConfig());
-        $application = $containerWithFramework->get('ents.http-mvc-service.application'); /** @var $application Application */
+        $application = $containerWithFramework->get('sainsburys.sainsburys-http-service.application'); /** @var $application Application */
 
         $application->takeContainerWithControllersConfigured($containerWithControllers);
         $application->takeRoutingConfigs($routingConfigFiles);

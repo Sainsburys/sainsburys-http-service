@@ -13,7 +13,7 @@ class DiConfigTest extends TestCase
         $container = ServiceContainer::constructConfiguredWith(new DiConfig());
 
         // ACT
-        $result = $container->get('ents.http-mvc-service.application');
+        $result = $container->get('sainsburys.sainsburys-http-service.application');
 
         // ASSERT
         $this->assertInstanceOf('\Sainsburys\HttpService\Application', $result);

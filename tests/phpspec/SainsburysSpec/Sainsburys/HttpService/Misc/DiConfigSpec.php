@@ -23,7 +23,7 @@ class DiConfigSpec extends ObjectBehavior
         $this->register($container);
 
         // ACT
-        $application = $container['ents.http-mvc-service.application'];
+        $application = $container['sainsburys.sainsburys-http-service.application'];
 
         // ASSERT
         \PHPUnit_Framework_Assert::assertInstanceOf('\Sainsburys\HttpService\Application', $application);

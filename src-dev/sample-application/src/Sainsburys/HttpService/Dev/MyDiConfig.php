@@ -13,12 +13,12 @@ class MyDiConfig implements ServiceProviderInterface
      */
     public function register(Container $container)
     {
-        $container['ents.http-mvc-service.dev.sample-controller'] =
+        $container['sainsburys.sainsburys-http-service.dev.sample-controller'] =
             function (Container $container) {
                 return new SimpleController();
             };
 
-        $container['ents.http-mvc-service.dev.controller-with-errors'] =
+        $container['sainsburys.sainsburys-http-service.dev.controller-with-errors'] =
             function (Container $container) {
                 return new ControllerWithErrors();
             };
