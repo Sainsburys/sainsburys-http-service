@@ -22,7 +22,7 @@
     "require-dev": {
         "pimple/pimple":                     "^3.0",
         "phpunit/phpunit":                   ">=4.8.0 <5.1.0",
-        "phpspec/phpspec":                   "2.4.0",
+        "phpspec/phpspec":                   "~2.4.0",
         "behat/behat":                       "dev-master#2059cbe4bb8055c8555fa3365c6ea3b4b30288f5",
         "henrikbjorn/phpspec-code-coverage": ">=1.0 <3.0",
         "guzzlehttp/guzzle":                 "^6.1.0",
