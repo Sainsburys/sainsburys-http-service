@@ -9,7 +9,6 @@ use Sainsburys\HttpService\Components\ControllerClosures\ControllerClosureBuilde
 use Sainsburys\HttpService\Application;
 use Sainsburys\HttpService\Components\ErrorHandling\ErrorController\DefaultErrorController;
 use Sainsburys\HttpService\Components\Logging\LoggingManager;
-use Sainsburys\HttpService\Components\Routing\FileWork\PhpArrayConfigFileReader;
 use Sainsburys\HttpService\Components\Middlewares\MiddlewareLibrary\BeforeMiddleware\CleanRequestAttributes;
 use Sainsburys\HttpService\Components\Middlewares\MiddlewareLibrary\BeforeMiddleware\ConvertToJsonResponseObject;
 use Sainsburys\HttpService\Components\Middlewares\MiddlewareManager;
@@ -18,6 +17,7 @@ use Sainsburys\HttpService\Components\Routing\RoutingConfigReader;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 use Psr\Log\NullLogger;
+use SamBurns\ConfigFileParser\FileParsing\ParsableFileFactory;
 use Slim\App as SlimApplication;
 
 class DiConfig implements ServiceProviderInterface
@@ -49,7 +49,7 @@ class DiConfig implements ServiceProviderInterface
 
         $container['sainsburys.sainsburys-http-service.routing-config-reader'] =
             function (Container $container) {
-                return new RoutingConfigReader(new PhpArrayConfigFileReader());
+                return new RoutingConfigReader(new ParsableFileFactory());
             };
 
         $container['sainsburys.sainsburys-http-service.routing-config-applier'] =

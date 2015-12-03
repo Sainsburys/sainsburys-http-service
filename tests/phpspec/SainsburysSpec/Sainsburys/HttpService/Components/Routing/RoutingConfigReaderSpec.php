@@ -2,7 +2,8 @@
 namespace SainsburysSpec\Sainsburys\HttpService\Components\Routing;
 
 use Sainsburys\HttpService\Components\Routing\RoutingConfigReader;
-use Sainsburys\HttpService\Components\Routing\FileWork\PhpArrayConfigFileReader;
+use SamBurns\ConfigFileParser\FileParsing\ParsableFileFactory;
+use SamBurns\ConfigFileParser\FileParsing\ParsableFile;
 use Sainsburys\HttpService\Components\Routing\Route;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
@@ -12,9 +13,9 @@ use Prophecy\Argument;
  */
 class RoutingConfigReaderSpec extends ObjectBehavior
 {
-    function let(PhpArrayConfigFileReader $phpArrayConfigFileReader)
+    function let(ParsableFileFactory $parsableFileFactory)
     {
-        $this->beConstructedWith($phpArrayConfigFileReader);
+        $this->beConstructedWith($parsableFileFactory);
     }
 
     function it_is_initialisable()
@@ -22,9 +23,10 @@ class RoutingConfigReaderSpec extends ObjectBehavior
         $this->shouldHaveType('\Sainsburys\HttpService\Components\Routing\RoutingConfigReader');
     }
 
-    function it_can_build_route_objects(PhpArrayConfigFileReader $phpArrayConfigFileReader)
+    function it_can_build_route_objects(ParsableFileFactory $parsableFileFactory, ParsableFile $parsableFile)
     {
-        $phpArrayConfigFileReader->readConfigFile('routing.php')->willReturn(
+        $parsableFileFactory->getParsableFileFromPath('routing.php')->willReturn($parsableFile);
+        $parsableFile->toArray()->willReturn(
             [
                 'routes' => [
                     'route-name' => [
