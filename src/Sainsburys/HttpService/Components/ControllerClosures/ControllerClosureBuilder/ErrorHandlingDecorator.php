@@ -52,13 +52,13 @@ class ErrorHandlingDecorator implements ControllerClosureBuilder
     }
 
     /**
-     * @param callable               $rawControllerClosure
+     * @param \Closure               $rawControllerClosure
      * @param ErrorControllerManager $errorControllerManager
      * @param LoggingManager         $loggingManager
      * @return callable
      */
     private function decorateWithErrorHandling(
-        callable               $rawControllerClosure,
+        \Closure               $rawControllerClosure,
         ErrorControllerManager $errorControllerManager,
         LoggingManager         $loggingManager
     ) {

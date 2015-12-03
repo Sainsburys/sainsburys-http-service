@@ -34,8 +34,8 @@ class ResponseTypeDecorator implements ControllerClosureBuilder
     }
 
     /**
-     * @param callable $rawControllerClosure
-     * @return callable
+     * @param \Closure $rawControllerClosure
+     * @return \Closure
      */
     private function decorateWithResponseTypeChecking(callable $rawControllerClosure)
     {

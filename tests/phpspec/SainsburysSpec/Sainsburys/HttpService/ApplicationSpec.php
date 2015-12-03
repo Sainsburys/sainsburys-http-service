@@ -6,13 +6,12 @@ use Sainsburys\HttpService\Application;
 use Sainsburys\HttpService\Components\ErrorHandling\ErrorController\ErrorControllerManager;
 use Sainsburys\HttpService\Components\Logging\LoggingManager;
 use Sainsburys\HttpService\Components\Middlewares\MiddlewareManager;
-use Sainsburys\HttpService\Components\Routing\Route;
 use Interop\Container\ContainerInterface;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Sainsburys\HttpService\Components\ErrorHandling\ErrorController\ErrorController;
 use Sainsburys\HttpService\Components\Routing\RoutingManager;
-use Slim\App as SlimApp;
+use Sainsburys\HttpService\Components\SlimIntegration\SlimAppAdapter;
 
 /**
  * @mixin Application
@@ -20,14 +19,14 @@ use Slim\App as SlimApp;
 class ApplicationSpec extends ObjectBehavior
 {
     function let(
-        SlimApp                $slimApp,
+        SlimAppAdapter         $slimAppAdapter,
         RoutingManager         $routingManager,
         ErrorControllerManager $errorControllerManager,
         MiddlewareManager      $middlewareManager,
         LoggingManager         $loggingManager
     ) {
         $this->beConstructedWith(
-            $slimApp,
+            $slimAppAdapter,
             $routingManager,
             $errorControllerManager,
             $middlewareManager,
@@ -42,7 +41,7 @@ class ApplicationSpec extends ObjectBehavior
 
     function it_can_be_set_up_with_a_container_and_routing_configs(
         ContainerInterface $container,
-        SlimApp            $slimApp,
+        SlimAppAdapter     $slimAppAdapter,
         RoutingManager     $routingManager
     ) {
         // ACT
@@ -50,23 +49,17 @@ class ApplicationSpec extends ObjectBehavior
 
         // ASSERT
         $routingManager
-            ->configureSlimAppWithRoutes(['config/routes.php'], $container, $slimApp)
+            ->configureSlimAppWithRoutes(['config/routes.php'], $container, $slimAppAdapter)
             ->shouldHaveBeenCalled();
     }
 
-    function it_can_run(
-        ContainerInterface $container,
-        SlimApp            $slimApp,
-        RoutingManager     $routingManager
-    ) {
-        // ARRANGE
-        $routingManager->someRoutesAreConfigured($slimApp)->willReturn(true);
-
+    function it_can_run(SlimAppAdapter $slimAppAdapter)
+    {
         // ACT
         $this->run();
 
         // ASSERT
-        $slimApp->run()->shouldHaveBeenCalled();
+        $slimAppAdapter->run()->shouldHaveBeenCalled();
     }
 
     function it_lets_you_put_another_error_controller(
@@ -99,11 +92,5 @@ class ApplicationSpec extends ObjectBehavior
     function it_can_return_the_middleware_manager(MiddlewareManager $middlewareManager)
     {
         $this->middlewareManager()->shouldBe($middlewareManager);
-    }
-
-    function it_cant_run_without_routes(RoutingManager $routingManager, SlimApp $slimApp)
-    {
-        $routingManager->someRoutesAreConfigured($slimApp)->willReturn(false);
-        $this->shouldThrow('\RuntimeException')->during('run');
     }
 }

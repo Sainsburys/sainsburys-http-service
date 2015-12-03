@@ -4,7 +4,7 @@ namespace Sainsburys\HttpService\Components\Routing;
 use Sainsburys\HttpService\Components\ControllerClosures\ControllerClosureBuilder;
 use Sainsburys\HttpService\Components\Routing\Exception\InvalidRouteConfigException;
 use Interop\Container\ContainerInterface;
-use Slim\App as SlimApplication;
+use Sainsburys\HttpService\Components\SlimIntegration\SlimAppAdapter;
 
 class RoutingConfigApplier
 {
@@ -20,33 +20,33 @@ class RoutingConfigApplier
     }
 
     /**
-     * @param SlimApplication    $slimApplication
+     * @param SlimAppAdapter     $slimAppAdapter
      * @param Route[]            $routes
      * @param ContainerInterface $container
      */
     public function configureApplicationWithRoutes(
-        SlimApplication    $slimApplication,
+        SlimAppAdapter     $slimAppAdapter,
         array              $routes,
         ContainerInterface $container
     ) {
         foreach ($routes as $route) {
-            $this->configureApplicationWithRoute($slimApplication, $route, $container);
+            $this->configureApplicationWithRoute($slimAppAdapter, $route, $container);
         }
     }
 
     /**
-     * @param SlimApplication    $slimApplication
+     * @param SlimAppAdapter     $slimAppAdapter
      * @param Route              $route
      * @param ContainerInterface $container
      */
     private function configureApplicationWithRoute(
-        SlimApplication    $slimApplication,
+        SlimAppAdapter     $slimAppAdapter,
         Route              $route,
         ContainerInterface $container
     ) {
         $this->validateControllerIsInDiConfig($route, $container);
         $controllerClosure = $this->controllerClosureBuilder->buildControllerClosure($container, $route);
-        $this->applyRouteToSlimApplication($slimApplication, $route, $controllerClosure);
+        $this->applyRouteToSlimApplication($slimAppAdapter, $route, $controllerClosure);
     }
 
     /**
@@ -66,22 +66,15 @@ class RoutingConfigApplier
     }
 
     /**
-     * @param SlimApplication $slimApplication
+     * @param SlimAppAdapter  $slimAppAdapter
      * @param Route           $route
-     * @param callable        $controllerClosure
+     * @param \Closure        $controllerClosure
      */
     private function applyRouteToSlimApplication(
-        SlimApplication $slimApplication,
+        SlimAppAdapter     $slimAppAdapter,
         Route           $route,
-        callable        $controllerClosure
+        \Closure        $controllerClosure
     ) {
-        $slimApplication
-            ->map(
-                [$route->httpVerb()],
-                $route->pathExpression(),
-                $controllerClosure
-            )
-            ->setName($route->name())
-        ;
+        $slimAppAdapter->addRoute($route, $controllerClosure);
     }
 }

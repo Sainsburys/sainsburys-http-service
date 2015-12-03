@@ -25,3 +25,10 @@ Feature: Setting up routing
         Given my API is coded put the correct Content-Type with a middleware
         When I send a GET request to '/empty/response'
         And the response headers should contain 'Content-Type: application/json'
+
+    Scenario: Handling 404s
+        Given my API is coded not to have a route for '/unknown/route'
+        When I send a GET request to '/unknown/route'
+        Then I should get status code '404'
+        And the response body should contain 'No route configured for request.'
+        And the response headers should contain 'Content-Type: application/json'

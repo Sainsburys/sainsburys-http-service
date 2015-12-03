@@ -2,8 +2,7 @@
 namespace Sainsburys\HttpService\Components\Routing;
 
 use Interop\Container\ContainerInterface;
-use Slim\App as SlimApp;
-use Slim\Router as SlimRouter;
+use Sainsburys\HttpService\Components\SlimIntegration\SlimAppAdapter;
 
 class RoutingManager
 {
@@ -28,26 +27,16 @@ class RoutingManager
     /**
      * @param string[]           $pathsToRoutingConfigs
      * @param ContainerInterface $containerWithControllers
-     * @param SlimApp            $slimApp
+     * @param SlimAppAdapter     $slimAppAdapter
      */
     public function configureSlimAppWithRoutes(
         array              $pathsToRoutingConfigs,
         ContainerInterface $containerWithControllers,
-        SlimApp            $slimApp
+        SlimAppAdapter     $slimAppAdapter
     ) {
         foreach ($pathsToRoutingConfigs as $pathToRoutingConfig) {
             $routes = $this->routingConfigReader->getRoutesFromFile($pathToRoutingConfig);
-            $this->routingConfigApplier->configureApplicationWithRoutes($slimApp, $routes, $containerWithControllers);
+            $this->routingConfigApplier->configureApplicationWithRoutes($slimAppAdapter, $routes, $containerWithControllers);
         }
-    }
-
-    /**
-     * @param SlimApp $slimApp
-     * @return bool
-     */
-    public function someRoutesAreConfigured(SlimApp $slimApp)
-    {
-        $slimRouter = $slimApp->getContainer()->get('router'); /** @var $slimRouter SlimRouter */
-        return (bool)count($slimRouter->getRoutes());
     }
 }

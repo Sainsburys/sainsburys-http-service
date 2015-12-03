@@ -7,7 +7,6 @@ use Prophecy\Argument;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Sainsburys\HttpService\Components\Middlewares\Http\RequestAndResponse;
-use Zend\Diactoros\Response\JsonResponse;
 
 /**
  * @mixin ConvertToJsonResponseObject

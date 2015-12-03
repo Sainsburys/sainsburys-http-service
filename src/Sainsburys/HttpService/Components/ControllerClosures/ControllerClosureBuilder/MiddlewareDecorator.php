@@ -40,11 +40,11 @@ class MiddlewareDecorator implements ControllerClosureBuilder
     }
 
     /**
-     * @param callable          $rawControllerClosure
+     * @param \Closure          $rawControllerClosure
      * @param MiddlewareManager $middlewareManager
      * @return callable
      */
-    private function decorateWithMiddlewares(callable $rawControllerClosure, MiddlewareManager $middlewareManager)
+    private function decorateWithMiddlewares(\Closure $rawControllerClosure, MiddlewareManager $middlewareManager)
     {
         $controllerClosureWithMiddlewares =
             function (ServerRequestInterface $request, ResponseInterface $response) use (

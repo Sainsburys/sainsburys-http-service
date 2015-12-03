@@ -18,6 +18,9 @@ use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 use Psr\Log\NullLogger;
 use Sainsburys\HttpService\Components\Routing\RoutingManager;
+use Sainsburys\HttpService\Components\SlimIntegration\Slim404Handler;
+use Sainsburys\HttpService\Components\SlimIntegration\SlimAppAdapter;
+use Sainsburys\HttpService\Components\SlimIntegration\SlimErrorHandler;
 use SamBurns\ConfigFileParser\ConfigFileParser;
 use Slim\App as SlimApplication;
 
@@ -31,19 +34,35 @@ class DiConfig implements ServiceProviderInterface
         $container['sainsburys.sainsburys-http-service.application'] =
             function (Container $container) {
 
-                $slimApplication        = new SlimApplication();
+                $slimAppAdapter         = $container['sainsburys.sainsburys-http-service.slim-app-adapter'];
                 $routingConfigManager   = $container['sainsburys.sainsburys-http-service.routing-manager'];
                 $errorControllerManager = $container['sainsburys.sainsburys-http-service.error-controller-manager'];
                 $middlewareManager      = $container['sainsburys.sainsburys-http-service.middleware-manager'];
                 $loggingManager         = $container['sainsburys.sainsburys-http-service.logging-manager'];
 
                 return new Application(
-                    $slimApplication,
+                    $slimAppAdapter,
                     $routingConfigManager,
                     $errorControllerManager,
                     $middlewareManager,
                     $loggingManager
                 );
+            };
+
+        $container['sainsburys.sainsburys-http-service.slim-app-adapter'] =
+            function (Container $container) {
+                return new SlimAppAdapter(
+                    $container['sainsburys.sainsburys-http-service.slim-app'],
+                    new Slim404Handler(),
+                    new SlimErrorHandler(),
+                    $container['sainsburys.sainsburys-http-service.error-controller-manager'],
+                    $container['sainsburys.sainsburys-http-service.logging-manager']
+                );
+            };
+
+        $container['sainsburys.sainsburys-http-service.slim-app'] =
+            function (Container $container) {
+                return new SlimApplication();
             };
 
         $container['sainsburys.sainsburys-http-service.routing-config-reader'] =

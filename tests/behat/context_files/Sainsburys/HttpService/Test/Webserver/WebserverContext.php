@@ -70,6 +70,11 @@ class WebserverContext implements Context, SnippetAcceptingContext
     public function myApiIsCodedPutTheCorrectContentTypeWithAMiddleware() {}
 
     /**
+     * @Given my API is coded not to have a route for :pathWithNoRoute
+     */
+    public function myApiIsCodedNotToHaveARouteFor($pathWithNoRoute) {}
+
+    /**
      * @Then the response body should contain :partialResponseBody
      */
     public function theResponseBodyShouldContain($partialResponseBody)
