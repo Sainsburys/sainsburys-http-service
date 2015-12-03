@@ -61,7 +61,8 @@ file](https://github.com/anobii/sainsburys-http-service/blob/master/src-dev/samp
 
 Try looking at the [example routing file](https://github.com/anobii/sainsburys-http-service/blob/master/src-dev/sample-application/config/routing.php)
 and [typical dependency injection configuration](https://github.com/anobii/sainsburys-http-service/blob/master/src-dev/sample-application/src/Sainsburys/HttpService/Dev/MyDiConfig.php)
-for a clear example of this.
+for a clear example of this.  Your routing config file may be a .php 'return array' file, a JSON file, a YAML file or a
+.ini file.
 
 **Controller Actions - acceptable return types**
 
