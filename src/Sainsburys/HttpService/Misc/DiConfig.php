@@ -17,6 +17,7 @@ use Sainsburys\HttpService\Components\Routing\RoutingConfigReader;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 use Psr\Log\NullLogger;
+use Sainsburys\HttpService\Components\Routing\RoutingManager;
 use SamBurns\ConfigFileParser\ConfigFileParser;
 use Slim\App as SlimApplication;
 
@@ -31,16 +32,14 @@ class DiConfig implements ServiceProviderInterface
             function (Container $container) {
 
                 $slimApplication        = new SlimApplication();
-                $routingConfigReader    = $container['sainsburys.sainsburys-http-service.routing-config-reader'];
-                $routingConfigApplier   = $container['sainsburys.sainsburys-http-service.routing-config-applier'];
+                $routingConfigManager   = $container['sainsburys.sainsburys-http-service.routing-manager'];
                 $errorControllerManager = $container['sainsburys.sainsburys-http-service.error-controller-manager'];
                 $middlewareManager      = $container['sainsburys.sainsburys-http-service.middleware-manager'];
                 $loggingManager         = $container['sainsburys.sainsburys-http-service.logging-manager'];
 
                 return new Application(
                     $slimApplication,
-                    $routingConfigReader,
-                    $routingConfigApplier,
+                    $routingConfigManager,
                     $errorControllerManager,
                     $middlewareManager,
                     $loggingManager
@@ -55,6 +54,14 @@ class DiConfig implements ServiceProviderInterface
         $container['sainsburys.sainsburys-http-service.routing-config-applier'] =
             function (Container $container) {
                 return new RoutingConfigApplier($container['sainsburys.sainsburys-http-service.controller-closure-builder']);
+            };
+
+        $container['sainsburys.sainsburys-http-service.routing-manager'] =
+            function (Container $container) {
+                return new RoutingManager(
+                    $container['sainsburys.sainsburys-http-service.routing-config-reader'],
+                    $container['sainsburys.sainsburys-http-service.routing-config-applier']
+                );
             };
 
         $container['sainsburys.sainsburys-http-service.controller-closure-builder'] =

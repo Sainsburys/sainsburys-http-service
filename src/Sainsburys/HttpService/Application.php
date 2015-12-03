@@ -8,22 +8,18 @@ use Sainsburys\HttpService\Components\ErrorHandling\ErrorController\ErrorControl
 use SamBurns\Pimple3ContainerInterop\ServiceContainer;
 use Sainsburys\HttpService\Components\ErrorHandling\ErrorController\ErrorController;
 use Sainsburys\HttpService\Components\Middlewares\MiddlewareManager;
-use Sainsburys\HttpService\Components\Routing\RoutingConfigApplier;
 use Interop\Container\ContainerInterface;
 use Sainsburys\HttpService\Misc\DiConfig;
-use Slim\App as SlimApplication;
-use Sainsburys\HttpService\Components\Routing\RoutingConfigReader;
+use Slim\App as SlimApp;
+use Sainsburys\HttpService\Components\Routing\RoutingManager;
 
 class Application implements LoggerAwareInterface
 {
-    /** @var SlimApplication */
-    private $slimApplication;
+    /** @var SlimApp */
+    private $slimApp;
 
-    /** @var RoutingConfigReader */
-    private $routingConfigReader;
-
-    /** @var RoutingConfigApplier */
-    private $routingConfigApplier;
+    /** @var RoutingManager */
+    private $routingManager;
 
     /** @var ErrorControllerManager */
     private $errorControllerManager;
@@ -34,31 +30,22 @@ class Application implements LoggerAwareInterface
     /** @var LoggingManager */
     private $loggingManager;
 
-    /** @var ContainerInterface */
-    private $container;
-
-    /** @var bool */
-    private $haveSomeRoutesConfigured = false;
-
     /**
-     * @param SlimApplication        $slimApplication
-     * @param RoutingConfigReader    $routingConfigReader
-     * @param RoutingConfigApplier   $routingConfigApplier
+     * @param SlimApp                $slimApp
+     * @param RoutingManager         $routingManager
      * @param ErrorControllerManager $errorControllerManager
      * @param MiddlewareManager      $middlewareManager
      * @param LoggingManager         $loggingManager
      */
     public function __construct(
-        SlimApplication        $slimApplication,
-        RoutingConfigReader    $routingConfigReader,
-        RoutingConfigApplier   $routingConfigApplier,
+        SlimApp                $slimApp,
+        RoutingManager         $routingManager,
         ErrorControllerManager $errorControllerManager,
         MiddlewareManager      $middlewareManager,
         LoggingManager         $loggingManager
     ) {
-        $this->slimApplication        = $slimApplication;
-        $this->routingConfigReader    = $routingConfigReader;
-        $this->routingConfigApplier   = $routingConfigApplier;
+        $this->slimApp                = $slimApp;
+        $this->routingManager         = $routingManager;
         $this->errorControllerManager = $errorControllerManager;
         $this->middlewareManager      = $middlewareManager;
         $this->loggingManager         = $loggingManager;
@@ -74,42 +61,18 @@ class Application implements LoggerAwareInterface
         $containerWithFramework = ServiceContainer::constructConfiguredWith(new DiConfig());
         $application = $containerWithFramework->get('sainsburys.sainsburys-http-service.application'); /** @var $application Application */
 
-        $application->takeContainerWithControllersConfigured($containerWithControllers);
-        $application->takeRoutingConfigs($routingConfigFiles);
+        $application->takeRoutingConfigs($routingConfigFiles, $containerWithControllers);
 
         return $application;
     }
 
     /**
-     * @param ContainerInterface $container
+     * @param string[]           $paths
+     * @param ContainerInterface $containerWithControllers
      */
-    public function takeContainerWithControllersConfigured(ContainerInterface $container)
+    public function takeRoutingConfigs(array $paths, ContainerInterface $containerWithControllers)
     {
-        $this->container = $container;
-    }
-
-    /**
-     * @param string[] $paths
-     */
-    public function takeRoutingConfigs(array $paths)
-    {
-        foreach ($paths as $path) {
-            $this->takeRoutingConfig($path);
-        }
-    }
-
-    /**
-     * @param string $path
-     */
-    private function takeRoutingConfig($path)
-    {
-        if (!$this->container) {
-            throw new \RuntimeException('Must call takeContainerWithControllersConfigured() before takeRoutingConfig().  Try using Application::factory() to create the Application');
-        }
-
-        $routes = $this->routingConfigReader->getRoutesFromFile($path);
-        $this->routingConfigApplier->configureApplicationWithRoutes($this->slimApplication, $routes, $this->container);
-        $this->haveSomeRoutesConfigured = true;
+        $this->routingManager->configureSlimAppWithRoutes($paths, $containerWithControllers, $this->slimApp);
     }
 
     /**
@@ -142,10 +105,10 @@ class Application implements LoggerAwareInterface
      */
     public function run()
     {
-        if (!$this->haveSomeRoutesConfigured) {
-            throw new \RuntimeException('Must call takeRoutingConfig() before run().  Try using Application::factory() to create the Application');
+        if (!$this->routingManager->someRoutesAreConfigured($this->slimApp)) {
+            throw new \RuntimeException('Must call takeRoutingConfigs() before run().  Try using Application::factory() to create the Application');
         }
 
-        $this->slimApplication->run();
+        $this->slimApp->run();
     }
 }

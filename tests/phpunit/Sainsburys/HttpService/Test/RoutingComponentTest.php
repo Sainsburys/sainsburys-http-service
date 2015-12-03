@@ -2,8 +2,7 @@
 namespace Sainsburys\HttpService\Test;
 
 use PHPUnit_Framework_TestCase as TestCase;
-use Sainsburys\HttpService\Components\Routing\RoutingConfigReader;
-use Sainsburys\HttpService\Components\Routing\RoutingConfigApplier;
+use Sainsburys\HttpService\Components\Routing\RoutingManager;
 use Sainsburys\HttpService\Misc\DiConfig;
 use SamBurns\Pimple3ContainerInterop\ServiceContainer;
 use Interop\Container\ContainerInterface;
@@ -14,37 +13,13 @@ use Slim\Route as SlimRoute;
 
 class RoutingComponentTest extends TestCase
 {
-    /** @var RoutingConfigReader */
-    private $routingConfigReader;
-
-    /** @var RoutingConfigApplier */
-    private $routingConfigApplier;
+    /** @var RoutingManager */
+    private $routingManager;
 
     public function setUp()
     {
         $container = ServiceContainer::constructConfiguredWith(new DiConfig());
-        $this->routingConfigApplier = $container->get('sainsburys.sainsburys-http-service.routing-config-applier');
-        $this->routingConfigReader  = $container->get('sainsburys.sainsburys-http-service.routing-config-reader');
-    }
-
-    public function testReadingRoutes()
-    {
-        // ACT
-        $routes = $this->routingConfigReader->getRoutesFromFile(__DIR__ . '/../../../fixtures/sample-routes.php');
-
-        // ASSERT
-
-        // Must be an array with one route
-        $this->assertInternalType('array', $routes);
-        $this->assertEquals(1, count($routes));
-        $this->assertInstanceOf('\Sainsburys\HttpService\Components\Routing\Route', $routes[0]);
-
-        // That route must reflect what is in the config file
-        $this->assertEquals('route1', $routes[0]->name());
-        $this->assertEquals('sainsburys.sainsburys-http-service.dev.some-controller', $routes[0]->controllerServiceId());
-        $this->assertEquals('simpleAction', $routes[0]->actionMethodName());
-        $this->assertEquals('GET', $routes[0]->httpVerb());
-        $this->assertEquals('/person/{id}', $routes[0]->pathExpression());
+        $this->routingManager = $container->get('sainsburys.sainsburys-http-service.routing-manager');
     }
 
     public function testApplyingRoutes()
@@ -52,10 +27,10 @@ class RoutingComponentTest extends TestCase
         // ARRANGE
         $application = new SlimApplication();
         $container = $this->getMockContainer();
+        $routes = [__DIR__ . '/../../../fixtures/sample-routes.php'];
 
         // ACT
-        $routes = $this->routingConfigReader->getRoutesFromFile(__DIR__ . '/../../../fixtures/sample-routes.php');
-        $this->routingConfigApplier->configureApplicationWithRoutes($application, $routes, $container);
+        $this->routingManager->configureSlimAppWithRoutes($routes, $container, $application);
 
         // ASSERT
         $slimRoute  = $this->getSlimRouteFromApplication($application);

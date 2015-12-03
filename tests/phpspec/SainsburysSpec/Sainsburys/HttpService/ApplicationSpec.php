@@ -11,9 +11,8 @@ use Interop\Container\ContainerInterface;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Sainsburys\HttpService\Components\ErrorHandling\ErrorController\ErrorController;
-use Sainsburys\HttpService\Components\Routing\RoutingConfigApplier;
-use Sainsburys\HttpService\Components\Routing\RoutingConfigReader;
-use Slim\App as SlimApplication;
+use Sainsburys\HttpService\Components\Routing\RoutingManager;
+use Slim\App as SlimApp;
 
 /**
  * @mixin Application
@@ -21,17 +20,15 @@ use Slim\App as SlimApplication;
 class ApplicationSpec extends ObjectBehavior
 {
     function let(
-        SlimApplication        $slimApplication,
-        RoutingConfigReader    $routingConfigReader,
-        RoutingConfigApplier   $routingConfigApplier,
+        SlimApp                $slimApp,
+        RoutingManager         $routingManager,
         ErrorControllerManager $errorControllerManager,
         MiddlewareManager      $middlewareManager,
         LoggingManager         $loggingManager
     ) {
         $this->beConstructedWith(
-            $slimApplication,
-            $routingConfigReader,
-            $routingConfigApplier,
+            $slimApp,
+            $routingManager,
             $errorControllerManager,
             $middlewareManager,
             $loggingManager
@@ -44,42 +41,32 @@ class ApplicationSpec extends ObjectBehavior
     }
 
     function it_can_be_set_up_with_a_container_and_routing_configs(
-        ContainerInterface   $container,
-        SlimApplication      $slimApplication,
-        RoutingConfigReader  $routingConfigReader,
-        RoutingConfigApplier $routingConfigApplier,
-        Route                $route
+        ContainerInterface $container,
+        SlimApp            $slimApp,
+        RoutingManager     $routingManager
     ) {
-        // ARRANGE
-        $routingConfigReader->getRoutesFromFile('config/routes.php')->willReturn([$route]);
-
         // ACT
-        $this->takeContainerWithControllersConfigured($container);
-        $this->takeRoutingConfigs(['config/routes.php']);
+        $this->takeRoutingConfigs(['config/routes.php'], $container);
 
         // ASSERT
-        $routingConfigApplier
-            ->configureApplicationWithRoutes($slimApplication, [$route], $container)
+        $routingManager
+            ->configureSlimAppWithRoutes(['config/routes.php'], $container, $slimApp)
             ->shouldHaveBeenCalled();
     }
 
     function it_can_run(
-        ContainerInterface   $container,
-        SlimApplication      $slimApplication,
-        RoutingConfigReader  $routingConfigReader,
-        Route                $route
+        ContainerInterface $container,
+        SlimApp            $slimApp,
+        RoutingManager     $routingManager
     ) {
         // ARRANGE
-        $routingConfigReader->getRoutesFromFile('config/routes.php')->willReturn([$route]);
-
-        $this->takeContainerWithControllersConfigured($container);
-        $this->takeRoutingConfigs(['config/routes.php']);
+        $routingManager->someRoutesAreConfigured($slimApp)->willReturn(true);
 
         // ACT
         $this->run();
 
         // ASSERT
-        $slimApplication->run()->shouldHaveBeenCalled();
+        $slimApp->run()->shouldHaveBeenCalled();
     }
 
     function it_lets_you_put_another_error_controller(
@@ -114,13 +101,9 @@ class ApplicationSpec extends ObjectBehavior
         $this->middlewareManager()->shouldBe($middlewareManager);
     }
 
-    function it_cant_run_without_routes()
+    function it_cant_run_without_routes(RoutingManager $routingManager, SlimApp $slimApp)
     {
+        $routingManager->someRoutesAreConfigured($slimApp)->willReturn(false);
         $this->shouldThrow('\RuntimeException')->during('run');
-    }
-
-    function it_use_routes_without_a_container()
-    {
-        $this->shouldThrow('\RuntimeException')->during('takeRoutingConfigs', [['config/routes.php']]);
     }
 }
