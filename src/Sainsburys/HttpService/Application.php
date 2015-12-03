@@ -121,15 +121,6 @@ class Application implements LoggerAwareInterface
     }
 
     /**
-     * @deprecated  Use Application::setLogger()
-     * @param LoggerInterface $logger
-     */
-    public function useThisLogger(LoggerInterface $logger)
-    {
-        $this->setLogger($logger);
-    }
-
-    /**
      * @param LoggerInterface $logger
      * @return null
      */

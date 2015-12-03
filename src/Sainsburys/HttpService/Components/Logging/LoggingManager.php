@@ -18,15 +18,6 @@ class LoggingManager implements LoggerAwareInterface
     }
 
     /**
-     * @deprecated  Use LoggingManager::setLogger()
-     * @param LoggerInterface $logger
-     */
-    public function useThisLogger(LoggerInterface $logger)
-    {
-        $this->setLogger($logger);
-    }
-
-    /**
      * @param LoggerInterface $logger
      * @return null
      */
