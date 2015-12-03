@@ -17,7 +17,7 @@ use Sainsburys\HttpService\Components\Routing\RoutingConfigReader;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 use Psr\Log\NullLogger;
-use SamBurns\ConfigFileParser\FileParsing\ParsableFileFactory;
+use SamBurns\ConfigFileParser\ConfigFileParser;
 use Slim\App as SlimApplication;
 
 class DiConfig implements ServiceProviderInterface
@@ -49,7 +49,7 @@ class DiConfig implements ServiceProviderInterface
 
         $container['sainsburys.sainsburys-http-service.routing-config-reader'] =
             function (Container $container) {
-                return new RoutingConfigReader(new ParsableFileFactory());
+                return new RoutingConfigReader(new ConfigFileParser());
             };
 
         $container['sainsburys.sainsburys-http-service.routing-config-applier'] =

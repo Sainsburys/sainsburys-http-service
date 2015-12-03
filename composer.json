@@ -1,7 +1,7 @@
 {
     "name": "sainsburys/sainsburys-http-service",
 
-    "version": "1.0.0",
+    "version": "1.0.1gi",
 
     "license": "MIT",
 
@@ -15,7 +15,7 @@
         "psr/log":                             "1.0.0",
         "shrikeh/teapot":                      "^1.0",
         "samburns/pimple3-containerinterop":   "^1.0",
-        "samburns/config-file-parser":         "^0.1",
+        "samburns/config-file-parser":         "^1.0",
         "zendframework/zend-diactoros":        "^1.0"
     },
 

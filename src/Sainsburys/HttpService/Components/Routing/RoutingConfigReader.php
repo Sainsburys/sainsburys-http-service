@@ -1,19 +1,19 @@
 <?php
 namespace Sainsburys\HttpService\Components\Routing;
 
-use SamBurns\ConfigFileParser\FileParsing\ParsableFileFactory;
+use SamBurns\ConfigFileParser\ConfigFileParser;
 
 class RoutingConfigReader
 {
-    /** @var ParsableFileFactory */
-    private $parsableFileFactory;
+    /** @var ConfigFileParser */
+    private $configFileParser;
 
     /**
-     * @param ParsableFileFactory $parsableFileFactory
+     * @param ConfigFileParser $configFileParser
      */
-    public function __construct(ParsableFileFactory $parsableFileFactory)
+    public function __construct(ConfigFileParser $configFileParser)
     {
-        $this->parsableFileFactory = $parsableFileFactory;
+        $this->configFileParser = $configFileParser;
     }
 
     /**
@@ -22,8 +22,7 @@ class RoutingConfigReader
      */
     public function getRoutesFromFile($path)
     {
-        $parsableFile = $this->parsableFileFactory->getParsableFileFromPath($path);
-        $fileContentsAsArray = $parsableFile->toArray();
+        $fileContentsAsArray = $this->configFileParser->parseConfigFile($path);
 
         $routes = [];
 
