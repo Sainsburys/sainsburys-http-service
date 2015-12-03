@@ -1,13 +1,13 @@
 <?php
 namespace SainsburysSpec\Sainsburys\HttpService\Components\ErrorHandling\Exceptions\WithStatusCode;
 
-use Sainsburys\HttpService\Components\ErrorHandling\Exceptions\WithStatusCode\NotFoundException;
+use Sainsburys\HttpService\Components\ErrorHandling\Exceptions\WithStatusCode\UnknownRoute;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Teapot\StatusCode\Http;
 
 /**
- * @mixin NotFoundException
+ * @mixin UnknownRoute
  */
 class UnknownRouteSpec extends ObjectBehavior
 {
