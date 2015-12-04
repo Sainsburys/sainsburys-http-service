@@ -1,5 +1,5 @@
 <?php
-namespace Sainsburys\HttpService\Test\ApplicationLevel;
+namespace Sainsburys\HttpService\Test\ServiceLevel;
 
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
@@ -10,7 +10,7 @@ use Zend\Diactoros\Request;
 use Sainsburys\HttpService\Application;
 use Zend\Diactoros\ServerRequest;
 
-class ApplicationLevelContext implements Context, SnippetAcceptingContext
+class ServiceLevelContext implements Context, SnippetAcceptingContext
 {
     /** @var ResponseInterface */
     private $responseReceived;

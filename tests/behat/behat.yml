@@ -11,7 +11,7 @@ default:
             contexts: [ \Sainsburys\HttpService\Test\Webserver\WebserverContext ]
 
 
-        applicationlevel:
+        servicelevel:
             paths:    [ %paths.base%/feature_files/ ]
             filters:  { tags: ~wip }
-            contexts: [ \Sainsburys\HttpService\Test\ApplicationLevel\ApplicationLevelContext ]
+            contexts: [ \Sainsburys\HttpService\Test\ServiceLevel\ServiceLevelContext ]
