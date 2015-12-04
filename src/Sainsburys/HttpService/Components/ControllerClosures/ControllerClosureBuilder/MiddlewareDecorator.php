@@ -30,7 +30,7 @@ class MiddlewareDecorator implements ControllerClosureBuilder
     /**
      * @param ContainerInterface $container
      * @param Route              $route
-     * @return callable
+     * @return \Closure
      */
     public function buildControllerClosure(ContainerInterface $container, Route $route)
     {
@@ -42,7 +42,7 @@ class MiddlewareDecorator implements ControllerClosureBuilder
     /**
      * @param \Closure          $rawControllerClosure
      * @param MiddlewareManager $middlewareManager
-     * @return callable
+     * @return \Closure
      */
     private function decorateWithMiddlewares(\Closure $rawControllerClosure, MiddlewareManager $middlewareManager)
     {

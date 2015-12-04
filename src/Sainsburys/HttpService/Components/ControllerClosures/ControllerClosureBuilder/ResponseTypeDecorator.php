@@ -24,7 +24,7 @@ class ResponseTypeDecorator implements ControllerClosureBuilder
     /**
      * @param ContainerInterface $container
      * @param Route              $route
-     * @return callable
+     * @return \Closure
      */
     public function buildControllerClosure(ContainerInterface $container, Route $route)
     {
@@ -37,7 +37,7 @@ class ResponseTypeDecorator implements ControllerClosureBuilder
      * @param \Closure $rawControllerClosure
      * @return \Closure
      */
-    private function decorateWithResponseTypeChecking(callable $rawControllerClosure)
+    private function decorateWithResponseTypeChecking(\Closure $rawControllerClosure)
     {
         $controllerClosureWithTypeChecking =
             function (ServerRequestInterface $request, ResponseInterface $response) use ($rawControllerClosure) {

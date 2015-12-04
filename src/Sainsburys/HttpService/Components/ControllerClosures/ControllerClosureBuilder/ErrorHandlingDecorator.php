@@ -38,7 +38,7 @@ class ErrorHandlingDecorator implements ControllerClosureBuilder
     /**
      * @param ContainerInterface $container
      * @param Route              $route
-     * @return callable
+     * @return \Closure
      */
     public function buildControllerClosure(ContainerInterface $container, Route $route)
     {
@@ -55,7 +55,7 @@ class ErrorHandlingDecorator implements ControllerClosureBuilder
      * @param \Closure               $rawControllerClosure
      * @param ErrorControllerManager $errorControllerManager
      * @param LoggingManager         $loggingManager
-     * @return callable
+     * @return \Closure
      */
     private function decorateWithErrorHandling(
         \Closure               $rawControllerClosure,

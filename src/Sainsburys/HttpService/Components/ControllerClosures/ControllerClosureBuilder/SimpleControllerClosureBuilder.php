@@ -12,7 +12,7 @@ class SimpleControllerClosureBuilder implements ControllerClosureBuilder
     /**
      * @param ContainerInterface $container
      * @param Route              $route
-     * @return callable
+     * @return \Closure
      */
     public function buildControllerClosure(ContainerInterface $container, Route $route)
     {
