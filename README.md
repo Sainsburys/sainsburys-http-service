@@ -116,5 +116,5 @@ Check the project out, run Composer, and type ```./bin/test``` to run all the te
 [that shell script](https://github.com/anobii/sainsburys-http-service/blob/master/bin/test) for specific test commands.
  - PHPSpec is used for unit testing;
  - Behat is used to provide service-level behavioural tests, with an example application using the framework, testing the application object inline;
- - PHPUnit is used for a small number of integration tests
+ - PHPUnit is used for a small number of service-level tests
  - A few Behat tests will also run in conjunction with a webserver, with real HTTP requests provided by Guzzle.
