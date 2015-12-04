@@ -59,7 +59,7 @@ class ApplicationSpec extends ObjectBehavior
         $this->run();
 
         // ASSERT
-        $slimAppAdapter->run()->shouldHaveBeenCalled();
+        $slimAppAdapter->run(null)->shouldHaveBeenCalled();
     }
 
     function it_lets_you_put_another_error_controller(

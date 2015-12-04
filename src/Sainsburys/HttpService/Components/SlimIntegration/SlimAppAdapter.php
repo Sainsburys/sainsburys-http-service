@@ -2,6 +2,7 @@
 namespace Sainsburys\HttpService\Components\SlimIntegration;
 
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use Sainsburys\HttpService\Components\ErrorHandling\ErrorController\ErrorControllerManager;
 use Sainsburys\HttpService\Components\ErrorHandling\Exceptions\WithStatusCode\CannotRunWithoutRoutes;
 use Sainsburys\HttpService\Components\Logging\LoggingManager;
@@ -44,8 +45,8 @@ class SlimAppAdapter
             };
 
         $this->slimApp->getContainer()['errorHandler']    =
-            function () use ($slim404Handler) {
-                return $slim404Handler;
+            function () use ($slimErrorHandler) {
+                return $slimErrorHandler;
             };
     }
 
@@ -66,18 +67,59 @@ class SlimAppAdapter
         ;
     }
 
-    public function run()
+    /**
+     * @param ServerRequestInterface|null $testingRequest
+     * @return ResponseInterface
+     */
+    public function run(ServerRequestInterface $testingRequest = null)
+    {
+        if ($testingRequest) {
+
+            $this->injectRequestIntoApp($testingRequest, $this->slimApp);
+            return $this->getResponseToDispatch();
+
+        } else {
+
+            $response = $this->getResponseToDispatch();
+            $this->dispatchResponse($response);
+            return $response;
+
+        }
+    }
+
+    /**
+     * @return ResponseInterface
+     */
+    private function getResponseToDispatch()
     {
         try {
             if (!$this->hasRoutesConfigured()) {
                 throw new CannotRunWithoutRoutes();
             }
-
-            $this->slimApp->run();
+            return $this->slimApp->run(true);
         } catch (\Exception $exception) {
-            $response = $this->generateErrorResponse($exception);
-            $this->dispatchResponse($response);
+            return $this->generateErrorResponse($exception);
         }
+    }
+
+    /**
+     * @param ServerRequestInterface $request
+     * @param SlimApp                $slimApp
+     */
+    private function injectRequestIntoApp(ServerRequestInterface $request, SlimApp $slimApp)
+    {
+        $slimApp->getContainer()['request'] =
+            function () use ($request) {
+                return $request;
+            };
+    }
+
+    /**
+     * @param ResponseInterface $response
+     */
+    private function dispatchResponse(ResponseInterface $response)
+    {
+        $this->slimApp->respond($response);
     }
 
     /**
@@ -90,14 +132,6 @@ class SlimAppAdapter
         $logger = $this->loggingManager->logger();
 
         return $errorController->handleError($exception, $logger);
-    }
-
-    /**
-     * @param ResponseInterface $response
-     */
-    private function dispatchResponse(ResponseInterface $response)
-    {
-        $this->slimApp->respond($response);
     }
 
     /**
