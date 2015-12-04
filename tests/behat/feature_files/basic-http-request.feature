@@ -3,6 +3,7 @@ Feature: Setting up routing
     As an API developer creating a new service
     I want to set up routing for my API service
 
+    @critical
     Scenario: Querying a service that is configured in routing
         Given my API is coded to return a the response '{"id":"123","name":"Eminem"}' for route '/person/123'
         When I send a GET request to '/person/123'
@@ -26,6 +27,7 @@ Feature: Setting up routing
         When I send a GET request to '/empty/response'
         And the response headers should contain 'Content-Type: application/json'
 
+    @critical
     Scenario: Handling 404s
         Given my API is coded not to have a route for '/unknown/route'
         When I send a GET request to '/unknown/route'

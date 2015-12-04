@@ -7,5 +7,11 @@ default:
 
         webserver:
             paths:    [ %paths.base%/feature_files/ ]
-            filters:  { tags: ~wip }
+            filters:  { tags: ~wip&&@critical }
             contexts: [ \Sainsburys\HttpService\Test\Webserver\WebserverContext ]
+
+
+        applicationlevel:
+            paths:    [ %paths.base%/feature_files/ ]
+            filters:  { tags: ~wip }
+            contexts: [ \Sainsburys\HttpService\Test\ApplicationLevel\ApplicationLevelContext ]

@@ -2,6 +2,7 @@
 namespace Sainsburys\HttpService;
 
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
 use Sainsburys\HttpService\Components\Logging\LoggingManager;
@@ -103,9 +104,10 @@ class Application implements LoggerAwareInterface
 
     /**
      * @param ServerRequestInterface|null $testingRequest
+     * @return ResponseInterface
      */
     public function run(ServerRequestInterface $testingRequest = null)
     {
-        $this->slimAppAdapter->run($testingRequest);
+        return $this->slimAppAdapter->run($testingRequest);
     }
 }
