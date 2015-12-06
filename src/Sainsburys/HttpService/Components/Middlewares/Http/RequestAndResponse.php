@@ -12,28 +12,18 @@ class RequestAndResponse
     /** @var ResponseInterface */
     private $response;
 
-    /**
-     * @param ServerRequestInterface $request
-     * @param ResponseInterface      $response
-     */
     public function __construct(ServerRequestInterface $request, ResponseInterface $response)
     {
         $this->request = $request;
         $this->response = $response;
     }
 
-    /**
-     * @return ServerRequestInterface
-     */
-    public function request()
+    public function request(): ServerRequestInterface
     {
         return $this->request;
     }
 
-    /**
-     * @return ResponseInterface
-     */
-    public function response()
+    public function response(): ResponseInterface
     {
         return $this->response;
     }

@@ -6,10 +6,5 @@ use Sainsburys\HttpService\Components\Routing\Route;
 
 interface ControllerClosureBuilder
 {
-    /**
-     * @param ContainerInterface $container
-     * @param Route              $route
-     * @return \Closure
-     */
-    public function buildControllerClosure(ContainerInterface $container, Route $route);
+    public function buildControllerClosure(ContainerInterface $container, Route $route): \Closure;
 }

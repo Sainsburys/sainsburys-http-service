@@ -7,19 +7,12 @@ use Zend\Diactoros\Response\JsonResponse;
 
 class ConvertToJsonResponseObject implements BeforeMiddleware
 {
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return 'convert-to-json-response-object';
     }
 
-    /**
-     * @param RequestAndResponse $originalRequestAndResponse
-     * @return RequestAndResponse
-     */
-    public function apply(RequestAndResponse $originalRequestAndResponse)
+    public function apply(RequestAndResponse $originalRequestAndResponse): RequestAndResponse
     {
         $originalResponse = $originalRequestAndResponse->response();
         $headers = $originalResponse->getHeaders();

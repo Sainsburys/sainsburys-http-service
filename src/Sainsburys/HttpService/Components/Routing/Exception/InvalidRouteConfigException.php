@@ -6,10 +6,7 @@ use Teapot\StatusCode\Http;
 
 class InvalidRouteConfigException extends \RuntimeException implements ExceptionWithHttpStatus
 {
-    /**
-     * @return int
-     */
-    public function getHttpStatusCode()
+    public function getHttpStatusCode(): int
     {
         return Http::INTERNAL_SERVER_ERROR; //500
     }

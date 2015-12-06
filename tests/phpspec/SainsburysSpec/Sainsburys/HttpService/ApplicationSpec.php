@@ -1,6 +1,7 @@
 <?php
 namespace SainsburysSpec\Sainsburys\HttpService;
 
+use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerInterface;
 use Sainsburys\HttpService\Application;
 use Sainsburys\HttpService\Components\ErrorHandling\ErrorController\ErrorControllerManager;
@@ -53,8 +54,11 @@ class ApplicationSpec extends ObjectBehavior
             ->shouldHaveBeenCalled();
     }
 
-    function it_can_run(SlimAppAdapter $slimAppAdapter)
+    function it_can_run(SlimAppAdapter $slimAppAdapter, ResponseInterface $responseInterface)
     {
+        // ARRANGE
+        $slimAppAdapter->run(null)->willReturn($responseInterface);
+
         // ACT
         $this->run();
 

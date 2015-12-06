@@ -20,11 +20,6 @@ class ErrorHandlingDecorator implements ControllerClosureBuilder
     /** @var LoggingManager */
     private $loggingManager;
 
-    /**
-     * @param ControllerClosureBuilder $thingBeingDecorated
-     * @param ErrorControllerManager   $errorControllerManager
-     * @param LoggingManager           $loggingManager
-     */
     public function __construct(
         ControllerClosureBuilder $thingBeingDecorated,
         ErrorControllerManager   $errorControllerManager,
@@ -35,12 +30,7 @@ class ErrorHandlingDecorator implements ControllerClosureBuilder
         $this->loggingManager         = $loggingManager;
     }
 
-    /**
-     * @param ContainerInterface $container
-     * @param Route              $route
-     * @return \Closure
-     */
-    public function buildControllerClosure(ContainerInterface $container, Route $route)
+    public function buildControllerClosure(ContainerInterface $container, Route $route): \Closure
     {
         $rawControllerClosure = $this->thingBeingDecorated->buildControllerClosure($container, $route);
         $closureWhichAlsoDoesErrorHandling = $this->decorateWithErrorHandling(
@@ -51,17 +41,12 @@ class ErrorHandlingDecorator implements ControllerClosureBuilder
         return $closureWhichAlsoDoesErrorHandling;
     }
 
-    /**
-     * @param \Closure               $rawControllerClosure
-     * @param ErrorControllerManager $errorControllerManager
-     * @param LoggingManager         $loggingManager
-     * @return \Closure
-     */
     private function decorateWithErrorHandling(
         \Closure               $rawControllerClosure,
         ErrorControllerManager $errorControllerManager,
         LoggingManager         $loggingManager
-    ) {
+    ): \Closure
+    {
         $errorController = $errorControllerManager->errorController();
         $logger = $loggingManager->logger();
 

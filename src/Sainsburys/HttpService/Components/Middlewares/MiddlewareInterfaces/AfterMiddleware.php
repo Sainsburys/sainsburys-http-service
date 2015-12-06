@@ -5,9 +5,5 @@ use Psr\Http\Message\ResponseInterface;
 
 interface AfterMiddleware extends Middleware
 {
-    /**
-     * @param ResponseInterface $originalResponse
-     * @return ResponseInterface
-     */
-    public function apply(ResponseInterface $originalResponse);
+    public function apply(ResponseInterface $originalResponse): ResponseInterface;
 }

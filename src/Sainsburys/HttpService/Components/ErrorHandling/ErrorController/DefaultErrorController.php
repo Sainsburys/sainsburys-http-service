@@ -8,12 +8,7 @@ use Zend\Diactoros\Response\JsonResponse;
 
 class DefaultErrorController implements ErrorController
 {
-    /**
-     * @param \Exception      $exception
-     * @param LoggerInterface $logger
-     * @return ResponseInterface
-     */
-    public function handleError(\Exception $exception, LoggerInterface $logger)
+    public function handleError(\Exception $exception, LoggerInterface $logger): ResponseInterface
     {
         $this->logError($exception, $logger);
         $response = $this->prepareHttpResponse($exception);
@@ -21,10 +16,6 @@ class DefaultErrorController implements ErrorController
         return $response;
     }
 
-    /**
-     * @param \Exception      $exception
-     * @param LoggerInterface $logger
-     */
     private function logError(\Exception $exception, LoggerInterface $logger)
     {
         $logger->critical(
@@ -33,11 +24,7 @@ class DefaultErrorController implements ErrorController
         );
     }
 
-    /**
-     * @param \Exception $exception
-     * @return JsonResponse
-     */
-    private function prepareHttpResponse(\Exception $exception)
+    private function prepareHttpResponse(\Exception $exception): JsonResponse
     {
         $responseBodyArray = [
             'exception-class' => get_class($exception),

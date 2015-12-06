@@ -17,34 +17,23 @@ class MiddlewareDecorator implements ControllerClosureBuilder
     /** @var MiddlewareManager */
     private $middlewareManager;
 
-    /**
-     * @param ControllerClosureBuilder $thingBeingDecorated
-     * @param MiddlewareManager        $middlewareManager
-     */
     public function __construct(ControllerClosureBuilder $thingBeingDecorated, MiddlewareManager $middlewareManager)
     {
         $this->thingBeingDecorated = $thingBeingDecorated;
         $this->middlewareManager = $middlewareManager;
     }
 
-    /**
-     * @param ContainerInterface $container
-     * @param Route              $route
-     * @return \Closure
-     */
-    public function buildControllerClosure(ContainerInterface $container, Route $route)
+    public function buildControllerClosure(ContainerInterface $container, Route $route): \Closure
     {
         $rawControllerClosure = $this->thingBeingDecorated->buildControllerClosure($container, $route);
         $closureWhichAppliesMiddlewares = $this->decorateWithMiddlewares($rawControllerClosure, $this->middlewareManager);
         return $closureWhichAppliesMiddlewares;
     }
 
-    /**
-     * @param \Closure          $rawControllerClosure
-     * @param MiddlewareManager $middlewareManager
-     * @return \Closure
-     */
-    private function decorateWithMiddlewares(\Closure $rawControllerClosure, MiddlewareManager $middlewareManager)
+    private function decorateWithMiddlewares(
+        \Closure $rawControllerClosure,
+        MiddlewareManager $middlewareManager
+    ): \Closure
     {
         $controllerClosureWithMiddlewares =
             function (ServerRequestInterface $request, ResponseInterface $response) use (

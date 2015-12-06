@@ -21,13 +21,6 @@ class SlimAppAdapter
     /** @var LoggingManager */
     private $loggingManager;
 
-    /**
-     * @param SlimApp                $slimApp
-     * @param Slim404Handler         $slim404Handler
-     * @param SlimErrorHandler       $slimErrorHandler
-     * @param ErrorControllerManager $errorControllerManager
-     * @param LoggingManager         $loggingManager
-     */
     public function __construct(
         SlimApp                $slimApp,
         Slim404Handler         $slim404Handler,
@@ -50,10 +43,6 @@ class SlimAppAdapter
             };
     }
 
-    /**
-     * @param Route    $route
-     * @param \Closure $controllerClosure
-     */
     public function addRoute(Route $route, \Closure $controllerClosure)
     {
         $this
@@ -67,11 +56,7 @@ class SlimAppAdapter
         ;
     }
 
-    /**
-     * @param ServerRequestInterface|null $testingRequest
-     * @return ResponseInterface
-     */
-    public function run(ServerRequestInterface $testingRequest = null)
+    public function run(ServerRequestInterface $testingRequest = null): ResponseInterface
     {
         if ($testingRequest) {
 
@@ -87,10 +72,7 @@ class SlimAppAdapter
         }
     }
 
-    /**
-     * @return ResponseInterface
-     */
-    private function getResponseToDispatch()
+    private function getResponseToDispatch(): ResponseInterface
     {
         try {
             if (!$this->hasRoutesConfigured()) {
@@ -102,10 +84,6 @@ class SlimAppAdapter
         }
     }
 
-    /**
-     * @param ServerRequestInterface $request
-     * @param SlimApp                $slimApp
-     */
     private function injectRequestIntoApp(ServerRequestInterface $request, SlimApp $slimApp)
     {
         $slimApp->getContainer()['request'] =
@@ -114,19 +92,12 @@ class SlimAppAdapter
             };
     }
 
-    /**
-     * @param ResponseInterface $response
-     */
     private function dispatchResponse(ResponseInterface $response)
     {
         $this->slimApp->respond($response);
     }
 
-    /**
-     * @param \Exception $exception
-     * @return ResponseInterface
-     */
-    private function generateErrorResponse(\Exception $exception)
+    private function generateErrorResponse(\Exception $exception): ResponseInterface
     {
         $errorController = $this->errorControllerManager->errorController();
         $logger = $this->loggingManager->logger();
@@ -134,10 +105,7 @@ class SlimAppAdapter
         return $errorController->handleError($exception, $logger);
     }
 
-    /**
-     * @return bool
-     */
-    private function hasRoutesConfigured()
+    private function hasRoutesConfigured(): bool
     {
         $slimContainer = $this->slimApp->getContainer();
         $slimRouter = $slimContainer->get('router'); /** @var $slimRouter SlimRouter */

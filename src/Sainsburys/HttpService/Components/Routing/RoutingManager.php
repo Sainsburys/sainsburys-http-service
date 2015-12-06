@@ -12,10 +12,6 @@ class RoutingManager
     /** @var RoutingConfigApplier */
     private $routingConfigApplier;
 
-    /**
-     * @param RoutingConfigReader  $routingConfigReader
-     * @param RoutingConfigApplier $routingConfigApplier
-     */
     public function __construct(
         RoutingConfigReader  $routingConfigReader,
         RoutingConfigApplier $routingConfigApplier
@@ -25,9 +21,7 @@ class RoutingManager
     }
 
     /**
-     * @param string[]           $pathsToRoutingConfigs
-     * @param ContainerInterface $containerWithControllers
-     * @param SlimAppAdapter     $slimAppAdapter
+     * @param string[] $pathsToRoutingConfigs
      */
     public function configureSlimAppWithRoutes(
         array              $pathsToRoutingConfigs,

@@ -26,9 +26,6 @@ use Slim\App as SlimApplication;
 
 class DiConfig implements ServiceProviderInterface
 {
-    /**
-     * @param Container $container
-     */
     public function register(Container $container)
     {
         $container['sainsburys.sainsburys-http-service.application'] =

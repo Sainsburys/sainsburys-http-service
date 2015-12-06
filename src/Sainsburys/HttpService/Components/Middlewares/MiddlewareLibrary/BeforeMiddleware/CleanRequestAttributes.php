@@ -6,19 +6,12 @@ use Sainsburys\HttpService\Components\Middlewares\Http\RequestAndResponse;
 
 class CleanRequestAttributes implements BeforeMiddleware
 {
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return 'clean-slim-stuff-from-request-attributes';
     }
 
-    /**
-     * @param RequestAndResponse $originalRequestAndResponse
-     * @return RequestAndResponse
-     */
-    public function apply(RequestAndResponse $originalRequestAndResponse)
+    public function apply(RequestAndResponse $originalRequestAndResponse): RequestAndResponse
     {
         $request = $originalRequestAndResponse->request();
 

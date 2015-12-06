@@ -11,18 +11,13 @@ class RoutingConfigApplier
     /** @var ControllerClosureBuilder */
     private $controllerClosureBuilder;
 
-    /**
-     * @param ControllerClosureBuilder $controllerClosureBuilder
-     */
     public function __construct(ControllerClosureBuilder $controllerClosureBuilder)
     {
         $this->controllerClosureBuilder = $controllerClosureBuilder;
     }
 
     /**
-     * @param SlimAppAdapter     $slimAppAdapter
-     * @param Route[]            $routes
-     * @param ContainerInterface $container
+     * @param Route[] $routes
      */
     public function configureApplicationWithRoutes(
         SlimAppAdapter     $slimAppAdapter,
@@ -34,11 +29,6 @@ class RoutingConfigApplier
         }
     }
 
-    /**
-     * @param SlimAppAdapter     $slimAppAdapter
-     * @param Route              $route
-     * @param ContainerInterface $container
-     */
     private function configureApplicationWithRoute(
         SlimAppAdapter     $slimAppAdapter,
         Route              $route,
@@ -51,9 +41,6 @@ class RoutingConfigApplier
 
     /**
      * @throws InvalidRouteConfigException
-     *
-     * @param Route              $route
-     * @param ContainerInterface $container
      */
     private function validateControllerIsInDiConfig(Route $route, ContainerInterface $container)
     {
@@ -65,11 +52,6 @@ class RoutingConfigApplier
         }
     }
 
-    /**
-     * @param SlimAppAdapter  $slimAppAdapter
-     * @param Route           $route
-     * @param \Closure        $controllerClosure
-     */
     private function applyRouteToSlimApplication(
         SlimAppAdapter     $slimAppAdapter,
         Route           $route,

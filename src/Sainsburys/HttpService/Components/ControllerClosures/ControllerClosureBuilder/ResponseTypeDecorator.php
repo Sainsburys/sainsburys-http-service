@@ -13,31 +13,19 @@ class ResponseTypeDecorator implements ControllerClosureBuilder
     /** @var ControllerClosureBuilder */
     private $thingBeingDecorated;
 
-    /**
-     * @param ControllerClosureBuilder $thingBeingDecorated
-     */
     public function __construct(ControllerClosureBuilder $thingBeingDecorated)
     {
         $this->thingBeingDecorated = $thingBeingDecorated;
     }
 
-    /**
-     * @param ContainerInterface $container
-     * @param Route              $route
-     * @return \Closure
-     */
-    public function buildControllerClosure(ContainerInterface $container, Route $route)
+    public function buildControllerClosure(ContainerInterface $container, Route $route): \Closure
     {
         $rawControllerClosure = $this->thingBeingDecorated->buildControllerClosure($container, $route);
         $closureWhichAlsoDoesTypeChecking = $this->decorateWithResponseTypeChecking($rawControllerClosure);
         return $closureWhichAlsoDoesTypeChecking;
     }
 
-    /**
-     * @param \Closure $rawControllerClosure
-     * @return \Closure
-     */
-    private function decorateWithResponseTypeChecking(\Closure $rawControllerClosure)
+    private function decorateWithResponseTypeChecking(\Closure $rawControllerClosure): \Closure
     {
         $controllerClosureWithTypeChecking =
             function (ServerRequestInterface $request, ResponseInterface $response) use ($rawControllerClosure) {

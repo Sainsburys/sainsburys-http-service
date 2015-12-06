@@ -9,9 +9,6 @@ class LoggingManager implements LoggerAwareInterface
     /** @var LoggerInterface */
     private $logger;
 
-    /**
-     * @param LoggerInterface $logger
-     */
     public function __construct(LoggerInterface $logger)
     {
         $this->logger = $logger;
@@ -26,10 +23,7 @@ class LoggingManager implements LoggerAwareInterface
         $this->logger = $logger;
     }
 
-    /**
-     * @return LoggerInterface
-     */
-    public function logger()
+    public function logger(): LoggerInterface
     {
         return $this->logger;
     }

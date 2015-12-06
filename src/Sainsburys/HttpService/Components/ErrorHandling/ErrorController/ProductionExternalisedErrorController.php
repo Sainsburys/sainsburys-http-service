@@ -8,12 +8,7 @@ use Zend\Diactoros\Response\JsonResponse;
 
 class ProductionExternalisedErrorController implements ErrorController
 {
-    /**
-     * @param \Exception      $exception
-     * @param LoggerInterface $logger
-     * @return ResponseInterface
-     */
-    public function handleError(\Exception $exception, LoggerInterface $logger)
+    public function handleError(\Exception $exception, LoggerInterface $logger): ResponseInterface
     {
         $this->logError($exception, $logger);
         $response = $this->prepareHttpResponse($exception);
@@ -21,10 +16,6 @@ class ProductionExternalisedErrorController implements ErrorController
         return $response;
     }
 
-    /**
-     * @param \Exception      $exception
-     * @param LoggerInterface $logger
-     */
     private function logError(\Exception $exception, LoggerInterface $logger)
     {
         $logger->critical(
@@ -33,11 +24,7 @@ class ProductionExternalisedErrorController implements ErrorController
         );
     }
 
-    /**
-     * @param \Exception $exception
-     * @return JsonResponse
-     */
-    private function prepareHttpResponse(\Exception $exception)
+    private function prepareHttpResponse(\Exception $exception): JsonResponse
     {
         $responseBodyArray = [
             'error-message' => 'We\'re sorry, an internal server error occurred.'

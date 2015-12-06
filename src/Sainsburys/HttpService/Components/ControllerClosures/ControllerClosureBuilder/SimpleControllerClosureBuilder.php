@@ -9,12 +9,7 @@ use Psr\Http\Message\ResponseInterface;
 
 class SimpleControllerClosureBuilder implements ControllerClosureBuilder
 {
-    /**
-     * @param ContainerInterface $container
-     * @param Route              $route
-     * @return \Closure
-     */
-    public function buildControllerClosure(ContainerInterface $container, Route $route)
+    public function buildControllerClosure(ContainerInterface $container, Route $route): \Closure
     {
         $controllerServiceId = $route->controllerServiceId();
         $actionMethodName    = $route->actionMethodName();

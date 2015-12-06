@@ -32,13 +32,6 @@ class Application implements LoggerAwareInterface
     /** @var LoggingManager */
     private $loggingManager;
 
-    /**
-     * @param SlimAppAdapter         $slimAppAdapter
-     * @param RoutingManager         $routingManager
-     * @param ErrorControllerManager $errorControllerManager
-     * @param MiddlewareManager      $middlewareManager
-     * @param LoggingManager         $loggingManager
-     */
     public function __construct(
         SlimAppAdapter         $slimAppAdapter,
         RoutingManager         $routingManager,
@@ -53,12 +46,7 @@ class Application implements LoggerAwareInterface
         $this->loggingManager         = $loggingManager;
     }
 
-    /**
-     * @param string[]           $routingConfigFiles
-     * @param ContainerInterface $containerWithControllers
-     * @return Application
-     */
-    public static function factory(array $routingConfigFiles, ContainerInterface $containerWithControllers)
+    public static function factory(array $routingConfigFiles, ContainerInterface $containerWithControllers): Application
     {
         $containerWithFramework = ServiceContainer::constructConfiguredWith(new DiConfig());
         $application = $containerWithFramework->get('sainsburys.sainsburys-http-service.application'); /** @var $application Application */
@@ -68,18 +56,11 @@ class Application implements LoggerAwareInterface
         return $application;
     }
 
-    /**
-     * @param string[]           $paths
-     * @param ContainerInterface $containerWithControllers
-     */
     public function takeRoutingConfigs(array $paths, ContainerInterface $containerWithControllers)
     {
         $this->routingManager->configureSlimAppWithRoutes($paths, $containerWithControllers, $this->slimAppAdapter);
     }
 
-    /**
-     * @param ErrorController $errorController
-     */
     public function useThisErrorController(ErrorController $errorController)
     {
         $this->errorControllerManager->useThisErrorController($errorController);
@@ -94,19 +75,12 @@ class Application implements LoggerAwareInterface
         $this->loggingManager->setLogger($logger);
     }
 
-    /**
-     * @return MiddlewareManager
-     */
-    public function middlewareManager()
+    public function middlewareManager(): MiddlewareManager
     {
         return $this->middlewareManager;
     }
 
-    /**
-     * @param ServerRequestInterface|null $testingRequest
-     * @return ResponseInterface
-     */
-    public function run(ServerRequestInterface $testingRequest = null)
+    public function run(ServerRequestInterface $testingRequest = null): ResponseInterface
     {
         return $this->slimAppAdapter->run($testingRequest);
     }

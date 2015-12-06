@@ -21,10 +21,9 @@ class Route
     private $actionMethodName;
 
     /**
-     * @param string   $name
      * @param string[] $routeConfigArray
      */
-    public function __construct($name, $routeConfigArray)
+    public function __construct(string $name, array $routeConfigArray)
     {
         $this->setName($name);
         $this->setHttpVerb($routeConfigArray);
@@ -33,9 +32,6 @@ class Route
         $this->setActionMethodName($routeConfigArray);
     }
 
-    /**
-     * @param string $name
-     */
     public function setName($name)
     {
         if (!is_string($name) || strlen($name) < 1) {
@@ -48,7 +44,7 @@ class Route
      * Safeguards invariants w.r.t. $this->httpVerb
      * @param string[] $routeConfig
      */
-    private function setHttpVerb($routeConfig)
+    private function setHttpVerb(array $routeConfig)
     {
         $this->validateField($routeConfig, 'http-verb');
 
@@ -65,7 +61,7 @@ class Route
      * Safeguards invariants w.r.t. $this->pathExpression
      * @param string[] $routeConfig
      */
-    private function setPathExpression($routeConfig)
+    private function setPathExpression(array $routeConfig)
     {
         $this->validateField($routeConfig, 'path');
         $this->pathExpression = $routeConfig['path'];
@@ -75,7 +71,7 @@ class Route
      * Safeguards invariants w.r.t. $this->controllerServiceId
      * @param string[] $routeConfig
      */
-    private function setControllerServiceId($routeConfig)
+    private function setControllerServiceId(array $routeConfig)
     {
         $this->validateField($routeConfig, 'controller-service-id');
         $this->controllerServiceId = $routeConfig['controller-service-id'];
@@ -85,57 +81,41 @@ class Route
      * Safeguards invariants w.r.t. $this->actionMethodName
      * @param string[] $routeConfig
      */
-    private function setActionMethodName($routeConfig)
+    private function setActionMethodName(array $routeConfig)
     {
         $this->validateField($routeConfig, 'action-method-name');
         $this->actionMethodName = $routeConfig['action-method-name'];
     }
 
-    /**
-     * @return string
-     */
-    public function httpVerb()
+    public function httpVerb(): string
     {
         return $this->httpVerb;
     }
 
-    /**
-     * @return string
-     */
-    public function pathExpression()
+    public function pathExpression(): string
     {
         return $this->pathExpression;
     }
 
-    /**
-     * @return string
-     */
-    public function controllerServiceId()
+    public function controllerServiceId(): string
     {
         return $this->controllerServiceId;
     }
 
-    /**
-     * @return string
-     */
-    public function actionMethodName()
+    public function actionMethodName(): string
     {
         return $this->actionMethodName;
     }
 
-    /**
-     * @return string
-     */
-    public function name()
+    public function name(): string
     {
         return $this->name;
     }
 
     /**
      * @param string[] $routeConfig
-     * @param string   $fieldName
      */
-    private function validateField($routeConfig, $fieldName)
+    private function validateField(array $routeConfig, string $fieldName)
     {
         if (
             !isset($routeConfig[$fieldName]) ||
