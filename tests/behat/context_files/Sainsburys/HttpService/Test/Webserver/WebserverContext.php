@@ -24,7 +24,7 @@ class WebserverContext implements Context, SnippetAcceptingContext
      */
     public function iSendAGetRequestTo($path)
     {
-        $this->responseReceived = $this->guzzleClient->get('localhost:8081' . $path, ['exceptions' => false]);
+        $this->responseReceived = $this->guzzleClient->get('http://localhost:8081' . $path, ['exceptions' => false]);
     }
 
     /**

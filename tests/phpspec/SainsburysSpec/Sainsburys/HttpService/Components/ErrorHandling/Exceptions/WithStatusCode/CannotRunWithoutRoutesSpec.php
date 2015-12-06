@@ -21,7 +21,7 @@ class CannotRunWithoutRoutesSpec extends ObjectBehavior
         $this->getMessage()->shouldBe('Must call takeRoutingConfigs() before run().  Try using Application::factory() to create the Application');
     }
 
-    function it_has_a_404_status_code()
+    function it_has_a_500_status_code()
     {
         $statusCode = $this->getHttpStatusCode();
 
