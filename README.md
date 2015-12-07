@@ -1,6 +1,5 @@
 [![Build Status](https://travis-ci.org/anobii/sainsburys-http-service.svg?branch=travis)](https://travis-ci.org/anobii/sainsburys-http-service)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/anobii/sainsburys-http-service/badges/quality-score.png?b=master&s=ad6f751b0f40e1246e30ac7b185b4a3b35c5fcc3)](https://scrutinizer-ci.com/g/anobii/sainsburys-http-service/?branch=master)
-[![Coverage Status](https://coveralls.io/repos/anobii/sainsburys-http-service/badge.svg?branch=master&service=github)](https://coveralls.io/github/anobii/sainsburys-http-service?branch=master)
 
 ![logo](http://www.sainsburys.co.uk/homepage/images/sainsburys.png)
 

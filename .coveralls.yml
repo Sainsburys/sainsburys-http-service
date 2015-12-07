@@ -1,4 +1,0 @@
-json_path: build/logs/coveralls-upload.json
-
-coverage_clover:
-    - build/logs/clover.xml
