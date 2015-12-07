@@ -14,6 +14,8 @@ application.
 
 It currently relies on Slim 3.0.0-RC3.
 
+Version 1.x.x is an LTS version with support for PHP 5.5.  Version 2.0.0 and subsequent require PHP 7.
+
 Basic Usage
 -----------
 
