@@ -53,7 +53,7 @@ class ErrorHandlingDecorator implements ControllerClosureBuilder
         $controllerClosureWithErrorHandling =
             function (ServerRequestInterface $request, ResponseInterface $response) use (
                 $rawControllerClosure, $errorController, $logger
-            ) {
+            ): ResponseInterface {
                 try {
                     return $rawControllerClosure($request, $response);
                 } catch (\Exception $exception) {

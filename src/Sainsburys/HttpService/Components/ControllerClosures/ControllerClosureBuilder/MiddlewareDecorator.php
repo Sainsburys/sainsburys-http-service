@@ -38,7 +38,7 @@ class MiddlewareDecorator implements ControllerClosureBuilder
         $controllerClosureWithMiddlewares =
             function (ServerRequestInterface $request, ResponseInterface $response) use (
                 $rawControllerClosure, $middlewareManager
-            ) {
+            ): ResponseInterface {
                 $originalRequestAndResponse = new RequestAndResponse($request, $response);
                 $postMiddlewareRequestAndResponse = $middlewareManager->applyBeforeMiddlewares($originalRequestAndResponse);
 

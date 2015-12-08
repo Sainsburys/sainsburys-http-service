@@ -28,7 +28,8 @@ class ResponseTypeDecorator implements ControllerClosureBuilder
     private function decorateWithResponseTypeChecking(\Closure $rawControllerClosure): \Closure
     {
         $controllerClosureWithTypeChecking =
-            function (ServerRequestInterface $request, ResponseInterface $response) use ($rawControllerClosure) {
+            function (ServerRequestInterface $request, ResponseInterface $response) use ($rawControllerClosure)
+                : ResponseInterface {
 
                 $response = $rawControllerClosure($request, $response);
 
