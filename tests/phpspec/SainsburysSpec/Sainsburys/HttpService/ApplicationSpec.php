@@ -4,8 +4,6 @@ namespace SainsburysSpec\Sainsburys\HttpService;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerInterface;
 use Sainsburys\HttpService\Application;
-use Sainsburys\HttpService\Components\ErrorHandling\ErrorController\ErrorControllerManager;
-use Sainsburys\HttpService\Components\Logging\LoggingManager;
 use Sainsburys\HttpService\Components\Middlewares\MiddlewareManager;
 use Interop\Container\ContainerInterface;
 use PhpSpec\ObjectBehavior;
@@ -20,18 +18,18 @@ use Sainsburys\HttpService\Components\SlimIntegration\SlimAppAdapter;
 class ApplicationSpec extends ObjectBehavior
 {
     function let(
-        SlimAppAdapter         $slimAppAdapter,
-        RoutingManager         $routingManager,
-        ErrorControllerManager $errorControllerManager,
-        MiddlewareManager      $middlewareManager,
-        LoggingManager         $loggingManager
+        SlimAppAdapter    $slimAppAdapter,
+        RoutingManager    $routingManager,
+        MiddlewareManager $middlewareManager,
+        LoggerInterface   $logger,
+        ErrorController   $errorController
     ) {
         $this->beConstructedWith(
             $slimAppAdapter,
             $routingManager,
-            $errorControllerManager,
             $middlewareManager,
-            $loggingManager
+            $logger,
+            $errorController
         );
     }
 
@@ -54,38 +52,55 @@ class ApplicationSpec extends ObjectBehavior
             ->shouldHaveBeenCalled();
     }
 
-    function it_can_run(SlimAppAdapter $slimAppAdapter, ResponseInterface $responseInterface)
+    function it_can_run(
+        SlimAppAdapter    $slimAppAdapter,
+        ResponseInterface $responseInterface,
+        LoggerInterface   $logger,
+        ErrorController   $errorController
+    )
     {
         // ARRANGE
-        $slimAppAdapter->run(null)->willReturn($responseInterface);
+        $slimAppAdapter->run(null, $logger, $errorController)->willReturn($responseInterface);
 
         // ACT
         $this->run();
 
         // ASSERT
-        $slimAppAdapter->run(null)->shouldHaveBeenCalled();
+        $slimAppAdapter->run(null, $logger, $errorController)->shouldHaveBeenCalled();
     }
 
     function it_lets_you_put_another_error_controller(
-        ErrorController        $newErrorController,
-        ErrorControllerManager $errorControllerManager
+        ErrorController   $newErrorController,
+        SlimAppAdapter    $slimAppAdapter,
+        LoggerInterface   $logger,
+        ResponseInterface $response
     ) {
+        // ARRANGE
+        $slimAppAdapter->run(null, $logger, $newErrorController)->willReturn($response);
+
         // ACT
         $this->useThisErrorController($newErrorController);
+        $this->run();
 
         // ASSERT
-        $errorControllerManager->useThisErrorController($newErrorController)->shouldHaveBeenCalled();
+        $slimAppAdapter->run(null, $logger, $newErrorController)->shouldHaveBeenCalled();
     }
 
     function it_lets_you_put_another_logger(
-        LoggerInterface $logger,
-        LoggingManager  $loggingManager
+        LoggerInterface   $newLogger,
+        ErrorController   $errorController,
+        SlimAppAdapter    $slimAppAdapter,
+        ResponseInterface $response
     ) {
+        // ARRANGE
+        $slimAppAdapter->run(null, $newLogger, $errorController)->willReturn($response);
+
         // ACT
-        $this->setLogger($logger);
+        $this->setLogger($newLogger);
+        $this->run();
 
         // ASSERT
-        $loggingManager->setLogger($logger)->shouldHaveBeenCalled();
+        $slimAppAdapter->run(null, $newLogger, $errorController)->shouldHaveBeenCalled();
     }
 
     function it_is_standards_compliant_wrt_psr3()

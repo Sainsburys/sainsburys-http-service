@@ -33,16 +33,14 @@ class DiConfig implements ServiceProviderInterface
 
                 $slimAppAdapter         = $container['sainsburys.sainsburys-http-service.slim-app-adapter'];
                 $routingConfigManager   = $container['sainsburys.sainsburys-http-service.routing-manager'];
-                $errorControllerManager = $container['sainsburys.sainsburys-http-service.error-controller-manager'];
                 $middlewareManager      = $container['sainsburys.sainsburys-http-service.middleware-manager'];
-                $loggingManager         = $container['sainsburys.sainsburys-http-service.logging-manager'];
 
                 return new Application(
                     $slimAppAdapter,
                     $routingConfigManager,
-                    $errorControllerManager,
                     $middlewareManager,
-                    $loggingManager
+                    new NullLogger(),
+                    new DefaultErrorController()
                 );
             };
 
@@ -51,9 +49,7 @@ class DiConfig implements ServiceProviderInterface
                 return new SlimAppAdapter(
                     $container['sainsburys.sainsburys-http-service.slim-app'],
                     new Slim404Handler(),
-                    new SlimErrorHandler(),
-                    $container['sainsburys.sainsburys-http-service.error-controller-manager'],
-                    $container['sainsburys.sainsburys-http-service.logging-manager']
+                    new SlimErrorHandler()
                 );
             };
 
@@ -83,15 +79,11 @@ class DiConfig implements ServiceProviderInterface
         $container['sainsburys.sainsburys-http-service.controller-closure-builder'] =
             function (Container $container) {
                 return
-                    new ErrorHandlingDecorator(
-                        new MiddlewareDecorator(
-                            new ResponseTypeDecorator(
-                                new SimpleControllerClosureBuilder()
-                            ),
-                            $container['sainsburys.sainsburys-http-service.middleware-manager']
+                    new MiddlewareDecorator(
+                        new ResponseTypeDecorator(
+                            new SimpleControllerClosureBuilder()
                         ),
-                        $container['sainsburys.sainsburys-http-service.error-controller-manager'],
-                        $container['sainsburys.sainsburys-http-service.logging-manager']
+                        $container['sainsburys.sainsburys-http-service.middleware-manager']
                     );
             };
 
@@ -101,16 +93,6 @@ class DiConfig implements ServiceProviderInterface
                 $middlewareManager->addToEndOfBeforeMiddlewareList(new CleanRequestAttributes());
                 $middlewareManager->addToEndOfBeforeMiddlewareList(new ConvertToJsonResponseObject());
                 return $middlewareManager;
-            };
-
-        $container['sainsburys.sainsburys-http-service.error-controller-manager'] =
-            function (Container $container) {
-                return new ErrorControllerManager(new DefaultErrorController());
-            };
-
-        $container['sainsburys.sainsburys-http-service.logging-manager'] =
-            function (Container $container) {
-                return new LoggingManager(new NullLogger());
             };
     }
 }

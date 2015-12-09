@@ -3,6 +3,8 @@ namespace Sainsburys\HttpService\Components\SlimIntegration;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Log\LoggerInterface;
+use Sainsburys\HttpService\Components\ErrorHandling\ErrorController\ErrorController;
 use Sainsburys\HttpService\Components\ErrorHandling\ErrorController\ErrorControllerManager;
 use Sainsburys\HttpService\Components\ErrorHandling\Exceptions\WithStatusCode\CannotRunWithoutRoutes;
 use Sainsburys\HttpService\Components\Logging\LoggingManager;
@@ -15,21 +17,14 @@ class SlimAppAdapter
     /** @var SlimApp */
     private $slimApp;
 
-    /** @var ErrorControllerManager */
-    private $errorControllerManager;
-
-    /** @var LoggingManager */
-    private $loggingManager;
+    /** @var ErrorController */
+    private $errorController;
 
     public function __construct(
         SlimApp                $slimApp,
         Slim404Handler         $slim404Handler,
-        SlimErrorHandler       $slimErrorHandler,
-        ErrorControllerManager $errorControllerManager,
-        LoggingManager         $loggingManager
+        SlimErrorHandler       $slimErrorHandler
     ) {
-        $this->errorControllerManager = $errorControllerManager;
-        $this->loggingManager         = $loggingManager;
         $this->slimApp                = $slimApp;
 
         $this->slimApp->getContainer()['notFoundHandler'] =
@@ -56,23 +51,27 @@ class SlimAppAdapter
         ;
     }
 
-    public function run(ServerRequestInterface $testingRequest = null): ResponseInterface
+    public function run(
+        ServerRequestInterface $testingRequest = null,
+        LoggerInterface        $logger,
+        ErrorController        $errorController
+    ): ResponseInterface
     {
         if ($testingRequest) {
 
             $this->injectRequestIntoApp($testingRequest, $this->slimApp);
-            return $this->getResponseToDispatch();
+            return $this->getResponseToDispatch($errorController, $logger);
 
         } else {
 
-            $response = $this->getResponseToDispatch();
+            $response = $this->getResponseToDispatch($errorController, $logger);
             $this->dispatchResponse($response);
             return $response;
 
         }
     }
 
-    private function getResponseToDispatch(): ResponseInterface
+    private function getResponseToDispatch(ErrorController $errorController, LoggerInterface $logger): ResponseInterface
     {
         try {
             if (!$this->hasRoutesConfigured()) {
@@ -80,7 +79,7 @@ class SlimAppAdapter
             }
             return $this->slimApp->run(true);
         } catch (\Exception $exception) {
-            return $this->generateErrorResponse($exception);
+            return $this->generateErrorResponse($errorController, $exception, $logger);
         }
     }
 
@@ -97,11 +96,12 @@ class SlimAppAdapter
         $this->slimApp->respond($response);
     }
 
-    private function generateErrorResponse(\Exception $exception): ResponseInterface
+    private function generateErrorResponse(
+        ErrorController $errorController,
+        \Exception      $exception,
+        LoggerInterface $logger
+    ): ResponseInterface
     {
-        $errorController = $this->errorControllerManager->errorController();
-        $logger = $this->loggingManager->logger();
-
         return $errorController->handleError($exception, $logger);
     }
 

@@ -5,8 +5,6 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
-use Sainsburys\HttpService\Components\Logging\LoggingManager;
-use Sainsburys\HttpService\Components\ErrorHandling\ErrorController\ErrorControllerManager;
 use SamBurns\Pimple3ContainerInterop\ServiceContainer;
 use Sainsburys\HttpService\Components\ErrorHandling\ErrorController\ErrorController;
 use Sainsburys\HttpService\Components\Middlewares\MiddlewareManager;
@@ -23,27 +21,27 @@ class Application implements LoggerAwareInterface
     /** @var RoutingManager */
     private $routingManager;
 
-    /** @var ErrorControllerManager */
-    private $errorControllerManager;
+    /** @var ErrorController */
+    private $errorController;
 
     /** @var MiddlewareManager */
     private $middlewareManager;
 
-    /** @var LoggingManager */
-    private $loggingManager;
+    /** @var LoggerInterface */
+    private $logger;
 
     public function __construct(
-        SlimAppAdapter         $slimAppAdapter,
-        RoutingManager         $routingManager,
-        ErrorControllerManager $errorControllerManager,
-        MiddlewareManager      $middlewareManager,
-        LoggingManager         $loggingManager
+        SlimAppAdapter    $slimAppAdapter,
+        RoutingManager    $routingManager,
+        MiddlewareManager $middlewareManager,
+        LoggerInterface   $logger,
+        ErrorController   $errorController
     ) {
-        $this->slimAppAdapter         = $slimAppAdapter;
-        $this->routingManager         = $routingManager;
-        $this->errorControllerManager = $errorControllerManager;
-        $this->middlewareManager      = $middlewareManager;
-        $this->loggingManager         = $loggingManager;
+        $this->slimAppAdapter    = $slimAppAdapter;
+        $this->routingManager    = $routingManager;
+        $this->middlewareManager = $middlewareManager;
+        $this->logger            = $logger;
+        $this->errorController   = $errorController;
     }
 
     public static function factory(array $routingConfigFiles, ContainerInterface $containerWithControllers): Application
@@ -63,7 +61,7 @@ class Application implements LoggerAwareInterface
 
     public function useThisErrorController(ErrorController $errorController)
     {
-        $this->errorControllerManager->useThisErrorController($errorController);
+        $this->errorController = $errorController;
     }
 
     /**
@@ -72,7 +70,7 @@ class Application implements LoggerAwareInterface
      */
     public function setLogger(LoggerInterface $logger)
     {
-        $this->loggingManager->setLogger($logger);
+        $this->logger = $logger;
     }
 
     public function middlewareManager(): MiddlewareManager
@@ -82,6 +80,6 @@ class Application implements LoggerAwareInterface
 
     public function run(ServerRequestInterface $testingRequest = null): ResponseInterface
     {
-        return $this->slimAppAdapter->run($testingRequest);
+        return $this->slimAppAdapter->run($testingRequest, $this->logger, $this->errorController);
     }
 }
