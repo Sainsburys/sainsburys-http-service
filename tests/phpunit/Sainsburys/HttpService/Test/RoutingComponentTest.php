@@ -2,16 +2,14 @@
 namespace Sainsburys\HttpService\Test;
 
 use PHPUnit_Framework_TestCase as TestCase;
-use Sainsburys\HttpService\Components\ErrorHandling\ErrorController\ErrorControllerManager;
 use Sainsburys\HttpService\Components\Routing\RoutingManager;
 use Sainsburys\HttpService\Components\SlimIntegration\SlimAppAdapter;
-use Sainsburys\HttpService\Misc\DiConfig;
-use SamBurns\Pimple3ContainerInterop\ServiceContainer;
 use Interop\Container\ContainerInterface;
 use PHPUnit_Framework_MockObject_MockObject as PhpunitMock;
 use Slim\App as SlimApp;
 use Slim\Router as SlimRouter;
 use Slim\Route as SlimRoute;
+use UltraLite\Container\Container;
 
 class RoutingComponentTest extends TestCase
 {
@@ -26,7 +24,8 @@ class RoutingComponentTest extends TestCase
 
     public function setUp()
     {
-        $container = ServiceContainer::constructConfiguredWith(new DiConfig());
+        $container = new Container();
+        $container->configureFromFile(__DIR__ . '/../../../../../config/di.php');
         $this->routingManager = $container->get('sainsburys.sainsburys-http-service.routing-manager');
         $this->slimAppAdapter = $container->get('sainsburys.sainsburys-http-service.slim-app-adapter');
         $this->slimApp        = $container->get('sainsburys.sainsburys-http-service.slim-app');

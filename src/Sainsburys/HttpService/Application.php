@@ -5,13 +5,12 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
-use SamBurns\Pimple3ContainerInterop\ServiceContainer;
 use Sainsburys\HttpService\Components\ErrorHandling\ErrorController\ErrorController;
 use Sainsburys\HttpService\Components\Middlewares\MiddlewareManager;
 use Interop\Container\ContainerInterface;
-use Sainsburys\HttpService\Misc\DiConfig;
 use Sainsburys\HttpService\Components\SlimIntegration\SlimAppAdapter;
 use Sainsburys\HttpService\Components\Routing\RoutingManager;
+use UltraLite\Container\Container;
 
 class Application implements LoggerAwareInterface
 {
@@ -46,7 +45,9 @@ class Application implements LoggerAwareInterface
 
     public static function factory(array $routingConfigFiles, ContainerInterface $containerWithControllers): Application
     {
-        $containerWithFramework = ServiceContainer::constructConfiguredWith(new DiConfig());
+        $containerWithFramework = new Container();
+        $containerWithFramework->configureFromFile(__DIR__ . '/../../../config/di.php');
+
         $application = $containerWithFramework->get('sainsburys.sainsburys-http-service.application'); /** @var $application Application */
 
         $application->takeRoutingConfigs($routingConfigFiles, $containerWithControllers);

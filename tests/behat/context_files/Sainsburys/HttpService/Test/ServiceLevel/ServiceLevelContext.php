@@ -6,6 +6,7 @@ use Behat\Behat\Context\SnippetAcceptingContext;
 use Psr\Http\Message\ResponseInterface;
 use Sainsburys\HttpService\Dev\MyDiConfig;
 use SamBurns\Pimple3ContainerInterop\ServiceContainer;
+use UltraLite\Container\Container;
 use Zend\Diactoros\Request;
 use Sainsburys\HttpService\Application;
 use Zend\Diactoros\ServerRequest;
@@ -21,7 +22,10 @@ class ServiceLevelContext implements Context, SnippetAcceptingContext
     public function __construct()
     {
         $routingConfigFile = __DIR__ . '/../../../../../../../src-dev/sample-application/config/routing.php';
-        $containerWithControllers = ServiceContainer::constructConfiguredWith(new MyDiConfig());
+        $diConfigFile      = __DIR__ . '/../../../../../../../src-dev/sample-application/config/di.php';
+
+        $containerWithControllers = new Container();
+        $containerWithControllers->configureFromFile($diConfigFile);
 
         $this->application = Application::factory([$routingConfigFile], $containerWithControllers);
     }

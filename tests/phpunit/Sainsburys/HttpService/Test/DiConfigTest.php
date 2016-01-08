@@ -1,21 +1,22 @@
 <?php
 namespace Sainsburys\HttpService\Test;
 
-use Sainsburys\HttpService\Misc\DiConfig;
-use SamBurns\Pimple3ContainerInterop\ServiceContainer;
+use Sainsburys\HttpService\Application;
 use PHPUnit_Framework_TestCase as TestCase;
+use UltraLite\Container\Container;
 
 class DiConfigTest extends TestCase
 {
     public function testDiConfig()
     {
         // ARRANGE
-        $container = ServiceContainer::constructConfiguredWith(new DiConfig());
+        $container = new Container();
+        $container->configureFromFile(__DIR__ . '/../../../../../config/di.php');
 
         // ACT
         $result = $container->get('sainsburys.sainsburys-http-service.application');
 
         // ASSERT
-        $this->assertInstanceOf('\Sainsburys\HttpService\Application', $result);
+        $this->assertInstanceOf(Application::class, $result);
     }
 }
