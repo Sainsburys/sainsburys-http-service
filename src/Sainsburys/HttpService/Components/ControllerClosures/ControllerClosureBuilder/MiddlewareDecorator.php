@@ -33,8 +33,7 @@ class MiddlewareDecorator implements ControllerClosureBuilder
     private function decorateWithMiddlewares(
         \Closure $rawControllerClosure,
         MiddlewareManager $middlewareManager
-    ): \Closure
-    {
+    ): \Closure {
         $controllerClosureWithMiddlewares =
             function (ServerRequestInterface $request, ResponseInterface $response) use (
                 $rawControllerClosure, $middlewareManager

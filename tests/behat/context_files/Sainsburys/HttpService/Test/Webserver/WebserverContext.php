@@ -52,27 +52,37 @@ class WebserverContext implements Context, SnippetAcceptingContext
     /**
      * @Given my API is coded to return a the response :response for route :route
      */
-    public function myApiIsCodedToReturnAResponseForUrl($response, $route) {}
+    public function myApiIsCodedToReturnAResponseForUrl($response, $route)
+    {
+    }
 
     /**
      * @Given my API is coded to throw an exception with an HTTP status code on it
      */
-    public function myApiIsCodedToThrowAnExceptionWithAnHttpStatusCodeOnIt() {}
+    public function myApiIsCodedToThrowAnExceptionWithAnHttpStatusCodeOnIt()
+    {
+    }
 
     /**
      * @Given my API is coded to throw a generic, uncaught exception in the controller
      */
-    public function myApiIsCodedToThrowAGenericUncaughtExceptionInTheController() {}
+    public function myApiIsCodedToThrowAGenericUncaughtExceptionInTheController()
+    {
+    }
 
     /**
      * @Given my API is coded put the correct Content-Type with a middleware
      */
-    public function myApiIsCodedPutTheCorrectContentTypeWithAMiddleware() {}
+    public function myApiIsCodedPutTheCorrectContentTypeWithAMiddleware()
+    {
+    }
 
     /**
      * @Given my API is coded not to have a route for :pathWithNoRoute
      */
-    public function myApiIsCodedNotToHaveARouteFor($pathWithNoRoute) {}
+    public function myApiIsCodedNotToHaveARouteFor($pathWithNoRoute)
+    {
+    }
 
     /**
      * @Then the response body should contain :partialResponseBody
