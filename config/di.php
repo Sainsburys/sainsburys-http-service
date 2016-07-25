@@ -69,6 +69,7 @@ return [
             $middlewareManager = new \Sainsburys\HttpService\Components\Middlewares\MiddlewareManager();
             $middlewareManager->addToEndOfBeforeMiddlewareList($cleanRequestAttributesMiddleware);
             $middlewareManager->addToEndOfBeforeMiddlewareList($convertToJsonResponseObjectMiddleware);
+
             return $middlewareManager;
         },
 
