@@ -17,6 +17,7 @@ class WebserverContext implements Context, SnippetAcceptingContext
     public function __construct()
     {
         $this->guzzleClient = new GuzzleClient();
+        $this->startSession();
     }
 
     /**
@@ -106,5 +107,12 @@ class WebserverContext implements Context, SnippetAcceptingContext
         $headerValuesReceived = $this->responseReceived->getHeader($headerTitle);
 
         \PHPUnit_Framework_Assert::assertEquals($expectedHeaderValue, $headerValuesReceived[0]);
+    }
+
+    private function startSession()
+    {
+        if (!isset($_SESSION)) {
+            session_start();
+        }
     }
 }

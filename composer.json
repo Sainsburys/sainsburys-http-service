@@ -16,7 +16,8 @@
         "shrikeh/teapot":                      "^1.0",
         "ultra-lite/container":                "^2.0",
         "samburns/config-file-parser":         "^1.0",
-        "zendframework/zend-diactoros":        "^1.0"
+        "zendframework/zend-diactoros":        "^1.0",
+        "slim/csrf": "^0.8.1"
     },
 
     "require-dev": {
