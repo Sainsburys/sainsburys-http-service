@@ -28,6 +28,8 @@ class ServiceLevelContext implements Context, SnippetAcceptingContext
         $containerWithControllers->configureFromFile($diConfigFile);
 
         $this->application = Application::factory([$routingConfigFile], $containerWithControllers);
+
+        $this->startSession();
     }
 
     /**
@@ -124,5 +126,12 @@ class ServiceLevelContext implements Context, SnippetAcceptingContext
         $headerValuesReceived = $this->responseReceived->getHeader($headerTitle);
 
         \PHPUnit_Framework_Assert::assertEquals($expectedHeaderValue, $headerValuesReceived[0]);
+    }
+
+    private function startSession()
+    {
+        if (!isset($_SESSION)) {
+            session_start();
+        }
     }
 }

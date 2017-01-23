@@ -30,7 +30,10 @@ return [
 
     'sainsburys.sainsburys-http-service.slim-app' =>
         function (Container $container) {
-            return new \Slim\App();
+            $slim = new \Slim\App();
+            $slim->add(new \Slim\Csrf\Guard);
+
+            return $slim;
         },
 
     'sainsburys.sainsburys-http-service.routing-config-reader' =>
